@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="The Premiere 2027: Astra Aeterna — a school cup by PENABUR Intercultural School Kelapa Gading." data-i18n-content="home.description" />
+    <title>The Premiere 2027 — Astra Aeterna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="polish.css" />
+  </head>
+  <body class="home-page">
+    <a class="skip-link" href="#main-content" data-i18n="nav.skip">Skip to content</a>
+    <div class="cosmic-background" aria-hidden="true"></div>
+    <div class="page-grain" aria-hidden="true"></div>
+    <div class="page-wash" aria-hidden="true"></div>
+    <div class="ambient-orb orb-one" aria-hidden="true"></div>
+    <div class="ambient-orb orb-two" aria-hidden="true"></div>
+
+    <header class="site-header" id="top">
+      <a class="wordmark" href="index.html" aria-label="The Premiere home" data-i18n-aria="nav.brand">
+        <img class="brand-logo" src="assets/premiere-logo.png" alt="" width="30" height="30" />
+        <span>THE PREMIERE</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false"><span data-i18n="nav.menu">Menu</span><span class="menu-glyph" aria-hidden="true"></span></button>
+      <nav id="main-nav" aria-label="Main navigation" data-i18n-aria="nav.label">
+        <a class="active" href="index.html" aria-current="page" data-i18n="nav.home">Home</a>
+        <a href="register.html" data-i18n="nav.register">Register</a>
+        <a href="merch.html" data-i18n="nav.merch">Merch</a>
+        <a href="closing-night.html" data-i18n="nav.tickets">Closing Night Tickets</a>
+      </nav>
+      <div class="language-switch" role="group" aria-label="Language" data-i18n-aria="language.label">
+        <button type="button" data-language="en" lang="en" aria-label="English" aria-pressed="true" disabled>EN</button>
+        <button type="button" data-language="id" lang="id" aria-label="Bahasa Indonesia" aria-pressed="false" disabled>ID</button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <h1 class="display-title fade-in"><span class="event-title">THE PREMIERE 2027:</span>ASTRA<br /><em>AETERNA</em></h1>
+          <p class="hero-subtitle fade-in" data-i18n="home.subtitle">A constellation of sport, art, and sound — brought to life by the brightest students in the city.</p>
+          <div class="hero-actions fade-in">
+            <a class="button button-primary" href="#journey" data-i18n="home.explore">Explore the universe <span>↓</span></a>
+            <a class="button button-text" href="register.html" data-i18n="home.register">Register for a competition <span>↗</span></a>
+          </div>
+        </div>
+
+        <div class="hero-planet" aria-hidden="true">
+          <div class="planet-ring ring-one"></div>
+          <div class="planet-ring ring-two"></div>
+          <div class="planet-core"></div>
+          <span class="tiny-star tiny-star-one">✦</span>
+          <span class="tiny-star tiny-star-two">✧</span>
+          <span class="tiny-star tiny-star-three">✦</span>
+        </div>
+
+        <div class="hero-meta fade-in">
+          <p><span>10—20</span> FEB 2027</p>
+          <address class="hero-venue">
+            <strong>PENABUR INTERCULTURAL SCHOOL<br />KELAPA GADING</strong>
+            <span>Jalan Boulevard Bukit Gading Raya Blok A5–A8,<br />Kelapa Gading Barat, Jakarta Utara 14240</span>
+          </address>
+        </div>
+        <div class="scroll-cue" id="scrollCue" aria-hidden="true" data-i18n="home.scroll"><span></span> Scroll down</div>
+      </section>
+
+      <section class="journey" id="journey">
+        <div class="journey-heading section-shell">
+          <p class="eyebrow" data-i18n="journey.eyebrow">01 / Orbit through the years</p>
+          <h2 data-i18n="journey.title">Every edition leaves<br />a trail of <em>light.</em></h2>
+          <p data-i18n="journey.intro">Follow the falling star. Each turn opens a memory from The Premiere's orbit.</p>
+        </div>
+
+        <div class="comet-track" aria-hidden="true">
+          <svg class="comet-route" viewBox="0 0 1000 4000" preserveAspectRatio="none">
+            <path id="cometRoute" d="M 520 0 C 680 160 710 430 650 700 C 600 930 430 1040 340 1280 C 260 1540 290 1810 370 2040 C 440 2260 690 2400 630 2700 C 580 2970 430 3110 365 3360 C 320 3600 410 3830 500 4000" />
+          </svg>
+          <div class="comet" id="comet"><i></i><b>✦</b></div>
+        </div>
+
+        <article class="memory-panel panel-right" data-comet-position="12">
+          <div class="memory-photo photo-preopening"><span data-i18n="photo.preopening">DROP IN YOUR<br />PRE-OPENING PHOTO</span><small>01</small></div>
+          <div class="memory-copy">
+            <p class="panel-label" data-i18n="event.preopening">Pre-opening matches</p>
+            <h3 data-i18n="preopening.title">The first<br />sparks fly.</h3>
+            <p data-i18n="preopening.copy">Before the grand opening, the courts already come alive. Every opening match becomes a signal that the week has begun.</p>
+            <span class="panel-year">10—11 FEB</span>
+          </div>
+        </article>
+
+        <article class="memory-panel panel-left" data-comet-position="39">
+          <div class="memory-photo photo-competition"><span data-i18n="photo.competition">DROP IN YOUR<br />COMPETITION PHOTO</span><small>02</small></div>
+          <div class="memory-copy">
+            <p class="panel-label" data-i18n="competition.label">Twelve constellations</p>
+            <h3 data-i18n="competition.title">Play beyond<br />the ordinary.</h3>
+            <p data-i18n="competition.copy">From courts to stages and pools to podiums, discover the disciplines that make up The Premiere universe.</p>
+            <a class="inline-link" href="register.html" data-i18n="competition.all">See all competitions <span>↗</span></a>
+          </div>
+        </article>
+
+        <article class="memory-panel panel-right" data-comet-position="65">
+          <div class="memory-photo photo-opening"><span data-i18n="photo.opening">DROP IN YOUR<br />OPENING CEREMONY PHOTO</span><small>03</small></div>
+          <div class="memory-copy">
+            <p class="panel-label" data-i18n="event.opening">Opening ceremony</p>
+            <h3 data-i18n="opening.title">One sky.<br />One beginning.</h3>
+            <p data-i18n="opening.copy">On 12 February, every team gathers under a single sky for an opening ceremony made for the moment.</p>
+            <span class="panel-year">12 FEB</span>
+          </div>
+        </article>
+
+        <article class="memory-panel panel-left panel-last" data-comet-position="90">
+          <div class="memory-photo photo-closing"><span data-i18n="photo.closing">DROP IN YOUR<br />CLOSING NIGHT PHOTO</span><small>04</small></div>
+          <div class="memory-copy">
+            <p class="panel-label" data-i18n="event.closing">Closing night</p>
+            <h3 data-i18n="closing.title">One last<br /><em>supernova.</em></h3>
+            <p data-i18n="closing.copy">When the games are done, the night takes over. A huge artist, thousands of voices, and a finale worth remembering.</p>
+            <span class="panel-year">20 FEB</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="timeline section-shell">
+        <p class="eyebrow" data-i18n="timeline.eyebrow">02 / Mark your orbit</p>
+        <div class="timeline-header">
+          <h2 data-i18n="timeline.title">Ten days. One<br /><em>eternal story.</em></h2>
+          <p data-i18n="timeline.copy">Save the dates. The full schedule will land here closer to the event.</p>
+        </div>
+        <div class="timeline-list">
+          <div class="timeline-row"><div><span class="date">10—11</span><span class="month">FEB</span></div><h3 data-i18n="event.preopening">Pre-opening matches</h3><p data-i18n="timeline.preopening">The galaxy wakes up</p></div>
+          <div class="timeline-row"><div><span class="date">12</span><span class="month">FEB</span></div><h3 data-i18n="event.opening">Opening ceremony</h3><p data-i18n="timeline.opening">Light the first star</p></div>
+          <div class="timeline-row"><div><span class="date">12—20</span><span class="month">FEB</span></div><h3 data-i18n="event.week">Premiere week</h3><p data-i18n="timeline.week">Sport · art · performance</p></div>
+          <div class="timeline-row highlight"><div><span class="date">20</span><span class="month">FEB</span></div><h3 data-i18n="event.closing">Closing night</h3><p data-i18n="timeline.closing">End on a high note</p></div>
+        </div>
+      </section>
+
+      <section class="register-banner section-shell">
+        <div class="register-glow" aria-hidden="true"></div>
+        <p class="eyebrow" data-i18n="cta.eyebrow">03 / Your turn to shine</p>
+        <h2 data-i18n="cta.title">Ready to join<br />the <em>constellation?</em></h2>
+        <p data-i18n="cta.copy">Pick your arena, rally your crew, and write your own chapter in The Premiere 2027.</p>
+        <a class="button button-light" href="register.html" data-i18n="cta.register">Register now <span>↗</span></a>
+      </section>
+
+      <section class="sponsorship section-shell" aria-labelledby="sponsor-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="sponsorship.eyebrow">Be part of the constellation</p>
+          <h2 id="sponsor-title" data-i18n="sponsorship.title">Looking to <em>sponsor?</em></h2>
+        </div>
+        <article class="document-card document-ready" data-document="sponsorship" aria-labelledby="proposal-title">
+          <header class="document-heading">
+            <h3 id="proposal-title" data-i18n="sponsorship.name">Sponsor proposal</h3>
+            <span class="document-format">PDF</span>
+          </header>
+          <div class="document-preview">
+            <iframe class="pdf-frame" src="assets/documents/sponsor-proposal-en.pdf#view=FitH" title="Sponsor proposal — English PDF preview" loading="lazy"></iframe>
+            <div class="document-placeholder" hidden>
+              <span class="document-label">THE PREMIERE 2027</span>
+              <strong data-i18n="sponsorship.name">Sponsor proposal</strong>
+              <span class="coming-badge" data-i18n="document.coming">Coming soon</span>
+              <span class="document-edition">ASTRA AETERNA</span>
+            </div>
+          </div>
+          <div class="document-actions">
+            <p class="document-status" data-i18n="document.ready">Preview the document, open in a new tab, or download a copy.</p>
+            <div class="document-links">
+              <a class="document-open" href="assets/documents/sponsor-proposal-en.pdf" target="_blank" rel="noopener noreferrer" data-i18n="document.open">Open PDF ↗</a>
+              <a class="button button-primary document-download" href="assets/documents/sponsor-proposal-en.pdf" download="The-Premiere-2027-Sponsor-Proposal-EN.pdf" data-i18n="document.download">Download PDF <span aria-hidden="true">↓</span></a>
+              <button class="button document-pending" type="button" disabled hidden data-i18n="document.downloadPending">Download PDF · Coming soon</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="sponsors section-shell">
+        <div class="sponsors-head"><p class="eyebrow" data-i18n="sponsors.eyebrow">In good company</p><h2 data-i18n="sponsors.title">Previous sponsors</h2></div>
+        <div class="sponsor-placeholder" role="img" aria-label="Placeholder for previous sponsor logos" data-i18n-aria="sponsors.label">
+          <div><span>✦</span><strong data-i18n="sponsors.placeholder">YOUR SPONSOR<br />LOGOS HERE</strong><span>✦</span></div>
+          <p data-i18n="sponsors.note">Replace this block with sponsor logo images when ready.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <address class="footer-inquiries">
+        <strong data-i18n="footer.inquiries">General Inquiries</strong>
+        <a href="tel:+628111042896">+62 811-1042-896 <span>— Gavynn</span></a>
+        <a href="tel:+628111858228">+62 811-1858-228 <span>— Grace</span></a>
+      </address>
+      <p class="footer-copyright">© 2027 THE PREMIERE · ASTRA AETERNA</p>
+      <a class="footer-instagram" href="https://www.instagram.com/thepremierebypskg/" target="_blank" rel="noopener noreferrer" aria-label="Follow @thepremierebypskg on Instagram (opens in a new tab)" data-i18n-aria="footer.instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <span>@thepremierebypskg</span><span aria-hidden="true">↗</span>
+      </a>
+    </footer>
+    <script src="content.js"></script>
+    <script src="locale.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

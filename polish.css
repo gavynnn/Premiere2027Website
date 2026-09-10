@@ -1,0 +1,298 @@
+/* Shared finishing layer. Keep the original galaxy palette and event content. */
+[hidden] { display: none !important; }
+html { scroll-padding-top: 110px; }
+body { isolation: isolate; overflow-x: clip; background: #160e30; }
+body.home-page, body.register-page, body.merch-page, body.tickets-page { background: #160e30; }
+main { position: relative; }
+button { font-family: inherit; }
+a, button { touch-action: manipulation; }
+a:focus-visible, button:focus-visible, iframe:focus-visible { outline: 2px solid var(--yellow); outline-offset: 6px; }
+.section-shell { width: min(1180px, calc(100% - 80px)); }
+.eyebrow { font-size: 12px; line-height: 1.6; letter-spacing: .13em; }
+.skip-link { position: fixed; left: 20px; top: 12px; z-index: 150; padding: 12px 18px; background: var(--yellow); color: var(--ink); transform: translateY(-180%); }
+.skip-link:focus { transform: none; }
+
+/* A single backdrop continues behind the timeline, documents, sponsors and footer. */
+.cosmic-background { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 85% 23%, #57368845, transparent 48%), radial-gradient(ellipse at 16% 78%, #50327832, transparent 47%), #160e30; }
+.cosmic-background::before, .cosmic-background::after { content: ""; position: absolute; inset: -2%; pointer-events: none; }
+.cosmic-background::before { background-image: radial-gradient(circle at 27px 42px, #f7d656bd 0 1px, transparent 1.6px), radial-gradient(circle at 104px 69px, #f2e9d694 0 .8px, transparent 1.5px), radial-gradient(circle at 84px 168px, #bca5ffad 0 1px, transparent 1.6px); background-size: 229px 251px, 167px 213px, 317px 287px; opacity: .65; animation: sky-breathe 9s ease-in-out infinite alternate; }
+.cosmic-background::after { background-image: radial-gradient(circle at 180px 105px, #fff8d7b3 0 1.3px, transparent 2px), radial-gradient(circle at 62px 224px, #d9ccff99 0 .9px, transparent 1.6px); background-size: 453px 377px, 389px 431px; opacity: .45; animation: sky-breathe 7s 2s ease-in-out infinite alternate-reverse; }
+.hero::before, .hero::after, .journey::after { content: none; }
+.journey { background: transparent; overflow: visible; position: relative; z-index: 2; }
+.journey::before { width: 60%; right: 0; opacity: .6; pointer-events: none; }
+.timeline { position: relative; z-index: 1; background: transparent; }
+.memory-panel { opacity: 1; transform: none; filter: none; z-index: 4; }
+.comet-track { overflow: visible; }
+.comet-route { overflow: visible; }
+.memory-photo { background-color: #372060; }
+.memory-copy > p:not(.panel-label), .journey-heading > p:last-child, .timeline-header p { font-size: 16px; line-height: 1.8; }
+.panel-label, .panel-year { font-size: 12px; line-height: 1.6; }
+.inline-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; }
+
+/* Navigation stays accessible at every size, with a compact phone menu. */
+.site-header, .register-page .site-header, .merch-page .site-header, .tickets-page .site-header { position: sticky; top: 0; height: 88px; padding: 0 max(40px, calc((100% - 1180px) / 2)); z-index: 50; display: flex; justify-content: space-between; gap: 28px; transition: background .25s ease, box-shadow .25s ease; }
+.site-header.is-scrolled, .site-header.menu-open { background: #120b25e8; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 10px 45px #08031330; }
+.wordmark { flex-shrink: 0; gap: 10px; font-size: 13px; min-height: 44px; }
+.brand-logo { width: 30px; height: 30px; }
+.site-header nav { gap: clamp(16px, 2.5vw, 30px); font-size: 14px; align-items: center; }
+.site-header nav a { display: inline-flex; min-height: 44px; align-items: center; white-space: nowrap; color: #f2e9d6bc; }
+.site-header nav a.active::after { bottom: 1px; width: 5px; height: 5px; }
+.menu-toggle { display: none; border: 1px solid #d9ccff40; border-radius: 8px; background: #bca5ff0d; color: var(--paper); align-items: center; gap: 12px; padding: 10px 14px; min-height: 44px; cursor: pointer; }
+.menu-glyph { width: 16px; height: 12px; position: relative; }
+.menu-glyph::before, .menu-glyph::after { content: ""; width: 16px; height: 1px; position: absolute; left: 0; background: var(--yellow); transition: transform .2s ease; }
+.menu-glyph::before { top: 2px; }
+.menu-glyph::after { bottom: 2px; }
+.menu-open .menu-glyph::before { transform: translateY(3.5px) rotate(45deg); }
+.menu-open .menu-glyph::after { transform: translateY(-3.5px) rotate(-45deg); }
+
+/* Let title, event details and address occupy real space, including short screens. */
+.hero { min-height: calc(100svh - 88px); padding: clamp(60px, 9vh, 120px) 0 70px; display: flex; flex-direction: column; }
+.hero-copy { max-width: 700px; }
+.display-title { font-size: clamp(78px, 10.2vw, 140px); line-height: .88; margin-bottom: 0; }
+.event-title { display: block; font: 600 clamp(28px, 4vw, 54px)/1.2 var(--serif); color: var(--paper); letter-spacing: -.025em; margin: 0 0 28px; }
+.hero-subtitle { margin: 36px 0 24px; max-width: 440px; width: 100%; font-size: 16px; line-height: 1.75; }
+.hero-actions { margin: 0; flex-wrap: wrap; gap: 14px 24px; }
+.hero-planet { top: 10%; right: 0; }
+.hero-meta { position: static; margin-top: auto; padding-top: 75px; align-items: end; gap: 30px; font-size: 12px; }
+.hero-meta p:first-child span { font-size: 28px; }
+.hero-venue { max-width: 420px; font: normal 12px/1.7 var(--sans); letter-spacing: .01em; text-align: right; }
+.hero-venue strong { display: block; font-size: 12px; letter-spacing: .06em; margin-bottom: 8px; color: var(--paper); }
+.hero-venue > span { display: block; color: #cfc2dc; }
+.scroll-cue { bottom: 18px; font-size: 10px; }
+.register-scroll-cue { position: fixed; bottom: max(18px, env(safe-area-inset-bottom)); z-index: 30; pointer-events: none; padding: 10px 16px; border-radius: 20px; background: #160e30d9; }
+body:not(.js-enabled) .register-scroll-cue { display: none; }
+.button { min-height: 46px; border-radius: 4px; font-size: 12px; letter-spacing: .06em; border: 0; position: relative; }
+.button-primary, .button-light { box-shadow: 0 6px 26px #f7d65614; transition: transform .22s ease, box-shadow .22s ease, background .22s ease; }
+.button-primary:hover, .button-light:hover { box-shadow: 0 9px 35px #f7d6562e; }
+.button-text { border-bottom: 1px solid #f2e9d66b; border-radius: 0; }
+
+/* Gentle entrances and cross-page fades, with no blocking screen on initial load. */
+.page-wash { opacity: 0; transform: none; background: radial-gradient(ellipse at 65% 45%, #392258, #160e30 70%); transition: opacity 190ms ease; }
+.page-wash::before, .page-wash::after { content: none; }
+.is-leaving .page-wash { opacity: 1; transform: none; pointer-events: auto; }
+main { animation: content-arrive .55s ease both; }
+.journey-heading, .timeline-header, .timeline-row, .section-heading, .document-card, .sponsors-head, .sponsor-placeholder, .ticket-announcement, .competition-card, .memory-panel { transition: opacity .65s ease var(--reveal-delay, 0ms), translate .65s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms), box-shadow .25s ease, transform .25s ease; }
+.reveal-pending { opacity: 0; translate: 0 26px; }
+.timeline-row { padding: 28px 0; }
+.timeline-row h3 { font-size: 20px; line-height: 1.35; }
+.timeline-row p { font-size: 14px; line-height: 1.6; }
+.timeline-row .month { font-size: 12px; }
+.register-banner { border: 1px solid #c6a9ff70; border-radius: 20px; box-shadow: 0 0 100px #8f66ff24; }
+.register-banner::after { animation: cta-star-turn 18s ease-in-out infinite alternate; }
+.register-banner > p:not(.eyebrow) { font-size: 16px; }
+.register-glow { pointer-events: none; }
+
+/* Document slots become embedded viewers when a URL is added in content.js. */
+.section-heading { margin-bottom: 36px; }
+.section-heading .eyebrow { margin-bottom: 18px; }
+.section-heading h2 { font: 600 clamp(40px, 5.5vw, 72px)/1.1 var(--serif); letter-spacing: -.045em; margin: 0; }
+.sponsorship { padding: 130px 0 0; }
+.document-card { position: relative; border: 1px solid #c4a9ff38; border-radius: 16px; background: linear-gradient(125deg, #302047ba, #1c1236c9); box-shadow: 0 20px 65px #09031930; }
+.document-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 28px; }
+.document-heading h2, .document-heading h3 { font: 600 24px/1.25 var(--serif); letter-spacing: -.02em; margin: 0; }
+.document-format { color: var(--yellow); font: 12px var(--mono); letter-spacing: .15em; border: 1px solid #f7d65645; border-radius: 5px; padding: 7px 9px; }
+.document-preview { padding: 26px; border-block: 1px solid #c4a9ff22; background: #08031330; }
+.document-placeholder { min-height: 295px; width: min(100%, 470px); margin: auto; padding: 35px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center; border: 1px solid #d9ccff45; background: radial-gradient(ellipse at 50% 15%, #8f66ff30, transparent 75%), #23163f; box-shadow: 0 8px 36px #05010e3b; border-radius: 6px; }
+.document-label, .document-edition { font: 12px/1.5 var(--mono); letter-spacing: .16em; color: var(--lilac); }
+.document-placeholder strong { font: 500 clamp(30px, 4.4vw, 46px)/1.12 var(--serif); }
+.coming-badge { display: inline-flex; color: var(--yellow); font: 500 14px/1.3 var(--sans); border-radius: 30px; border: 1px solid #f7d65640; padding: 9px 16px; background: #f7d65608; }
+.document-edition { margin-top: 8px; font-size: 11px; color: #b9a7cf; }
+.document-actions { padding: 22px 28px; display: flex; align-items: center; gap: 24px; justify-content: space-between; }
+.document-status { color: var(--paper-dim); font-size: 14px; line-height: 1.6; margin: 0; max-width: 420px; }
+.document-links { display: flex; align-items: center; justify-content: end; gap: 16px; flex-shrink: 0; }
+.document-open { color: var(--yellow); font-size: 14px; text-decoration: underline; text-underline-offset: 5px; min-height: 44px; align-content: center; }
+.document-pending { color: #c8bdd6; border: 1px solid #d9ccff30; background: #bca5ff08; cursor: not-allowed; box-shadow: none; }
+.document-pending:hover { transform: none; }
+.pdf-frame { display: block; width: 100%; height: 620px; border: 0; border-radius: 4px; background: #fff; }
+.document-ready .document-preview { padding: 12px; }
+.register-hero .document-card { margin-top: 44px; }
+.sponsors { padding-top: 95px; }
+.sponsors-head h2 { font-size: 38px; }
+.sponsor-placeholder { border-radius: 12px; background: radial-gradient(ellipse at 50% 100%, #8f66ff1a, transparent 75%), #20133960; }
+.sponsor-placeholder > div { font-size: 14px; line-height: 1.6; }
+.sponsor-placeholder p { font-size: 14px; line-height: 1.6; }
+
+/* Keep the card icons and labels legible in three- and two-column layouts. */
+.register-hero { padding: 65px 0 64px; }
+.register-hero h1, .merch-main h1 { line-height: .96; }
+.register-hero > p:not(.eyebrow), .merch-lede { font-size: 16px; line-height: 1.7; }
+.competition-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.competition-card { min-height: 290px; border: 1px solid #d9ccff1c; border-radius: 12px; box-shadow: 0 10px 36px #08031320; padding: 26px; }
+.competition-card:hover, .competition-card:focus-visible { box-shadow: 0 18px 50px #8f66ff28; }
+.competition-card h2 { font-size: clamp(29px, 3vw, 39px); overflow-wrap: anywhere; line-height: 1.05; }
+.card-number { font-size: 12px; }
+.competition-card p { font-size: 12px; margin-top: 17px; }
+.competition-symbol { flex-shrink: 0; transform-origin: left center; }
+.competition-symbol.icon-svg { flex-shrink: 0; }
+.site-notice { position: fixed; z-index: 70; bottom: 24px; left: 50%; transform: translate(-50%, 14px); width: max-content; max-width: calc(100% - 32px); border-radius: 10px; padding: 16px 22px; background: #2b1b47f2; border: 1px solid #f7d65666; box-shadow: 0 8px 40px #09031980; color: var(--paper); font-size: 14px; line-height: 1.6; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+.site-notice.notice-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* Shared inquiry contacts and Instagram link. */
+.site-footer { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 28px; padding: 46px max(40px, calc((100% - 1180px) / 2)) 32px; min-height: 205px; background: linear-gradient(0deg, #0f0920c2, transparent); border-color: #d9ccff20; font-family: var(--sans); text-transform: none; letter-spacing: 0; position: relative; }
+.footer-inquiries { font-style: normal; display: flex; flex-direction: column; align-items: start; gap: 0; }
+.footer-inquiries strong { font: 500 12px/1.5 var(--mono); text-transform: uppercase; color: var(--yellow); letter-spacing: .12em; margin-bottom: 8px; }
+.footer-inquiries a { display: flex; flex-wrap: wrap; column-gap: 7px; align-items: center; min-height: 44px; font-size: 14px; color: var(--paper); }
+.site-footer .footer-inquiries a span { margin: 0; font-size: inherit; color: var(--paper-dim); }
+.site-footer .footer-copyright { grid-column: 1; grid-row: 2; font: 12px/1.7 var(--mono); color: #b6a8c9; letter-spacing: .05em; }
+.site-footer .footer-instagram { grid-column: 2; grid-row: 1 / 3; display: inline-flex; align-items: center; flex-wrap: wrap; gap: 10px; min-height: 44px; font-size: 14px; color: var(--yellow); transition: color .2s ease; }
+.footer-instagram svg { width: 23px; height: 23px; flex-shrink: 0; }
+.site-footer .footer-instagram span { margin: 0; font-size: inherit; }
+.footer-instagram:hover { color: var(--paper); }
+
+/* A clear holding page for the closing-night ticket release. */
+.tickets-main { min-height: calc(100svh - 293px); padding: 90px 0 120px; display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 80px; }
+.tickets-copy .eyebrow { margin-bottom: 30px; }
+.tickets-copy h1 { font: 600 clamp(55px, 6.5vw, 92px)/.98 var(--serif); letter-spacing: -.055em; margin-bottom: 28px; }
+.tickets-copy > p:not(.eyebrow) { font-size: 16px; color: var(--paper-dim); line-height: 1.7; }
+.tickets-copy p.tickets-lede { font: 500 26px/1.3 var(--serif); color: var(--paper); }
+.tickets-copy .button { margin-top: 20px; }
+.ticket-announcement { padding: 50px 32px; position: relative; text-align: center; border-radius: 20px; border: 1px solid #d9ccff42; background: radial-gradient(ellipse at 50% 10%, #8f66ff38, transparent 70%), #2919437a; box-shadow: 0 0 100px #8f66ff16; }
+.ticket-spark { display: block; font-size: 60px; color: var(--yellow); margin-bottom: 25px; text-shadow: 0 0 40px #f7d65655; animation: ticket-star 6s ease-in-out infinite; }
+.ticket-announcement h2 { margin: 28px 0; font: 500 70px/.97 var(--serif); letter-spacing: -.045em; }
+.ticket-announcement > p:last-child { margin: 0; color: var(--paper-dim); font: 12px/1.8 var(--mono); letter-spacing: .12em; }
+.merch-main { padding-top: 70px; }
+
+@keyframes sky-breathe { to { opacity: .32; } }
+@keyframes content-arrive { from { opacity: .2; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+@keyframes cta-star-turn { to { transform: rotate(38deg) scale(1.08); } }
+@keyframes ticket-star { 50% { transform: rotate(15deg); text-shadow: 0 0 55px #f7d65688; } }
+
+@media (max-width: 1000px) {
+  .site-header, .register-page .site-header, .merch-page .site-header, .tickets-page .site-header { padding-inline: 28px; gap: 22px; }
+  .site-header nav { gap: 17px; }
+  .hero-copy { max-width: 600px; }
+  .hero-planet { opacity: .6; right: -25px; }
+  .hero-meta { padding-top: 65px; }
+  .competition-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .document-actions { align-items: start; flex-direction: column; gap: 16px; }
+  .document-links { justify-content: start; flex-wrap: wrap; }
+  .timeline-row { grid-template-columns: 140px 1fr; gap: 8px 16px; }
+  .timeline-row p { grid-column: 2; }
+  .tickets-main { gap: 35px; }
+  .ticket-announcement { padding: 40px 24px; }
+}
+
+@media (max-width: 760px) {
+  html { scroll-padding-top: 88px; }
+  .section-shell { width: calc(100% - 40px); }
+  .site-header, .register-page .site-header, .merch-page .site-header, .tickets-page .site-header { min-height: 74px; height: auto; padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
+  .site-header nav { flex-wrap: wrap; gap: 10px 20px; font-size: 14px; }
+  .wordmark { font-size: 12px; gap: 8px; }
+  .brand-logo { width: 28px; height: 28px; }
+  .js-enabled .menu-toggle { display: inline-flex; }
+  .js-enabled .site-header nav { position: absolute; left: 16px; right: 16px; top: calc(100% + 4px); display: grid; gap: 4px; background: #1a1032f7; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px; border: 1px solid #d9ccff30; border-radius: 12px; box-shadow: 0 16px 50px #06021170; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s ease, visibility .2s ease, transform .2s ease; }
+  .js-enabled .site-header.menu-open nav { opacity: 1; visibility: visible; transform: none; }
+  .site-header nav a { padding: 10px 14px; border-radius: 6px; min-height: 48px; }
+  .site-header nav a.active { background: #bca5ff12; color: var(--yellow); }
+  .site-header nav a.active::after { content: none; }
+  .hero { min-height: calc(100svh - 74px); padding: 120px 0 64px; }
+  .hero-copy { width: 100%; max-width: 600px; }
+  .display-title { font-size: clamp(58px, 16.8vw, 110px); line-height: .9; letter-spacing: -.065em; }
+  .event-title { font-size: clamp(23px, 5.8vw, 38px); line-height: 1.15; margin-bottom: 22px; letter-spacing: -.025em; }
+  .hero-planet { top: 0; right: -25px; width: min(70vw, 340px); opacity: .56; }
+  .hero-subtitle { margin: 28px 0 22px; font-size: 16px; }
+  .hero-actions { align-items: start; flex-direction: column; gap: 13px; }
+  .hero-meta { padding-top: 58px; gap: 30px; align-items: start; }
+  .hero-meta p:first-child span { font-size: 25px; }
+  .hero-venue { max-width: 330px; font-size: 12px; }
+  .hero-venue strong { font-size: 11px; }
+  .scroll-cue { display: flex; bottom: 12px; font-size: 10px; }
+  .journey { padding-top: 85px; }
+  .journey h2, .timeline h2, .register-banner h2 { font-size: clamp(38px, 8vw, 58px); line-height: 1.05; }
+  .memory-panel, .memory-panel.panel-left, .memory-panel.panel-right { width: calc(100% - 60px); }
+  .memory-photo { height: auto; min-height: 280px; aspect-ratio: 1 / 1.02; }
+  .memory-copy h3 { font-size: 44px; line-height: 1.02; }
+  .memory-copy > p:not(.panel-label), .journey-heading > p:last-child { font-size: 16px; }
+  .timeline { padding: 95px 0; }
+  .timeline-header p { max-width: 350px; margin-top: 26px; }
+  .timeline-row { grid-template-columns: 90px minmax(0, 1fr); padding: 23px 0; gap: 8px 12px; }
+  .timeline-row > div { flex-wrap: wrap; gap: 5px 8px; }
+  .timeline-row h3 { font-size: 17px; }
+  .timeline-row p { font-size: 14px; }
+  .date { font-size: 24px; }
+  .month { font-size: 11px; }
+  .register-banner { width: calc(100% - 32px); border-radius: 16px; padding: 65px 28px; min-height: 470px; }
+  .register-banner::after { right: -5%; top: 55%; opacity: .4; }
+  .register-banner > p:not(.eyebrow) { font-size: 16px; }
+  .sponsorship { padding-top: 85px; }
+  .section-heading h2 { font-size: 44px; }
+  .document-heading { padding: 19px 20px; }
+  .document-preview { padding: 18px; }
+  .document-placeholder { min-height: 260px; padding: 28px 16px; }
+  .document-placeholder strong { font-size: 34px; }
+  .document-actions { padding: 20px; }
+  .document-links { width: 100%; }
+  .document-links .button { width: 100%; }
+  .pdf-frame { height: 420px; }
+  .sponsors { padding: 85px 0 70px; }
+  .sponsors-head h2 { font-size: 34px; }
+  .sponsor-placeholder { padding: 25px 20px; }
+  .sponsor-placeholder > div { gap: 14px; font-size: 12px; }
+  .register-hero { padding: 50px 0 44px; }
+  .register-hero h1, .merch-main h1 { font-size: clamp(52px, 11vw, 76px); line-height: 1; }
+  .competition-grid { gap: 12px; padding-bottom: 65px; }
+  .competition-card { min-height: 235px; padding: 18px; border-radius: 10px; }
+  .competition-card h2 { font-size: clamp(24px, 5.5vw, 35px); letter-spacing: -.05em; }
+  .competition-card p { font-size: 12px; letter-spacing: .015em; }
+  .competition-symbol { font-size: 56px; }
+  .competition-symbol.icon-svg { width: 62px; height: 62px; }
+  .site-footer { display: flex; flex-direction: column; align-items: stretch; padding: 35px 24px 26px; gap: 24px; }
+  .footer-inquiries { order: 0; }
+  .site-footer .footer-instagram { order: 1; align-self: start; font-size: 14px; }
+  .site-footer .footer-copyright { order: 2; font-size: 12px; }
+  .tickets-main { display: flex; flex-direction: column; align-items: stretch; gap: 45px; padding: 60px 0 75px; }
+  .tickets-copy h1 { font-size: clamp(53px, 12vw, 76px); }
+  .ticket-announcement { max-width: 440px; width: 100%; align-self: center; }
+  .merch-main { padding-top: 55px; }
+  .merch-lede { font-size: 16px; }
+}
+
+@media (max-width: 420px) {
+  .hero-meta { flex-direction: column; gap: 24px; }
+  .hero-venue { text-align: left; }
+  .competition-grid { grid-template-columns: minmax(0, 1fr); }
+  .competition-card { padding: 24px; min-height: 240px; }
+  .competition-card h2 { font-size: 34px; }
+  .document-placeholder strong { font-size: 29px; }
+  .register-banner { padding-inline: 24px; }
+  .register-banner h2 { font-size: 38px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal-pending { opacity: 1; translate: none; }
+  .memory-panel { opacity: 1; transform: none; }
+  .page-wash { display: none; }
+}
+
+/* EN / ID stays at the far right, outside the collapsed navigation. */
+.site-header nav { margin-left: auto; }
+.language-switch { display: flex; flex: 0 0 auto; align-items: center; gap: 2px; padding: 3px; border: 1px solid #d9ccff38; border-radius: 9px; background: #1a10328c; }
+.language-switch button { border: 0; border-radius: 5px; width: 40px; min-height: 44px; padding: 8px 4px; color: var(--paper-dim); background: transparent; font: 500 12px/1 var(--mono); cursor: pointer; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
+.language-switch button[aria-pressed="true"] { background: var(--yellow); color: var(--ink); box-shadow: 0 0 18px #f7d65620; }
+.language-switch button:hover:not([aria-pressed="true"]) { background: #bca5ff20; color: var(--paper); }
+.language-switch button:disabled { cursor: default; }
+.language-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html[lang="id"] .memory-copy h3 { font-size: clamp(34px, 3.7vw, 52px); line-height: 1.06; }
+html[lang="id"] .competition-card h2 { font-size: clamp(27px, 2.8vw, 36px); }
+html[lang="id"] .tickets-copy h1 { font-size: clamp(48px, 5.5vw, 80px); }
+
+@media (max-width: 980px) {
+  .site-header, .register-page .site-header, .merch-page .site-header, .tickets-page .site-header { display: grid; grid-template-columns: minmax(0, 1fr) 44px auto; height: auto; min-height: 78px; padding: 12px 16px; gap: 8px; }
+  .site-header .wordmark { grid-column: 1; grid-row: 1; gap: 8px; font-size: 12px; }
+  .site-header .brand-logo { width: 28px; height: 28px; }
+  .language-switch { grid-column: 3; grid-row: 1; }
+  .site-header nav { grid-column: 1 / -1; grid-row: 2; flex-wrap: wrap; margin-left: 0; font-size: 14px; gap: 10px 16px; }
+  .js-enabled .menu-toggle { grid-column: 2; grid-row: 1; display: inline-flex; width: 44px; height: 44px; padding: 0; justify-content: center; }
+  .menu-toggle > span:first-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .js-enabled .site-header nav { position: absolute; top: calc(100% + 4px); left: 16px; right: 16px; display: grid; padding: 12px; gap: 4px; border: 1px solid #d9ccff30; border-radius: 12px; background: #1a1032f7; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 16px 50px #06021170; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s ease, visibility .2s ease, transform .2s ease; }
+  .js-enabled .site-header.menu-open nav { opacity: 1; visibility: visible; transform: none; }
+  .site-header nav a { padding: 10px 14px; border-radius: 6px; min-height: 48px; white-space: normal; }
+  .site-header nav a.active { background: #bca5ff12; color: var(--yellow); }
+  .site-header nav a.active::after { content: none; }
+}
+
+@media (max-width: 420px) {
+  html[lang="id"] .competition-card h2 { font-size: 32px; }
+  html[lang="id"] .tickets-copy h1 { font-size: 46px; }
+}
