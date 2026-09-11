@@ -30,6 +30,6 @@
 	"vars": {
 		// Non-secret - safe to commit. Must exactly match the live origin,
 		// no trailing slash (browsers never send one in the Origin header).
-		"APP_ORIGIN": "https://premiere2027website.angkasa-perdana.workers.dev"
+		"APP_ORIGIN": "https://thepremiere2027.com"
 	}
 }
