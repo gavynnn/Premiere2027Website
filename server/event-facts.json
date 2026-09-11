@@ -1,0 +1,21 @@
+{
+  "event": "The Premiere 2027: Astra Aeterna",
+  "venue": "PENABUR Intercultural School Kelapa Gading",
+  "address": "Jalan Boulevard Bukit Gading Raya Blok A5–A8, Kelapa Gading Barat, Jakarta Utara 14240, Indonesia",
+  "dates": {
+    "preopening": "10–11 February 2027",
+    "opening_ceremony": "12 February 2027",
+    "premiere_week": "12–20 February 2027",
+    "closing_night": "20 February 2027"
+  },
+  "competitions": ["Futsal", "Basketball", "Volleyball", "Badminton", "Mural", "Vocal", "Band", "Modern Dance", "Speedcubing", "Swimming", "English Debate", "English Speech"],
+  "registration": "The registration page lists all twelve competitions. Google Form links have not yet been supplied. Do not invent URLs.",
+  "tickets": "Closing Night tickets are coming soon. No confirmed 2027 artist or ticket price has been supplied.",
+  "merchandise": "Coming soon.",
+  "contacts": [
+    { "name": "Gavynn", "phone": "+62 811-1042-896" },
+    { "name": "Grace", "phone": "+62 811-1858-228" }
+  ],
+  "instagram": "@thepremierebypskg",
+  "rules": "Use uploaded documents for confirmed details. Missing or contradictory fees, eligibility and rules must be confirmed with the committee. These site facts are the organizer's latest update and take precedence over conflicting dates in older proposals."
+}

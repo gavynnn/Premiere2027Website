@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="The Premiere 2027: Astra Aeterna - a school cup by PENABUR Intercultural School Kelapa Gading." data-i18n-content="home.description" />
-    <title>The Premiere 2027 — Astra Aeterna</title>
+    <title>The Premiere 2027 - Astra Aeterna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="polish.css" />
+    <link rel="stylesheet" href="chat.css" />
   </head>
   <body class="home-page">
     <a class="skip-link" href="#main-content" data-i18n="nav.skip">Skip to content</a>
@@ -41,10 +42,11 @@
       <section class="hero section-shell">
         <div class="hero-copy">
           <h1 class="display-title fade-in"><span class="event-title">THE PREMIERE 2027:</span>ASTRA<br /><em>AETERNA</em></h1>
-          <p class="hero-subtitle fade-in" data-i18n="home.subtitle">A constellation of sport, art, and sound - brought to life by the brightest students in the city.</p>
+          <p class="hero-subtitle fade-in" data-i18n="home.subtitle">Sport, art, and sound brought to life by the brightest students in the city.</p>
           <div class="hero-actions fade-in">
             <a class="button button-primary" href="#journey" data-i18n="home.explore">Explore the universe <span>↓</span></a>
             <a class="button button-text" href="register.html" data-i18n="home.register">Register for a competition <span>↗</span></a>
+            <a class="button button-text" href="#sponsorship" data-i18n="home.sponsors">For sponsors <span>↓</span></a>
           </div>
         </div>
 
@@ -58,7 +60,7 @@
         </div>
 
         <div class="hero-meta fade-in">
-          <p><span>10—20</span> FEB 2027</p>
+          <p><span>10-20</span> FEB 2027</p>
           <address class="hero-venue">
             <strong>PENABUR INTERCULTURAL SCHOOL<br />KELAPA GADING</strong>
             <span>Jalan Boulevard Bukit Gading Raya Blok A5–A8,<br />Kelapa Gading Barat, Jakarta Utara 14240</span>
@@ -82,27 +84,42 @@
         </div>
 
         <article class="memory-panel panel-right" data-comet-position="12">
-          <div class="memory-photo photo-preopening"><span data-i18n="photo.preopening">DROP IN YOUR<br />PRE-OPENING PHOTO</span><small>01</small></div>
+          <div class="memory-photo memory-gallery gallery-preopening">
+            <img src="assets/photos/preopening-badminton.webp" alt="A badminton player reaching for the shuttle" data-i18n-alt="photos.preBadminton" loading="lazy" decoding="async" width="933" height="1400" />
+            <img src="assets/photos/preopening-futsal.webp" alt="Futsal players contesting the ball" data-i18n-alt="photos.preFutsal" loading="lazy" decoding="async" width="933" height="1400" />
+            <img src="assets/photos/preopening-volleyball.webp" alt="A volleyball player jumping at the net" data-i18n-alt="photos.volleyball" loading="lazy" decoding="async" width="1400" height="933" />
+            <img src="assets/photos/preopening-basketball.webp" alt="A basketball player shooting toward the hoop" data-i18n-alt="photos.basketball" loading="lazy" decoding="async" width="1400" height="933" />
+            <img src="assets/photos/preopening-basketball-shot.webp" alt="A basketball shot during a pre-opening match" data-i18n-alt="photos.basketballShot" loading="lazy" decoding="async" width="1400" height="934" />
+          </div>
           <div class="memory-copy">
             <p class="panel-label" data-i18n="event.preopening">Pre-opening matches</p>
             <h3 data-i18n="preopening.title">The first<br />sparks fly.</h3>
             <p data-i18n="preopening.copy">Before the grand opening, the courts already come alive. Every opening match becomes a signal that the week has begun.</p>
-            <span class="panel-year">10—11 FEB</span>
+            <span class="panel-year">10-11 FEB</span>
           </div>
         </article>
 
         <article class="memory-panel panel-left" data-comet-position="39">
-          <div class="memory-photo photo-competition"><span data-i18n="photo.competition">DROP IN YOUR<br />COMPETITION PHOTO</span><small>02</small></div>
+          <div class="memory-photo memory-gallery gallery-week">
+            <img src="assets/photos/week-badminton.webp" alt="Badminton action during Premiere week" data-i18n-alt="photos.weekBadminton" loading="lazy" decoding="async" width="933" height="1400" />
+            <img src="assets/photos/week-speech.webp" alt="A student delivering a speech" data-i18n-alt="photos.speech" loading="lazy" decoding="async" width="933" height="1400" />
+            <img src="assets/photos/week-futsal.webp" alt="A futsal player moving the ball" data-i18n-alt="photos.weekFutsal" loading="lazy" decoding="async" width="933" height="1400" />
+            <img src="assets/photos/week-volleyball.webp" alt="Volleyball players meeting at the net" data-i18n-alt="photos.weekVolleyball" loading="lazy" decoding="async" width="1400" height="933" />
+          </div>
           <div class="memory-copy">
-            <p class="panel-label" data-i18n="competition.label">Twelve constellations</p>
+            <p class="panel-label" data-i18n="competition.label">Premiere Week Matches</p>
             <h3 data-i18n="competition.title">Play beyond<br />the ordinary.</h3>
             <p data-i18n="competition.copy">From courts to stages and pools to podiums, discover the disciplines that make up The Premiere universe.</p>
+            <span class="panel-year">12-20 FEB</span>
             <a class="inline-link" href="register.html" data-i18n="competition.all">See all competitions <span>↗</span></a>
           </div>
         </article>
 
         <article class="memory-panel panel-right" data-comet-position="65">
-          <div class="memory-photo photo-opening"><span data-i18n="photo.opening">DROP IN YOUR<br />OPENING CEREMONY PHOTO</span><small>03</small></div>
+          <div class="memory-photo memory-gallery gallery-opening">
+            <img src="assets/photos/opening-hosts.webp" alt="The opening ceremony hosts beside the main screen" data-i18n-alt="photos.hosts" loading="lazy" decoding="async" width="1400" height="933" />
+            <img src="assets/photos/opening-audience.webp" alt="The audience gathered for the opening ceremony" data-i18n-alt="photos.audience" loading="lazy" decoding="async" width="1400" height="933" />
+          </div>
           <div class="memory-copy">
             <p class="panel-label" data-i18n="event.opening">Opening ceremony</p>
             <h3 data-i18n="opening.title">One sky.<br />One beginning.</h3>
@@ -112,7 +129,9 @@
         </article>
 
         <article class="memory-panel panel-left panel-last" data-comet-position="90">
-          <div class="memory-photo photo-closing"><span data-i18n="photo.closing">DROP IN YOUR<br />CLOSING NIGHT PHOTO</span><small>04</small></div>
+          <div class="memory-photo memory-gallery gallery-closing">
+            <img src="assets/photos/closing-night.webp" alt="A singer performing on the closing-night stage" data-i18n-alt="photos.closing" loading="lazy" decoding="async" width="933" height="1400" />
+          </div>
           <div class="memory-copy">
             <p class="panel-label" data-i18n="event.closing">Closing night</p>
             <h3 data-i18n="closing.title">One last<br /><em>supernova.</em></h3>
@@ -129,9 +148,9 @@
           <p data-i18n="timeline.copy">Save the dates. The full schedule will land here closer to the event.</p>
         </div>
         <div class="timeline-list">
-          <div class="timeline-row"><div><span class="date">10—11</span><span class="month">FEB</span></div><h3 data-i18n="event.preopening">Pre-opening matches</h3><p data-i18n="timeline.preopening">The galaxy wakes up</p></div>
+          <div class="timeline-row"><div><span class="date">10-11</span><span class="month">FEB</span></div><h3 data-i18n="event.preopening">Pre-opening matches</h3><p data-i18n="timeline.preopening">First round of matches</p></div>
           <div class="timeline-row"><div><span class="date">12</span><span class="month">FEB</span></div><h3 data-i18n="event.opening">Opening ceremony</h3><p data-i18n="timeline.opening">Light the first star</p></div>
-          <div class="timeline-row"><div><span class="date">12—20</span><span class="month">FEB</span></div><h3 data-i18n="event.week">Premiere week</h3><p data-i18n="timeline.week">Sport · art · performance</p></div>
+          <div class="timeline-row"><div><span class="date">12-20</span><span class="month">FEB</span></div><h3 data-i18n="event.week">Premiere week</h3><p data-i18n="timeline.week">Sport · art · performance</p></div>
           <div class="timeline-row highlight"><div><span class="date">20</span><span class="month">FEB</span></div><h3 data-i18n="event.closing">Closing night</h3><p data-i18n="timeline.closing">End on a high note</p></div>
         </div>
       </section>
@@ -144,7 +163,7 @@
         <a class="button button-light" href="register.html" data-i18n="cta.register">Register now <span>↗</span></a>
       </section>
 
-      <section class="sponsorship section-shell" aria-labelledby="sponsor-title">
+      <section class="sponsorship section-shell" id="sponsorship" aria-labelledby="sponsor-title">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="sponsorship.eyebrow">Be part of the constellation</p>
           <h2 id="sponsor-title" data-i18n="sponsorship.title">Looking to <em>sponsor?</em></h2>
@@ -155,7 +174,7 @@
             <span class="document-format">PDF</span>
           </header>
           <div class="document-preview">
-            <iframe class="pdf-frame" src="assets/documents/sponsor-proposal-en.pdf#view=FitH" title="Sponsor proposal — English PDF preview" loading="lazy"></iframe>
+            <iframe class="pdf-frame" src="assets/documents/sponsor-proposal-en.pdf#view=FitH" title="Sponsor proposal - English PDF preview" loading="lazy"></iframe>
             <div class="document-placeholder" hidden>
               <span class="document-label">THE PREMIERE 2027</span>
               <strong data-i18n="sponsorship.name">Sponsor proposal</strong>
@@ -176,9 +195,9 @@
 
       <section class="sponsors section-shell">
         <div class="sponsors-head"><p class="eyebrow" data-i18n="sponsors.eyebrow">In good company</p><h2 data-i18n="sponsors.title">Previous sponsors</h2></div>
-        <div class="sponsor-placeholder" role="img" aria-label="Placeholder for previous sponsor logos" data-i18n-aria="sponsors.label">
-          <div><span>✦</span><strong data-i18n="sponsors.placeholder">YOUR SPONSOR<br />LOGOS HERE</strong><span>✦</span></div>
-          <p data-i18n="sponsors.note">Replace this block with sponsor logo images when ready.</p>
+        <div class="sponsor-board">
+          <img src="assets/sponsors/previous-sponsors-main.png" alt="Previous sponsors and partners" data-i18n-alt="photos.sponsorsMain" loading="lazy" decoding="async" width="1414" height="1374" />
+          <img src="assets/sponsors/previous-sponsors-supporting.png" alt="Additional previous sponsors and partners" data-i18n-alt="photos.sponsorsSupporting" loading="lazy" decoding="async" width="955" height="261" />
         </div>
       </section>
     </main>
@@ -186,8 +205,8 @@
     <footer class="site-footer">
       <address class="footer-inquiries">
         <strong data-i18n="footer.inquiries">General Inquiries</strong>
-        <a href="tel:+628111042896">+62 811-1042-896 <span>— Gavynn</span></a>
-        <a href="tel:+628111858228">+62 811-1858-228 <span>— Grace</span></a>
+        <a href="tel:+628111042896">+62 811-1042-896 <span>- Gavynn</span></a>
+        <a href="tel:+628111858228">+62 811-1858-228 <span>- Grace</span></a>
       </address>
       <p class="footer-copyright">© 2027 THE PREMIERE · ASTRA AETERNA</p>
       <a class="footer-instagram" href="https://www.instagram.com/thepremierebypskg/" target="_blank" rel="noopener noreferrer" aria-label="Follow @thepremierebypskg on Instagram (opens in a new tab)" data-i18n-aria="footer.instagram">
@@ -198,5 +217,6 @@
     <script src="content.js"></script>
     <script src="locale.js"></script>
     <script src="script.js"></script>
+    <script src="chat.js"></script>
   </body>
 </html>

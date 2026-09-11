@@ -1,13 +1,79 @@
 # The Premiere 2027: Astra Aeterna
 
-A dependency-free static website. It can be opened directly in a browser or served locally.
+A bilingual, mobile-friendly event website with a private, server-side AI assistant. The runtime has no npm dependencies. Use Node.js 22.14 or newer.
 
 ## Run locally
 
 In PowerShell from this folder, run:
 
 ```powershell
-python -m http.server 8000
+npm start
 ```
 
-Then visit `http://localhost:8000`.
+Then visit [the local website](http://127.0.0.1:8000/index.html?lang=en). Keep that terminal running. Stop it with Ctrl+C before starting another copy.
+
+Do **not** use `python -m http.server`, a generic static server, or static hosting for this folder: those can expose private configuration and cannot run the chatbot. The Node server serves only the public pages and assets; `.env`, server code, and `.runtime` are inaccessible over HTTP.
+
+## Enable the chatbot
+
+1. Open `.env` and set `OPENAI_API_KEY` to your own OpenAI project API key. A blank `.env` is included locally and ignored by Git; on a fresh checkout, copy `.env.example` to `.env` first. Never put the key in browser JavaScript or share it in chat.
+2. Stop the website server, then run:
+
+   ```powershell
+   npm run sync-docs
+   npm start
+   ```
+
+The first command uploads and indexes the configured English and Indonesian sponsor proposals using [OpenAI File Search](https://developers.openai.com/api/docs/guides/tools-file-search). This requires an API account with available billing and incurs document-storage/indexing and subsequent chat usage charges as applicable. No upload or real AI call is made until you add a key and run the command. Re-running it with unchanged documents skips uploading. The chatbot remains in a friendly unavailable state until both the key and index are ready.
+
+The default model is `gpt-4.1-mini`; change `OPENAI_MODEL` only to a model compatible with Responses, File Search, and structured outputs. The chatbot replies in the selected EN/ID language and links its cited event documents. The latest confirmed event facts are in `server/event-facts.json`. Rules, fees, registration links, or other details that are not supplied must be confirmed with the committee; the bot is instructed not to invent them.
+
+### Add the e-invite later
+
+1. Place the final PDF at `assets/documents/e-invite.pdf`.
+2. In `content.js`, set `invitation.url` to `"assets/documents/e-invite.pdf"`. Keep the URL local and use a simple filename.
+3. Stop the server, run `npm run sync-docs`, then restart with `npm start`.
+
+The same setting powers the visible preview/download and the chatbot's document knowledge. The current blank URL intentionally shows the coming-soon state. If you add separate translations, the invitation can use the same `en` / `id` object structure as sponsorship. Repeat the sync and restart whenever a PDF changes. New indexing must finish successfully before it replaces the previous index. Old resources recorded as belonging to this application are then retired to avoid unnecessary storage charges.
+
+If an interrupted sync leaves `.runtime/sync.lock`, first confirm no sync command is still running before removing that one lock file. Check the OpenAI dashboard for incomplete uploads after an interrupted network operation; never delete resources belonging to other applications.
+
+## Usage limits and privacy
+
+All enforcement is server-side, not just in the browser. Defaults can be adjusted in `.env`:
+
+| Safeguard | Default |
+| --- | --- |
+| Total incoming chat attempts per IP | 20 per minute, including rejected messages |
+| AI calls per IP | 5 per minute, 25 per UTC day |
+| AI calls across all visitors | 12 per minute, 3,000 per UTC day |
+| Cooldown / duplicate protection | 8 seconds / identical question blocked for 10 minutes |
+| Simultaneous AI calls | 1 per IP, 2 globally |
+| Question / output limit | 400 characters / 400 output tokens |
+| Retrieval / context limit | 3 chunks per search, 1 tool call, full event conversation up to 64,000 characters |
+
+Obvious off-topic questions, repetitive text, links, code, and common prompt-injection patterns are rejected before an AI call. The model is also instructed to reject unrelated requests even if an event keyword is added. A text filter is **not abuse-proof**; sophisticated requests can pass it. The global daily call cap limits the resulting exposure but is not an exact currency or total-token budget. Failed or timed-out AI calls count toward the cap and are not automatically retried. Per-minute and duplicate windows are in memory; daily reservations are written before the call and survive restarts.
+
+The key never reaches the browser. Visitor questions and the full accepted event conversation are sent to OpenAI with `store: false`; this is not a guarantee of zero provider retention. Visitors see a privacy notice before sending a question. The application does not persist chat transcripts; server sessions expire after 30 minutes of inactivity. Within a session, no early messages or answer text are silently truncated. A 64,000-character conversation limit (including reserved space for the next answer) blocks additional AI calls and directs the visitor to the committee instead of forgetting earlier context. This follows [OpenAI's conversation-state guidance](https://developers.openai.com/api/docs/guides/conversation-state). The local quota ledger uses keyed IP hashes, not raw IP addresses. Do not delete `.runtime` to bypass limits: it contains the persistent daily ledger, signing secret, and document index references.
+
+Astra follows the language of the visitor's latest message or explicit EN/ID request, independently of the site's language setting. After the sixth successfully answered event question, it adds a one-time contact suggestion for Gavynn and Grace. Rejected messages and language-only switches do not count toward that suggestion.
+
+Internal page links update route content without recreating Astra. Its open/closed state, visible conversation, draft, cooldown and pending answer survive Home, Register, Merch and Closing Night navigation, including browser Back/Forward. The full-screen transition sits above the non-modal chat. A failed page load keeps the current page and chat available. Reloading the browser or opening another tab starts a new visible chat; this is not cross-device chat storage.
+
+Before public deployment, use HTTPS, set `APP_ORIGIN` to the exact public origin, configure provider-side spending alerts/limits where available, and add host-level bot protection/WAF or a challenge for abuse. Origin checks deter cross-site browser requests; they are not authentication against custom clients. The current file-based quota ledger supports **one server process on persistent local storage**. Multiple replicas require a shared transactional rate limiter and usage ledger. Do not publish this repository as a static folder.
+
+Keep `TRUST_LOOPBACK_PROXY=false` unless a controlled reverse proxy connects over loopback and appends the actual client IP to `X-Forwarded-For`. With that setting enabled, only the rightmost valid forwarded IP from a loopback connection is used. Configure the proxy correctly and prevent direct public access to the backend. Shared school networks may share an IP and therefore share its quota.
+
+## Photos and sponsor boards
+
+The supplied photos are optimized WebP copies in `assets/photos`. Original files are unchanged. Responsive CSS collages preserve the chosen focal points; the opening ceremony gives the MCs and screen a large image with the audience below. Both supplied sponsor PNGs are in `assets/sponsors` and remain uncropped.
+
+`tools/import-media.cjs` is an optional one-time asset import helper requiring Sharp; it is not needed to run the website. All generated assets are already included.
+
+## Verify
+
+```powershell
+npm test
+```
+
+Tests cover filtering, persistent quotas, concurrency, provider payload bounds, signed sessions, document citations, PDF serving, and secret-file protection. They use a mock provider and do not spend API credits. Real document indexing and model answers still need to be checked after configuring your API key.

@@ -15,8 +15,9 @@
     "language.announcement": "Language changed to English.",
     "footer.inquiries": "General Inquiries",
     "footer.instagram": "Follow @thepremierebypskg on Instagram (opens in a new tab)",
-    "home.description": "The Premiere 2027: Astra Aeterna — a school cup by PENABUR Intercultural School Kelapa Gading.",
-    "home.subtitle": "A constellation of sport, art, and sound — brought to life by the brightest students in the city.",
+    "home.description": "The Premiere 2027: Astra Aeterna - a school cup by PENABUR Intercultural School Kelapa Gading.",
+    "home.subtitle": "Sport, art, and sound brought to life by the brightest students in the city.",
+    "home.sponsors": "For sponsors <span>↓</span>",
     "home.explore": "Explore the universe <span>↓</span>",
     "home.register": "Register for a competition <span>↗</span>",
     "home.scroll": "<span></span> Scroll down",
@@ -30,7 +31,7 @@
     "event.preopening": "Pre-opening matches",
     "preopening.title": "The first<br />sparks fly.",
     "preopening.copy": "Before the grand opening, the courts already come alive. Every opening match becomes a signal that the week has begun.",
-    "competition.label": "Twelve constellations",
+    "competition.label": "Premiere Week Matches",
     "competition.title": "Play beyond<br />the ordinary.",
     "competition.copy": "From courts to stages and pools to podiums, discover the disciplines that make up The Premiere universe.",
     "competition.all": "See all competitions <span>↗</span>",
@@ -43,7 +44,7 @@
     "timeline.eyebrow": "02 / Mark your orbit",
     "timeline.title": "Ten days. One<br /><em>eternal story.</em>",
     "timeline.copy": "Save the dates. The full schedule will land here closer to the event.",
-    "timeline.preopening": "The galaxy wakes up",
+    "timeline.preopening": "First round of matches",
     "timeline.opening": "Light the first star",
     "event.week": "Premiere week",
     "timeline.week": "Sport · art · performance",
@@ -61,7 +62,7 @@
     "sponsors.placeholder": "YOUR SPONSOR<br />LOGOS HERE",
     "sponsors.note": "Replace this block with sponsor logo images when ready.",
     "sponsors.label": "Placeholder for previous sponsor logos",
-    "register.pageTitle": "Register — The Premiere 2027",
+    "register.pageTitle": "Register - The Premiere 2027",
     "register.description": "Register for The Premiere 2027: Astra Aeterna competitions.",
     "register.eyebrow": "The Premiere 2027 / Registration",
     "register.title": "Choose your<br /><em>orbit.</em>",
@@ -74,7 +75,7 @@
     "document.download": "Download PDF <span aria-hidden=\"true\">↓</span>",
     "document.downloadPending": "Download PDF · Coming soon",
     "document.ready": "Preview the document, open in a new tab, or download a copy.",
-    "document.previewTitle": "{name} — English PDF preview",
+    "document.previewTitle": "{name} - English PDF preview",
     "form.soon": "{name} registration is coming soon.",
     "arena.enter": "Enter arena <b>↗</b>",
     "arena.futsal": "Futsal",
@@ -89,14 +90,14 @@
     "arena.swimming": "Swimming",
     "arena.debate": "English<br />Debate",
     "arena.speech": "English<br />Speech",
-    "merch.pageTitle": "Merch — The Premiere 2027",
+    "merch.pageTitle": "Merch - The Premiere 2027",
     "merch.description": "The Premiere 2027: Astra Aeterna merchandise.",
     "merch.eyebrow": "The Premiere 2027 / Objects in orbit",
     "merch.title": "The collection<br />is <em>approaching.</em>",
     "merch.copy": "Official Astra Aeterna merchandise will arrive here soon. Keep your eyes on the sky.",
     "merch.placeholder": "MERCH DROPS<br />COMING SOON",
     "merch.back": "Back to home <span>←</span>",
-    "tickets.pageTitle": "Closing Night Tickets — The Premiere 2027",
+    "tickets.pageTitle": "Closing Night Tickets - The Premiere 2027",
     "tickets.description": "Closing Night tickets for The Premiere 2027: Astra Aeterna. Coming soon.",
     "tickets.eyebrow": "The Premiere 2027 / The final constellation",
     "tickets.title": "Closing Night<br /><em>Tickets.</em>",
@@ -120,8 +121,9 @@
     "language.announcement": "Bahasa diubah ke Bahasa Indonesia.",
     "footer.inquiries": "Informasi Umum",
     "footer.instagram": "Ikuti @thepremierebypskg di Instagram (dibuka di tab baru)",
-    "home.description": "The Premiere 2027: Astra Aeterna — ajang kompetisi antarsekolah oleh PENABUR Intercultural School Kelapa Gading.",
-    "home.subtitle": "Rasi olahraga, seni, dan musik — dihidupkan oleh pelajar-pelajar berbakat di kota ini.",
+    "home.description": "The Premiere 2027: Astra Aeterna - ajang kompetisi antarsekolah oleh PENABUR Intercultural School Kelapa Gading.",
+    "home.subtitle": "Olahraga, seni, dan musik yang dihidupkan oleh pelajar-pelajar berbakat di kota ini.",
+    "home.sponsors": "Untuk sponsor <span>↓</span>",
     "home.explore": "Jelajahi semesta <span>↓</span>",
     "home.register": "Daftar kompetisi <span>↗</span>",
     "home.scroll": "<span></span> Gulir ke bawah",
@@ -135,7 +137,7 @@
     "event.preopening": "Pertandingan pra-pembukaan",
     "preopening.title": "Percikan pertama<br />mulai menyala.",
     "preopening.copy": "Sebelum pembukaan resmi, lapangan sudah dipenuhi semangat. Setiap pertandingan awal menandai dimulainya pekan yang dinanti.",
-    "competition.label": "Dua belas rasi",
+    "competition.label": "Pertandingan Pekan Premiere",
     "competition.title": "Bermain melampaui<br />batas biasa.",
     "competition.copy": "Dari lapangan hingga panggung, dari kolam hingga podium, temukan berbagai cabang kompetisi yang membentuk semesta The Premiere.",
     "competition.all": "Lihat semua kompetisi <span>↗</span>",
@@ -148,7 +150,7 @@
     "timeline.eyebrow": "02 / Tandai orbitmu",
     "timeline.title": "Sepuluh hari. Satu<br /><em>kisah abadi.</em>",
     "timeline.copy": "Catat tanggalnya. Jadwal lengkap akan hadir di sini menjelang acara.",
-    "timeline.preopening": "Galaksi mulai terbangun",
+    "timeline.preopening": "Babak awal pertandingan",
     "timeline.opening": "Nyalakan bintang pertama",
     "event.week": "Pekan Premiere",
     "timeline.week": "Olahraga · seni · pertunjukan",
@@ -166,7 +168,7 @@
     "sponsors.placeholder": "LOGO SPONSOR<br />DI SINI",
     "sponsors.note": "Ganti bagian ini dengan logo sponsor saat sudah siap.",
     "sponsors.label": "Tempat untuk logo sponsor sebelumnya",
-    "register.pageTitle": "Pendaftaran — The Premiere 2027",
+    "register.pageTitle": "Pendaftaran - The Premiere 2027",
     "register.description": "Daftarkan dirimu untuk mengikuti kompetisi The Premiere 2027: Astra Aeterna.",
     "register.eyebrow": "The Premiere 2027 / Pendaftaran",
     "register.title": "Pilih<br /><em>orbitmu.</em>",
@@ -179,7 +181,7 @@
     "document.download": "Unduh PDF <span aria-hidden=\"true\">↓</span>",
     "document.downloadPending": "Unduh PDF · Segera hadir",
     "document.ready": "Lihat dokumen, buka di tab baru, atau unduh salinannya.",
-    "document.previewTitle": "{name} — Pratinjau PDF Bahasa Indonesia",
+    "document.previewTitle": "{name} - Pratinjau PDF Bahasa Indonesia",
     "form.soon": "Pendaftaran {name} akan segera dibuka.",
     "arena.enter": "Masuk arena <b>↗</b>",
     "arena.futsal": "Futsal",
@@ -194,14 +196,14 @@
     "arena.swimming": "Renang",
     "arena.debate": "Debat<br />Bahasa Inggris",
     "arena.speech": "Pidato<br />Bahasa Inggris",
-    "merch.pageTitle": "Merch — The Premiere 2027",
+    "merch.pageTitle": "Merch - The Premiere 2027",
     "merch.description": "Merchandise resmi The Premiere 2027: Astra Aeterna.",
     "merch.eyebrow": "The Premiere 2027 / Koleksi dalam orbit",
     "merch.title": "Koleksi ini<br />segera <em>hadir.</em>",
     "merch.copy": "Merchandise resmi Astra Aeterna akan segera hadir di sini. Terus nantikan kabarnya.",
     "merch.placeholder": "KOLEKSI MERCH<br />SEGERA HADIR",
     "merch.back": "Kembali ke beranda <span>←</span>",
-    "tickets.pageTitle": "Tiket Malam Penutupan — The Premiere 2027",
+    "tickets.pageTitle": "Tiket Malam Penutupan - The Premiere 2027",
     "tickets.description": "Tiket malam penutupan The Premiere 2027: Astra Aeterna. Segera hadir.",
     "tickets.eyebrow": "The Premiere 2027 / Rasi terakhir",
     "tickets.title": "Tiket Malam<br /><em>Penutupan.</em>",
@@ -213,6 +215,28 @@
     "tickets.coming": "Segera<br /><em>hadir.</em>"
   }
 };
+  messages.en['navigation.failed'] = 'This page could not load. Your chat is still here - please try the link again.';
+  messages.id['navigation.failed'] = 'Halaman belum dapat dimuat. Percakapanmu tetap ada - coba buka tautannya lagi.';
+  const photoCopy = {
+    preBadminton: ['A badminton player reaching for the shuttle', 'Pemain bulu tangkis menjangkau kok'],
+    preFutsal: ['Futsal players contesting the ball', 'Para pemain futsal memperebutkan bola'],
+    volleyball: ['A volleyball player jumping at the net', 'Pemain bola voli melompat di dekat net'],
+    basketball: ['A basketball player shooting toward the hoop', 'Pemain bola basket melakukan tembakan ke ring'],
+    basketballShot: ['A basketball shot during a pre-opening match', 'Tembakan bola basket dalam pertandingan pra-pembukaan'],
+    weekBadminton: ['Badminton action during Premiere week', 'Aksi bulu tangkis selama Pekan Premiere'],
+    speech: ['A student delivering a speech', 'Seorang siswa menyampaikan pidato'],
+    weekFutsal: ['A futsal player moving the ball', 'Pemain futsal menggiring bola'],
+    weekVolleyball: ['Volleyball players meeting at the net', 'Para pemain bola voli berhadapan di net'],
+    hosts: ['The opening ceremony hosts beside the main screen', 'Para pembawa acara pembukaan di samping layar utama'],
+    audience: ['The audience gathered for the opening ceremony', 'Penonton berkumpul untuk acara pembukaan'],
+    closing: ['A singer performing on the closing-night stage', 'Penyanyi tampil di panggung malam penutupan'],
+    sponsorsMain: ['Previous sponsors and partners', 'Sponsor dan mitra sebelumnya'],
+    sponsorsSupporting: ['Additional previous sponsors and partners', 'Sponsor dan mitra pendukung sebelumnya']
+  };
+  for (const [key, pair] of Object.entries(photoCopy)) {
+    messages.en['photos.' + key] = pair[0];
+    messages.id['photos.' + key] = pair[1];
+  }
   const storageKey = 'premiere-language';
   const supported = value => value === 'en' || value === 'id';
   let language = 'en';
@@ -237,6 +261,9 @@
     });
     document.querySelectorAll('[data-i18n-aria]').forEach(element => {
       element.setAttribute('aria-label', translate(element.dataset.i18nAria));
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(element => {
+      element.alt = translate(element.dataset.i18nAlt);
     });
     document.querySelectorAll('[data-i18n-content]').forEach(element => {
       element.setAttribute('content', translate(element.dataset.i18nContent));

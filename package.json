@@ -1,0 +1,11 @@
+{
+  "name": "the-premiere-2027",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.14.0" },
+  "scripts": {
+    "start": "node server.mjs",
+    "sync-docs": "node tools/sync-docs.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}
