@@ -28,8 +28,8 @@
 		{ "tag": "v1", "new_sqlite_classes": ["ChatGuard"] }
 	],
 	"vars": {
-		// Non-secret. Set the real public origin as a Cloudflare env var/secret
-		// before going live - see README's "Cloudflare Worker deploy" section.
-		"APP_ORIGIN": "http://127.0.0.1:8000"
+		// Non-secret - safe to commit. Must exactly match the live origin,
+		// no trailing slash (browsers never send one in the Origin header).
+		"APP_ORIGIN": "https://premiere2027website.angkasa-perdana.workers.dev"
 	}
 }
