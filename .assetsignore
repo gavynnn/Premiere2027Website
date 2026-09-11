@@ -11,6 +11,9 @@ node_modules
 .github
 .wrangler
 .vscode
+src
+wrangler.jsonc
+.dev.vars
 
 # Backend-only code and secrets - must never be served as public assets.
 server

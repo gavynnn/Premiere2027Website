@@ -64,6 +64,20 @@ Before public deployment, use HTTPS, set `APP_ORIGIN` to the exact public origin
 
 Keep `TRUST_LOOPBACK_PROXY=false` unless a controlled reverse proxy connects over loopback and appends the actual client IP to `X-Forwarded-For`. With that setting enabled, only the rightmost valid forwarded IP from a loopback connection is used. Configure the proxy correctly and prevent direct public access to the backend. Shared school networks may share an IP and therefore share its quota.
 
+## Cloudflare Worker deploy
+
+`wrangler.jsonc` deploys the site as Cloudflare Workers static assets, with `src/worker.mjs` handling `/api/*` (everything else is served directly from the assets, never touching the Worker - see `assets.run_worker_first` in `wrangler.jsonc`). This replaces `server.mjs`'s fs-based quota ledger/session Map/lock file - which only work for one process on persistent local storage (see above) - with a `ChatGuard` Durable Object: a single-threaded, persisted equivalent that works across Cloudflare's many concurrent, ephemeral isolates.
+
+1. Set the secret (never put it in `wrangler.jsonc` - that file is committed to git):
+   ```powershell
+   npx wrangler secret put OPENAI_API_KEY
+   ```
+2. Set `APP_ORIGIN` in `wrangler.jsonc`'s `vars` to your real public origin (custom domain or `*.workers.dev` URL) before going live; `OPENAI_MODEL` and the `CHAT_*` limit overrides from the table above can go in `vars` too since they aren't secret.
+3. Run `npm run sync-docs` locally as usual (needs `OPENAI_API_KEY` in `.env`), then **commit the `server/knowledge.json` it writes**. The Worker has no local disk at deploy time, so it imports that committed file instead of reading `.runtime/documents.json`; a fresh checkout without it starts in the same "AI setup pending" state as a fresh `npm start`. Re-run and re-commit it whenever documents change.
+4. Deploy with `npx wrangler deploy`.
+
+`server/openai.mjs` and `filterQuestion` (now in `server/filter.mjs`) run unchanged on both the Node server and the Worker. `server/guard.mjs`'s `Guard` class (the fs-based ledger) is Node-only and stays that way; only `filterQuestion` is shared, via `server/filter.mjs`, which is deliberately dependency-free (no `node:fs`, no `import.meta.url`) so the Worker bundle never pulls in `server/config.mjs`'s module-load-time filesystem code.
+
 ## Photos and sponsor boards
 
 The supplied photos are optimized WebP copies in `assets/photos`. Original files are unchanged. Responsive CSS collages preserve the chosen focal points; the opening ceremony gives the MCs and screen a large image with the audience below. Both supplied sponsor PNGs are in `assets/sponsors` and remain uncropped.

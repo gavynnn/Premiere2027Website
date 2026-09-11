@@ -1,11 +1,35 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "premiere2027website",
+	"main": "src/worker.mjs",
 	"compatibility_date": "2026-09-10",
+	// Gives us node:crypto (createHmac/randomBytes/timingSafeEqual) and, since
+	// this compatibility_date is past 2025-04-01, auto-populates process.env
+	// from configured vars/secrets - so server/openai.mjs's
+	// process.env.OPENAI_API_KEY keeps working unmodified.
+	"compatibility_flags": ["nodejs_compat"],
 	"observability": {
 		"enabled": true
 	},
 	"assets": {
-		"directory": "."
+		"directory": ".",
+		"binding": "ASSETS",
+		// Only /api/* is routed to the Worker; every other request is served
+		// straight from Workers Assets (with correct Range/mime/cache headers)
+		// without ever invoking the Worker script.
+		"run_worker_first": ["/api/*"]
+	},
+	"durable_objects": {
+		"bindings": [
+			{ "name": "CHAT_GUARD", "class_name": "ChatGuard" }
+		]
+	},
+	"migrations": [
+		{ "tag": "v1", "new_sqlite_classes": ["ChatGuard"] }
+	],
+	"vars": {
+		// Non-secret. Set the real public origin as a Cloudflare env var/secret
+		// before going live - see README's "Cloudflare Worker deploy" section.
+		"APP_ORIGIN": "http://127.0.0.1:8000"
 	}
 }

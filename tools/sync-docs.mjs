@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { PRIVATE, documents, documentFingerprint, manifest, saveJSON } from '../server/config.mjs';
+import { ROOT, PRIVATE, documents, documentFingerprint, manifest, saveJSON } from '../server/config.mjs';
 import { openAI } from '../server/openai.mjs';
 
 async function sync() {
@@ -38,11 +38,16 @@ async function sync() {
     }
     const previousFile = path.join(PRIVATE, 'documents.json');
     const previous = fs.existsSync(previousFile) ? JSON.parse(fs.readFileSync(previousFile, 'utf8')) : null;
-    saveJSON(previousFile, {
+    const manifestObject = {
       fingerprint: documentFingerprint(docs), vectorStoreId: store.id,
       files: uploaded.map(({ kind, language, url, hash, fileId }) => ({ kind, language, url, hash, fileId }))
-    });
-    console.log('Document index ready. Restart npm start to load it.');
+    };
+    saveJSON(previousFile, manifestObject);
+    // .runtime is gitignored (server.mjs reads it locally), but the Cloudflare
+    // Worker has no local disk at runtime and imports this committed copy
+    // instead - see src/worker.mjs. Commit it whenever documents change.
+    saveJSON(path.join(ROOT, 'server', 'knowledge.json'), manifestObject);
+    console.log('Document index ready. Restart npm start to load it, and commit server/knowledge.json to deploy it to the Cloudflare Worker.');
     // Retire only resources recorded as belonging to this application's old index.
     if (previous?.vectorStoreId) {
       try {
