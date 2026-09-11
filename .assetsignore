@@ -1,0 +1,31 @@
+# Cloudflare Workers assets upload ignore file.
+# Assets directory is the repo root ("."), so anything here that isn't
+# a public static file must be excluded or the deploy will try to upload it.
+
+# Never ship the Node dependency tree (wrangler/workerd alone is >100MB,
+# far past the 25MB per-file Workers Assets limit).
+node_modules
+
+# VCS / tooling
+.git
+.github
+.wrangler
+.vscode
+
+# Backend-only code and secrets - must never be served as public assets.
+server
+.env
+.env.*
+!.env.example
+
+# Not part of the public site.
+tests
+tools
+server.mjs
+package.json
+package-lock.json
+bun.lock
+bun.lockb
+README.md
+.gitignore
+.assetsignore
