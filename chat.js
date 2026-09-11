@@ -4,12 +4,11 @@
     en: {
       launch: 'Ask Astra', title: 'Astra', subtitle: 'AI event help', close: 'Close chat',
       greeting: 'Hi! Ask me about The Premiere competitions, sponsorship, the venue, or closing night.',
-      privacy: 'Your questions and this conversation are sent to OpenAI. Please do not share personal or sensitive information.',
       disclaimer: 'AI can make mistakes. Confirm important details with the committee.',
       placeholder: 'Ask about The Premiere…', label: 'Your question', send: 'Send', thinking: 'Checking the event documents…',
       unavailable: 'AI help is being prepared. You can still read the proposals on the Home page or contact Gavynn or Grace below.',
       scope: 'I can help with The Premiere event, competitions and sponsorship only. Please ask a short event-related question.',
-      invalid: 'Please enter a clear question between 4 and 400 characters. Links and pasted code are not supported.',
+      invalid: 'Please enter a clear message between 2 and 400 characters. Links and pasted code are not supported.',
       rate: 'Please wait a moment before sending another question.', daily: 'The chat limit has been reached for today. Please contact the committee for more help.',
       duplicate: 'You recently asked this question. Please check the earlier answer or ask something different.',
       busy: 'Astra is helping someone right now. Please try again shortly.', upstream: 'I could not complete that answer. Please try again later or contact the committee.',
@@ -20,12 +19,11 @@
     id: {
       launch: 'Tanya Astra', title: 'Astra', subtitle: 'Bantuan acara AI', close: 'Tutup percakapan',
       greeting: 'Hai! Tanyakan tentang kompetisi The Premiere, sponsorship, lokasi, atau malam penutupan.',
-      privacy: 'Pertanyaan dan percakapan ini dikirim ke OpenAI. Jangan bagikan informasi pribadi atau sensitif.',
       disclaimer: 'AI bisa keliru. Konfirmasikan informasi penting kepada panitia.',
       placeholder: 'Tanyakan tentang The Premiere…', label: 'Pertanyaanmu', send: 'Kirim', thinking: 'Memeriksa dokumen acara…',
       unavailable: 'Bantuan AI sedang disiapkan. Kamu tetap dapat membaca proposal di Beranda atau menghubungi Gavynn atau Grace di bawah.',
       scope: 'Saya hanya dapat membantu pertanyaan seputar acara, kompetisi, dan sponsorship The Premiere. Silakan ajukan pertanyaan singkat terkait acara.',
-      invalid: 'Tulis pertanyaan yang jelas sepanjang 4–400 karakter. Tautan dan potongan kode tidak didukung.',
+      invalid: 'Tulis pesan yang jelas sepanjang 2–400 karakter. Tautan dan potongan kode tidak didukung.',
       rate: 'Tunggu sebentar sebelum mengirim pertanyaan berikutnya.', daily: 'Batas percakapan hari ini telah tercapai. Silakan hubungi panitia untuk bantuan lebih lanjut.',
       duplicate: 'Pertanyaan ini baru saja diajukan. Periksa jawaban sebelumnya atau ajukan pertanyaan berbeda.',
       busy: 'Astra sedang membantu pengunjung lain. Silakan coba sebentar lagi.', upstream: 'Jawaban belum dapat diselesaikan. Coba lagi nanti atau hubungi panitia.',
@@ -48,7 +46,7 @@
   dialog.className = 'chat-panel';
   dialog.setAttribute('aria-labelledby', 'astra-title');
   dialog.setAttribute('aria-modal', 'false');
-  dialog.innerHTML = '<header class="chat-heading"><div><strong id="astra-title">Astra</strong><p data-chat-copy="subtitle"></p></div><button type="button" class="chat-close">×</button></header><p class="chat-privacy" data-chat-copy="privacy"></p><div class="chat-messages" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation"></div><div class="chat-chips"></div><p class="chat-status" role="status"></p><form class="chat-form"><label for="astra-question" data-chat-copy="label"></label><textarea id="astra-question" rows="2" maxlength="400" required></textarea><div class="chat-form-bottom"><span class="chat-count">0 / 400</span><button type="submit" data-chat-copy="send"></button></div></form><footer class="chat-footer"><p data-chat-copy="disclaimer"></p><a href="tel:+628111042896">Gavynn ↗</a><a href="tel:+628111858228">Grace ↗</a></footer>';
+  dialog.innerHTML = '<header class="chat-heading"><div><strong id="astra-title">Astra</strong><p data-chat-copy="subtitle"></p></div><button type="button" class="chat-close">×</button></header><div class="chat-messages" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation"></div><div class="chat-chips"></div><p class="chat-status" role="status"></p><form class="chat-form"><label for="astra-question" data-chat-copy="label"></label><textarea id="astra-question" rows="2" maxlength="400" required></textarea><div class="chat-form-bottom"><span class="chat-count">0 / 400</span><button type="submit" data-chat-copy="send"></button></div></form><footer class="chat-footer"><p data-chat-copy="disclaimer"></p><a href="tel:+628111042896">Gavynn ↗</a><a href="tel:+628111858228">Grace ↗</a></footer>';
   document.body.append(launcher, dialog);
   const log = dialog.querySelector('.chat-messages');
   const status = dialog.querySelector('.chat-status');
@@ -150,7 +148,7 @@
   form.addEventListener('submit', async event => {
     event.preventDefault();
     const message = input.value.trim();
-    if (busy || !available || Date.now() < waitingUntil || message.length < 4) return;
+    if (busy || !available || Date.now() < waitingUntil || message.length < 2) return;
     hasSentMessage = true;
     addMessage('user', message);
     input.value = ''; dialog.querySelector('.chat-count').textContent = '0 / 400';

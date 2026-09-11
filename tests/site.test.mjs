@@ -4,6 +4,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../server/config.mjs';
 
+test('chat omits the removed OpenAI privacy notice', () => {
+  const chat = fs.readFileSync(path.join(ROOT, 'chat.js'), 'utf8');
+  assert.doesNotMatch(chat, /chat-privacy|sent to OpenAI|dikirim ke OpenAI/);
+});
+
 test('all four pages reference available local assets and have unique IDs', () => {
   for (const page of ['index.html', 'register.html', 'merch.html', 'closing-night.html']) {
     const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
