@@ -1,4 +1,20 @@
 {
-	"vectorStoreId": null,
-	"files": []
+  "fingerprint": "dfd0a2c965f1de642a218b513d65db86989b1ece6addee88f158ec7ce11c75d6",
+  "vectorStoreId": "vs_6aa3a4f3b7b88191adaf0f1630c0d21c",
+  "files": [
+    {
+      "kind": "sponsorship",
+      "language": "en",
+      "url": "/assets/documents/sponsor-proposal-en.pdf",
+      "hash": "7939939d87aacd9a18a8a63f35971db7303a679eb50db98d6f8641d026ad2cec",
+      "fileId": "file-AVJMWQvStnu8XddSn78Jzv"
+    },
+    {
+      "kind": "sponsorship",
+      "language": "id",
+      "url": "/assets/documents/sponsor-proposal-id.pdf",
+      "hash": "441f4975f33df4c637d7bed02515fbe2f7d66e3219645dca1823d8615f5f4831",
+      "fileId": "file-PbhBPprsxN7VSbMSPr4Nnq"
+    }
+  ]
 }
