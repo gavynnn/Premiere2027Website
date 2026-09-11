@@ -116,7 +116,7 @@ export function createApp({ stateDir = PRIVATE, knowledge = manifest(), provider
         if (!permit.ok) return send(res, 429, { code: permit.code }, permit.retry);
         try {
           const response = await provider(answerRequest({ message: filtered.message, language: current.language || body.language, history: current.history, facts, knowledge }));
-          const answer = parseAnswer(response, knowledge);
+          const answer = parseAnswer(response, knowledge, filtered.message);
           if (!answer.inScope) return send(res, 200, { code: 'scope', sources: [] });
           const finished = finishExchange(current, filtered.message, answer, facts);
           Object.assign(current, finished.patch);

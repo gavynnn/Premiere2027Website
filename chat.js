@@ -32,6 +32,10 @@
       chips: ['Kompetisi apa saja yang tersedia?', 'Apa saja pilihan sponsorship?', 'Kapan malam penutupan?']
     }
   };
+  copy.en.downloadDocument = 'Download PDF';
+  copy.en.viewDocumentOnSite = 'View on website';
+  copy.id.downloadDocument = 'Unduh PDF';
+  copy.id.viewDocumentOnSite = 'Lihat di situs';
   const language = () => window.PREMIERE_I18N?.language === 'id' ? 'id' : 'en';
   const t = key => copy[language()][key] || copy[language()].upstream;
   const launcher = document.createElement('button');
@@ -69,10 +73,32 @@
       links.className = 'chat-sources';
       for (const source of sources.slice(0, 4)) {
         if (!/^\/assets\/documents\/[a-zA-Z0-9._ -]+\.pdf$/.test(source.url)) continue;
+        const card = document.createElement('div');
+        card.className = 'chat-source-card';
+        const docLanguage = ['en', 'id'].includes(source.language) ? source.language : language();
+        const config = window.PREMIERE_DOCUMENTS?.[source.kind];
+        const settings = config?.[docLanguage] || config;
+        const pdfURL = new URL(source.url, location.origin);
         const link = document.createElement('a');
-        link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        link.href = pdfURL.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
         link.textContent = t(source.kind === 'sponsorship' ? 'sponsor' : 'invitation') + (source.language === 'shared' ? '' : ' · ' + source.language.toUpperCase()) + ' ↗';
-        links.append(link);
+        const actions = document.createElement('div');
+        actions.className = 'chat-source-actions';
+        const download = document.createElement('a');
+        download.href = pdfURL.href;
+        download.download = settings?.filename || source.url.split('/').at(-1);
+        download.textContent = t('downloadDocument');
+        actions.append(download);
+        // Some embedded/mobile browsers cannot open a PDF in a new tab. The
+        // website alternative is ordinary same-tab navigation and keeps Astra.
+        if (source.kind === 'sponsorship' || source.kind === 'invitation') {
+          const website = document.createElement('a');
+          website.href = '/index.html?lang=' + docLanguage + '#' + (source.kind === 'sponsorship' ? 'sponsorship' : 'invitation');
+          website.textContent = t('viewDocumentOnSite');
+          actions.append(website);
+        }
+        card.append(link, actions);
+        links.append(card);
       }
       bubble.append(links);
     }

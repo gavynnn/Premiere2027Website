@@ -32,7 +32,7 @@ export function answerRequest({ message, language, history, facts, knowledge }) 
       'Reply in the language of the latest visitor message: English or Bahasa Indonesia. An explicit request to switch between these languages is allowed and takes priority. Set language to en or id to match your answer.',
       'For a language-neutral or ambiguous short follow-up, keep the previous conversation language; if there is none, the website preference is ' + (language === 'id' ? 'Bahasa Indonesia.' : 'English.'),
       'Set event_question=true only for an actual on-topic event question or substantive event follow-up. A greeting, capability question, language-only switch, thank-you or unrelated message is not an event question. Questions asking what the event is are event questions. Language switches referring to an existing event conversation are in_scope=true.',
-      'The UI shows verified document links separately.',
+      'The UI shows verified document links separately. When directing someone to a sponsor proposal or e-invite, name the document explicitly; never claim there is a link without identifying the document. Never invent a file URL or use a Markdown placeholder.',
       'Latest organizer facts: ' + JSON.stringify(facts),
       'Available documents: ' + JSON.stringify(knowledge.files.map(({ kind, language }) => ({ kind, language }))),
       'If no invitation is listed, competition rules not in the sponsor proposals are not yet available.'
@@ -47,12 +47,25 @@ export function answerRequest({ message, language, history, facts, knowledge }) 
     } } }
   };
 }
-export function parseAnswer(response, knowledge) {
+export function parseAnswer(response, knowledge, message = '') {
   if (response.status !== 'completed') throw new Error('The AI response was incomplete.');
   const content = (response.output || []).flatMap(item => item.content || []);
   const parsed = JSON.parse(content.filter(item => item.type === 'output_text').map(item => item.text).join(''));
   if (typeof parsed.in_scope !== 'boolean' || typeof parsed.event_question !== 'boolean' || !['en', 'id'].includes(parsed.language) || typeof parsed.answer !== 'string' || parsed.answer.length > 3500) throw new Error('Invalid AI response.');
   const cited = new Set(content.flatMap(item => item.annotations || []).filter(item => item.type === 'file_citation').map(item => item.file_id));
   const sources = knowledge.files.filter(file => cited.has(file.fileId)).map(({ kind, language, url }) => ({ kind, language, url }));
+  // File search citations are optional. A direct document request must still
+  // get a real attachment when the model answers without searching. URLs come
+  // exclusively from the published index, never generated model text.
+  const context = message + ' ' + parsed.answer;
+  const requestedKind = /\b(e-invite|invitation|undangan)\b/i.test(context) ? 'invitation'
+    : /\b(proposal|brochure|brosur|sponsor(?:ship)?\s+(?:pdf|document)|dokumen\s+sponsor)\b/i.test(context) ? 'sponsorship' : null;
+  if (parsed.in_scope && requestedKind && !sources.some(source => source.kind === requestedKind)) {
+    const requestedLanguage = /\b(english|inggris)\b/i.test(message) ? 'en'
+      : /\b(indonesian|indonesia)\b/i.test(message) ? 'id' : parsed.language;
+    const file = knowledge.files.find(file => file.kind === requestedKind && file.language === requestedLanguage)
+      || knowledge.files.find(file => file.kind === requestedKind && file.language === 'shared');
+    if (file) sources.push({ kind: file.kind, language: file.language, url: file.url });
+  }
   return { inScope: parsed.in_scope, eventQuestion: parsed.event_question, language: parsed.language, answer: conciseReply(parsed.answer, parsed.language), sources };
 }
