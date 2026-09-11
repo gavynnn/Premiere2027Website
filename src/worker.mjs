@@ -11,6 +11,7 @@
 import { DurableObject } from 'cloudflare:workers';
 import crypto from 'node:crypto';
 import { openAI, answerRequest, parseAnswer } from '../server/openai.mjs';
+import { finishExchange } from '../server/conversation.mjs';
 // Imported from filter.mjs directly, NOT guard.mjs: guard.mjs pulls in
 // config.mjs, which runs node:fs/import.meta.url code at module load time
 // that crashes under workerd (see the comment in server/filter.mjs).
@@ -134,9 +135,6 @@ async function handleChat(request, env) {
 	const filtered = filterQuestion(body.message, current.history.length > 0);
 	if (!filtered.ok) return json(400, { code: filtered.code }, headers);
 	if (!ready(env)) return json(503, { code: 'unavailable' }, headers);
-	if (current.history.reduce((size, item) => size + item.content.length, 0) + filtered.message.length + 4000 > 64000) {
-		return json(429, { code: 'conversation_limit' }, headers);
-	}
 
 	const permit = await guard.reserve(ip, filtered.message, limitsFrom(env));
 	if (!permit.ok) return json(429, { code: permit.code }, { ...headers, ...retryHeader(permit.retry) });
@@ -148,18 +146,9 @@ async function handleChat(request, env) {
 		const answer = parseAnswer(response, knowledge);
 		if (!answer.inScope) return json(200, { code: 'scope', sources: [] }, headers);
 
-		let finalAnswer = answer.answer;
-		const patch = { language: answer.language, eventQuestions: current.eventQuestions + (answer.eventQuestion ? 1 : 0) };
-		if (patch.eventQuestions > 5 && !current.contactSuggested) {
-			const contacts = facts.contacts.map(contact => contact.name + ': ' + contact.phone).join('\n');
-			finalAnswer += '\n\n' + (answer.language === 'id'
-				? 'Kalau kamu tertarik untuk ikut atau menjadi sponsor, hubungi panitia untuk membahas langkah selanjutnya:\n'
-				: 'Since you’re interested, try contacting our committee to discuss joining or sponsoring the event:\n') + contacts;
-			patch.contactSuggested = true;
-		}
-		patch.history = [...current.history, { role: 'user', content: filtered.message }, { role: 'assistant', content: finalAnswer }];
-		await guard.saveSession(cookie.id, patch);
-		return json(200, { answer: finalAnswer, sources: answer.sources, language: answer.language }, headers);
+		const finished = finishExchange(current, filtered.message, answer, facts);
+		await guard.saveSession(cookie.id, finished.patch);
+		return json(200, finished.response, headers);
 	} catch (error) {
 		// No upstream response body, key, conversation or raw IP is logged.
 		console.warn('Chat provider request failed; quota reservation retained.');
@@ -237,7 +226,7 @@ export class ChatGuard extends DurableObject {
 		const expected = crypto.createHmac('sha256', this.secret).update(id).digest('hex');
 		if (!crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature))) return null;
 		const saved = await this.ctx.storage.get('session:' + id);
-		if (!saved || saved.ip !== ipKey) return null;
+		if (!saved || saved.ip !== ipKey || Date.now() - saved.last > SESSION_TTL_MS) return null;
 		saved.last = Date.now();
 		await this.ctx.storage.put('session:' + id, saved);
 		return saved;
@@ -248,7 +237,7 @@ export class ChatGuard extends DurableObject {
 		if (sessions.size >= 1000) return null;
 		const id = crypto.randomBytes(16).toString('hex');
 		const signature = crypto.createHmac('sha256', this.secret).update(id).digest('hex');
-		const value = { last: Date.now(), ip: ipKey, history: [], eventQuestions: 0, contactSuggested: false, language: null };
+		const value = { last: Date.now(), ip: ipKey, history: [], answeredMessages: 0, contactSuggested: false, language: null };
 		await this.ctx.storage.put('session:' + id, value);
 		if (!(await this.ctx.storage.getAlarm())) await this.ctx.storage.setAlarm(Date.now() + SESSION_TTL_MS);
 		return { id, signature, ...value };

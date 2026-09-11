@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url';
 import { ROOT, PRIVATE, manifest, setting } from './server/config.mjs';
 import { Guard, filterQuestion } from './server/guard.mjs';
 import { openAI, answerRequest, parseAnswer } from './server/openai.mjs';
+import { finishExchange } from './server/conversation.mjs';
 
 const publicFiles = new Set(['index.html', 'register.html', 'merch.html', 'closing-night.html', 'styles.css', 'polish.css', 'chat.css', 'script.js', 'content.js', 'locale.js', 'chat.js']);
 const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
@@ -74,7 +75,7 @@ export function createApp({ stateDir = PRIVATE, knowledge = manifest(), provider
     if (sessions.size >= 1000) return null;
     const id = crypto.randomBytes(16).toString('hex');
     const signature = crypto.createHmac('sha256', secret).update(id).digest('hex');
-    const value = { last: now, ip: ipKey, history: [], eventQuestions: 0, contactSuggested: false, language: null };
+    const value = { last: now, ip: ipKey, history: [], answeredMessages: 0, contactSuggested: false, language: null };
     sessions.set(id, value);
     res.setHeader('Set-Cookie', 'premiere_chat=' + id + '.' + signature + '; HttpOnly; SameSite=Strict; Path=/api/chat; Max-Age=1800' + secureCookie);
     return value;
@@ -111,27 +112,15 @@ export function createApp({ stateDir = PRIVATE, knowledge = manifest(), provider
         const filtered = filterQuestion(body.message, current.history.length > 0);
         if (!filtered.ok) return send(res, 400, { code: filtered.code });
         if (!ready()) return send(res, 503, { code: 'unavailable' });
-        // Reserve room for the whole next answer; never erase early context.
-        if (current.history.reduce((size, item) => size + item.content.length, 0) + filtered.message.length + 4000 > 64000) {
-          return send(res, 429, { code: 'conversation_limit' });
-        }
         const permit = guard.reserve(ip, filtered.message);
         if (!permit.ok) return send(res, 429, { code: permit.code }, permit.retry);
         try {
           const response = await provider(answerRequest({ message: filtered.message, language: current.language || body.language, history: current.history, facts, knowledge }));
           const answer = parseAnswer(response, knowledge);
           if (!answer.inScope) return send(res, 200, { code: 'scope', sources: [] });
-          current.language = answer.language;
-          if (answer.eventQuestion) current.eventQuestions++;
-          if (current.eventQuestions > 5 && !current.contactSuggested) {
-            const contacts = facts.contacts.map(contact => contact.name + ': ' + contact.phone).join('\n');
-            answer.answer += '\n\n' + (answer.language === 'id'
-              ? 'Kalau kamu tertarik untuk ikut atau menjadi sponsor, hubungi panitia untuk membahas langkah selanjutnya:\n'
-              : 'Since you’re interested, try contacting our committee to discuss joining or sponsoring the event:\n') + contacts;
-            current.contactSuggested = true;
-          }
-          current.history.push({ role: 'user', content: filtered.message }, { role: 'assistant', content: answer.answer });
-          return send(res, 200, { answer: answer.answer, sources: answer.sources, language: answer.language });
+          const finished = finishExchange(current, filtered.message, answer, facts);
+          Object.assign(current, finished.patch);
+          return send(res, 200, finished.response);
         } catch {
           // No upstream response body, key, conversation or raw IP is logged.
           console.warn('Chat provider request failed; quota reservation retained.');

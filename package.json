@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.mjs",
     "sync-docs": "node tools/sync-docs.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "test:filter": "node tools/evaluate-chat.mjs",
+    "test:chat:live": "node tools/check-live-chat.mjs"
   }
 }

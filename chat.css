@@ -20,6 +20,9 @@ body:has(.chat-launcher) .site-footer { padding-bottom: max(86px, calc(env(safe-
 .chat-user > strong { color: #e1cff7; }
 .chat-sources { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
 .chat-sources a { color: var(--yellow); font-size: 12px; line-height: 1.5; text-decoration: underline; text-underline-offset: 3px; padding-block: 5px; }
+.chat-contacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chat-contacts a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 11px; border: 1px solid #e4c67560; border-radius: 8px; background: #f7d65616; color: var(--yellow); font: 600 12px/1.4 var(--sans); text-decoration: none; }
+.chat-contacts a:hover, .chat-contacts a:focus-visible { background: var(--yellow); color: var(--ink); }
 .chat-chips { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px; flex-shrink: 0; min-width: 0; padding: 0 16px 10px; }
 .chat-chips[hidden] { display: none; }
 .chat-chips button { flex: 0 1 auto; max-width: 100%; min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: left; border: 1px solid #bca5ff45; border-radius: 20px; padding: 9px 12px; min-height: 44px; background: #bca5ff0d; color: #e6d6f7; font: 14px/1.4 var(--sans); cursor: pointer; }

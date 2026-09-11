@@ -56,7 +56,7 @@
   const chips = dialog.querySelector('.chat-chips');
   const close = dialog.querySelector('.chat-close');
   let available = false, busy = false, hasSentMessage = false, waitingUntil = 0, wakeup, greeting;
-  function addMessage(role, text, sources = []) {
+  function addMessage(role, text, sources = [], contacts = []) {
     const bubble = document.createElement('div');
     bubble.className = 'chat-message chat-' + role;
     const label = document.createElement('strong');
@@ -72,6 +72,18 @@
         const link = document.createElement('a');
         link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
         link.textContent = t(source.kind === 'sponsorship' ? 'sponsor' : 'invitation') + (source.language === 'shared' ? '' : ' · ' + source.language.toUpperCase()) + ' ↗';
+        links.append(link);
+      }
+      bubble.append(links);
+    }
+    if (contacts.length) {
+      const links = document.createElement('div');
+      links.className = 'chat-contacts';
+      for (const contact of contacts.slice(0, 2)) {
+        if (!['https://wa.me/628111042896', 'https://wa.me/628111858228'].includes(contact.url)) continue;
+        const link = document.createElement('a');
+        link.href = contact.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        link.textContent = 'WhatsApp ' + contact.name + ' ↗';
         links.append(link);
       }
       bubble.append(links);
@@ -160,7 +172,7 @@
         body: JSON.stringify({ message, language: language() }), signal: AbortSignal.timeout(55000)
       });
       const result = await response.json();
-      addMessage('assistant', typeof result.answer === 'string' ? result.answer : t(result.code), Array.isArray(result.sources) ? result.sources : []);
+      addMessage('assistant', typeof result.answer === 'string' ? result.answer : t(result.code), Array.isArray(result.sources) ? result.sources : [], Array.isArray(result.contacts) ? result.contacts : []);
       if (response.status === 429 && !['duplicate', 'daily', 'conversation_limit'].includes(result.code)) {
         waitingUntil = Date.now() + Math.min(60, Number(response.headers.get('Retry-After')) || 8) * 1000;
         clearTimeout(wakeup); wakeup = setTimeout(controls, waitingUntil - Date.now() + 50);

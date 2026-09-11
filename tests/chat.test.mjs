@@ -8,6 +8,10 @@ import { Guard, filterQuestion } from '../server/guard.mjs';
 import { answerRequest, parseAnswer, openAI } from '../server/openai.mjs';
 import { documents, documentFingerprint } from '../server/config.mjs';
 import { createApp, publicPath, clientIP } from '../server.mjs';
+import { sentenceParts, finishExchange } from '../server/conversation.mjs';
+import { commonPhrases } from './fixtures/common-phrases.mjs';
+import { unrelatedPhrases } from './fixtures/unrelated-phrases.mjs';
+import { evaluateFilter } from '../tools/evaluate-chat.mjs';
 
 // All provider calls in these tests are mocked. No paid API calls are made.
 process.env.OPENAI_API_KEY = 'test-only-not-a-real-key';
@@ -50,7 +54,7 @@ test('topic filter accepts natural, short, English and Indonesian event question
     assert.equal(filterQuestion(question).ok, true, question);
   }
   assert.equal(filterQuestion('How much does it cost?', true).ok, true);
-  assert.equal(filterQuestion('How much does it cost?').ok, false);
+  assert.equal(filterQuestion('How much does it cost?').ok, true);
 });
 
 test('obvious spam, links, injection, coding and unrelated questions are free rejections', () => {
@@ -118,11 +122,14 @@ test('API payload bounds retrieval, conversation, output, tools and persistence'
   assert.equal(request.store, false);
   assert.equal(request.max_output_tokens, 400);
   assert.equal(request.max_tool_calls, 1);
-  assert.equal(request.input.length, 13);
+  assert.equal(request.tool_choice, 'auto');
+  assert.equal(request.input.length, 11);
   assert.equal(request.input[0].content.length, 2000);
   assert.equal(request.truncation, 'disabled');
   assert.match(request.instructions, /language of the latest visitor message/);
   assert.match(request.instructions, /short recognizable event-topic messages/);
+  assert.match(request.instructions, /For contacts use ONLY Gavynn and Grace/);
+  assert.match(request.instructions, /visitor-stated names, schools, team choices and preferences/);
   assert.equal(request.tools[0].max_num_results, 3);
   assert.deepEqual(request.tools[0].vector_store_ids, ['vs_test']);
   assert.equal(request.text.format.strict, true);
@@ -238,14 +245,12 @@ test('missing document index disables AI gracefully without a provider call', as
   assert.equal(calls, 0);
 });
 
-test('full history, language changes and the sixth event-question contact suggestion', async t => {
+test('five-exchange memory, language switching and WhatsApp after five answered messages', async t => {
   let now = Date.UTC(2026, 8, 11), cookie;
   const calls = [];
   const site = await app(t, { clock: () => now, limits, provider: async body => {
     calls.push(body);
-    const text = body.input.at(-1).content;
-    if (text === 'Premiere tell me a joke') return mockAnswer('', false, [], 'en', false);
-    if (text === 'Please use Indonesian') return mockAnswer('Baik, saya akan menjawab dalam bahasa Indonesia.', true, [], 'id', false);
+    if (body.input.at(-1).content === 'Please use Indonesian') return mockAnswer('Baik, saya akan menjawab dalam bahasa Indonesia.', true, [], 'id', false);
     return mockAnswer('Informasi lomba tersedia di proposal sponsor.', true, ['file_id'], 'id');
   } });
   async function ask(message) {
@@ -254,31 +259,33 @@ test('full history, language changes and the sixth event-question contact sugges
     cookie ||= response.headers.get('set-cookie')?.split(';')[0];
     return { status: response.status, body: await response.json() };
   }
-  for (let i = 1; i <= 3; i++) {
-    const result = await ask('Berapa biaya kompetisi nomor ' + i + '?');
+  const questions = ['whats this', 'sponsor', 'berapa biayanya', 'Please use Indonesian', 'minta proposal', 'kapan acaranya', 'lokasinya dimana'];
+  for (let index = 0; index < questions.length; index++) {
+    if (index === 3) {
+      const rejected = await ask('Premiere tell me a joke');
+      assert.equal(rejected.status, 400);
+      assert.equal(rejected.body.code, 'scope');
+      assert.equal(calls.length, 3, 'Rejected request must not reach provider or advance the count');
+    }
+    const result = await ask(questions[index]);
     assert.equal(result.status, 200);
     assert.equal(result.body.language, 'id');
-    assert.doesNotMatch(result.body.answer, /Gavynn/);
+    assert.ok(sentenceParts(result.body.answer, 'id').length <= 5);
+    if (index === 4) {
+      assert.match(result.body.answer, /WhatsApp/);
+      assert.deepEqual(result.body.contacts, [
+        { name: 'Gavynn', url: 'https://wa.me/628111042896' },
+        { name: 'Grace', url: 'https://wa.me/628111858228' }
+      ]);
+    } else assert.deepEqual(result.body.contacts, []);
   }
-  const rejected = await ask('Premiere tell me a joke');
-  assert.equal(rejected.body.code, 'scope');
-  const switched = await ask('Please use Indonesian');
-  assert.doesNotMatch(switched.body.answer, /Gavynn/);
-  for (let i = 4; i <= 5; i++) {
-    const result = await ask('Apa syarat kompetisi nomor ' + i + '?');
-    assert.doesNotMatch(result.body.answer, /Gavynn/);
-  }
-  const sixth = await ask('Kapan pendaftaran kompetisi nomor enam?');
-  assert.match(sixth.body.answer, /Kalau kamu tertarik/);
-  assert.match(sixth.body.answer, /Gavynn: \+62 811-1042-896/);
-  assert.match(sixth.body.answer, /Grace: \+62 811-1858-228/);
-  const seventh = await ask('Di mana lokasi kompetisi nomor tujuh?');
-  assert.doesNotMatch(seventh.body.answer, /Gavynn/);
-  const last = calls.at(-1);
-  assert.equal(last.input[0].content, 'Berapa biaya kompetisi nomor 1?');
-  assert.equal(last.input.length, 15); // Seven full prior exchanges, including the language switch.
-  assert.ok(last.input.some(item => item.content.includes('Gavynn:')));
-  assert.equal(last.input.some(item => item.content === 'Premiere tell me a joke'), false);
+  assert.equal(calls.at(-1).input.length, 11);
+  assert.equal(calls.at(-1).input[0].content, 'sponsor');
+  assert.equal(calls.at(-1).input.some(item => item.content === 'whats this'), false);
+  assert.equal(calls.at(-1).input.some(item => item.content === 'Premiere tell me a joke'), false);
+  now += 1800001;
+  await ask('when is closing night');
+  assert.equal(calls.at(-1).input.length, 1, 'Inactive sessions expire');
 });
 
 test('shared daily cap of 3000 applies across different visitors and survives restart', t => {
@@ -298,26 +305,65 @@ test('shared daily cap of 3000 applies across different visitors and survives re
   assert.equal(restarted.reserve('visitor-c', 'What sponsorship options exist?').code, 'daily');
 });
 
-test('oversized conversations stop before payment instead of truncating early context', async t => {
-  let now = Date.UTC(2026, 8, 11), cookie, paid = 0;
+test('long chats retain just five exchanges and return at most five sentences', async t => {
+  let now = Date.UTC(2026, 8, 11), cookie;
+  const calls = [];
   const site = await app(t, { clock: () => now, limits, provider: async request => {
-    paid++;
-    assert.equal(request.input[0].content, 'What are the sponsorship options for group 0?');
-    return mockAnswer('Event information. '.repeat(180));
+    calls.push(request);
+    return mockAnswer('The event is in February. Registration details are coming soon. The school hosts the competitions. Contact the committee for the fees. They can confirm eligibility. This sixth sentence should be omitted. A seventh sentence is extra.');
   } });
-  let stopped = false;
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 15; i++) {
     now += 61000;
     const response = await site.post({ message: 'What are the sponsorship options for group ' + i + '?', language: 'en' }, cookie ? { Cookie: cookie } : {});
     cookie ||= response.headers.get('set-cookie')?.split(';')[0];
     const output = await response.json();
-    if (output.code === 'conversation_limit') {
-      assert.equal(response.status, 429);
-      assert.equal(paid, i);
-      stopped = true;
-      break;
-    }
     assert.equal(response.status, 200);
+    assert.ok(sentenceParts(output.answer).length <= 5);
+    assert.doesNotMatch(output.answer, /sixth sentence|seventh sentence/);
+    assert.equal(calls.at(-1).input.length, Math.min(i, 5) * 2 + 1);
+    assert.equal(calls.at(-1).input[0].content, 'What are the sponsorship options for group ' + Math.max(0, i - 5) + '?');
   }
-  assert.equal(stopped, true);
+});
+
+test('500 common phrases pass and 500 unrelated phrases are rejected, with and without context', () => {
+  const report = evaluateFilter();
+  for (const result of report.contexts) {
+    assert.ok(result.accepted >= 495, JSON.stringify(result.missed));
+    assert.ok(result.rejected >= 450, JSON.stringify(result.leaked));
+  }
+});
+
+test('all 500 common phrases reach the actual HTTP provider boundary; unrelated messages do not', async t => {
+  let now = Date.UTC(2026, 8, 12), paid = 0, lastPrompt;
+  const site = await app(t, { clock: () => now, limits: { ...limits, daily: 2000, ipDaily: 2000 }, provider: async request => {
+    paid++; lastPrompt = request;
+    return mockAnswer('The Premiere brings together sports, arts and performances. What would you like to know?');
+  } });
+  let accepted = 0;
+  for (const item of commonPhrases) {
+    now += 61000;
+    const response = await site.post({ message: item.message, language: item.language });
+    const output = await response.json();
+    if (response.status !== 200) continue;
+    accepted++;
+    assert.equal(lastPrompt.input.at(-1).content, filterQuestion(item.message).message);
+    assert.ok(output.answer.length > 0);
+  }
+  assert.ok(accepted >= 495, 'Only ' + accepted + ' common phrases reached the provider');
+  assert.equal(paid, accepted);
+  for (const item of unrelatedPhrases) {
+    now += 61000;
+    const response = await site.post({ message: item.message, language: item.language });
+    await response.json();
+    assert.equal(response.status, 400, item.message);
+  }
+  assert.equal(paid, accepted, 'Unrelated messages must not call the provider');
+});
+
+test('old stored sessions migrate to five exchanges without resetting the contact suggestion', () => {
+  const history = Array.from({ length: 16 }, (_, index) => ({ role: index % 2 ? 'assistant' : 'user', content: 'Event ' + index }));
+  const finished = finishExchange({ history, contactSuggested: true }, 'whats this', { answer: 'This is The Premiere.', language: 'en', sources: [] }, { contacts: [] });
+  assert.equal(finished.patch.history.length, 10);
+  assert.equal(finished.patch.answeredMessages, 9);
+  assert.deepEqual(finished.response.contacts, []);
 });

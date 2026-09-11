@@ -317,7 +317,7 @@ html[lang="id"] .tickets-copy h1 { font-size: clamp(48px, 5.5vw, 80px); }
 .gallery-opening img:last-child { object-position: 50% 60%; filter: brightness(1.3); }
 .gallery-closing { grid-template-columns: minmax(0, 1fr); grid-template-rows: 530px; }
 .gallery-closing img { object-position: 50% 34%; }
-.sponsor-board { display: flex; flex-direction: column; align-items: center; gap: 22px; background: radial-gradient(ellipse at 40% 25%, #75628d, #5b486f 65%, #433152); padding: clamp(16px, 4vw, 45px); border-radius: 20px; border: 1px solid #d9ccff38; box-shadow: 0 16px 70px #08031345, 0 0 70px #8f66ff20; }
+.sponsor-board { display: flex; flex-direction: column; align-items: center; gap: 22px; background: radial-gradient(ellipse at 40% 25%, #887137, #665225 65%, #45371e); padding: clamp(16px, 4vw, 45px); border-radius: 20px; border: 1px solid #e4c67540; box-shadow: 0 16px 70px #08031345, 0 0 55px #ac853019; }
 .sponsor-board img { display: block; width: min(100%, 820px); height: auto; object-fit: contain; }
 
 /* Stronger event hierarchy, with gold for key actions and dates. */
