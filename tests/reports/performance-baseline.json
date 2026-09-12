@@ -1,0 +1,265 @@
+{
+  "label": "baseline",
+  "environment": {
+    "chrome": "153.0.8010.36",
+    "viewport": "390x844 DPR 1",
+    "cpuSlowdown": 6,
+    "loadNetwork": "1.6 Mbps down, 150 ms latency, cold cache; local uncompressed server",
+    "renderingWindowMs": 2500,
+    "caveat": "Synthetic headless measurements, not a guarantee for every physical device."
+  },
+  "median": {
+    "initialBytes": 3180797,
+    "lcpMs": 7228,
+    "fcpMs": 7060,
+    "loadMs": 16302.70000000298,
+    "idleTaskMs": 2567.85,
+    "idlePaints": 860,
+    "idlePaintMs": 300.119,
+    "scrollP95FrameMs": 27.900000000001455,
+    "scrollFramesOver50ms": 3
+  },
+  "samples": [
+    {
+      "lcp": 7572,
+      "longTasks": [
+        68
+      ],
+      "fcp": 7328,
+      "load": 16339.10000000149,
+      "resources": [
+        {
+          "name": "css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap",
+          "bytes": 0
+        },
+        {
+          "name": "styles.css",
+          "bytes": 30645
+        },
+        {
+          "name": "polish.css",
+          "bytes": 31318
+        },
+        {
+          "name": "chat.css",
+          "bytes": 7714
+        },
+        {
+          "name": "premiere-logo.png",
+          "bytes": 2315882
+        },
+        {
+          "name": "content.js",
+          "bytes": 672
+        },
+        {
+          "name": "locale.js",
+          "bytes": 17701
+        },
+        {
+          "name": "script.js",
+          "bytes": 17496
+        },
+        {
+          "name": "chat.js",
+          "bytes": 16895
+        },
+        {
+          "name": "preopening-badminton.webp",
+          "bytes": 124498
+        },
+        {
+          "name": "preopening-futsal.webp",
+          "bytes": 149252
+        },
+        {
+          "name": "preopening-volleyball.webp",
+          "bytes": 122544
+        },
+        {
+          "name": "preopening-basketball.webp",
+          "bytes": 199994
+        },
+        {
+          "name": "preopening-basketball-shot.webp",
+          "bytes": 126074
+        }
+      ],
+      "horizontalOverflow": false,
+      "initialBytes": 3180797,
+      "idle": {
+        "taskMs": 2581.6020000000003,
+        "layoutMs": 230.34900000000013,
+        "styleMs": 798.8999999999997,
+        "paints": 988,
+        "paintMs": 305.664
+      },
+      "scroll": {
+        "frames": 226,
+        "p95FrameMs": 27.900000000001455,
+        "framesOver50ms": 3
+      }
+    },
+    {
+      "lcp": 7048,
+      "longTasks": [
+        64
+      ],
+      "fcp": 6908,
+      "load": 16288.60000000149,
+      "resources": [
+        {
+          "name": "css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap",
+          "bytes": 0
+        },
+        {
+          "name": "styles.css",
+          "bytes": 30645
+        },
+        {
+          "name": "polish.css",
+          "bytes": 31318
+        },
+        {
+          "name": "chat.css",
+          "bytes": 7714
+        },
+        {
+          "name": "premiere-logo.png",
+          "bytes": 2315882
+        },
+        {
+          "name": "content.js",
+          "bytes": 672
+        },
+        {
+          "name": "locale.js",
+          "bytes": 17701
+        },
+        {
+          "name": "script.js",
+          "bytes": 17496
+        },
+        {
+          "name": "chat.js",
+          "bytes": 16895
+        },
+        {
+          "name": "preopening-badminton.webp",
+          "bytes": 124498
+        },
+        {
+          "name": "preopening-futsal.webp",
+          "bytes": 149252
+        },
+        {
+          "name": "preopening-volleyball.webp",
+          "bytes": 122544
+        },
+        {
+          "name": "preopening-basketball.webp",
+          "bytes": 199994
+        },
+        {
+          "name": "preopening-basketball-shot.webp",
+          "bytes": 126074
+        }
+      ],
+      "horizontalOverflow": false,
+      "initialBytes": 3180797,
+      "idle": {
+        "taskMs": 2535.2180000000003,
+        "layoutMs": 212.8319999999999,
+        "styleMs": 810.918,
+        "paints": 720,
+        "paintMs": 288.46
+      },
+      "scroll": {
+        "frames": 197,
+        "p95FrameMs": 34.900000000001455,
+        "framesOver50ms": 3
+      }
+    },
+    {
+      "lcp": 7228,
+      "longTasks": [
+        76
+      ],
+      "fcp": 7060,
+      "load": 16302.70000000298,
+      "resources": [
+        {
+          "name": "css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap",
+          "bytes": 0
+        },
+        {
+          "name": "styles.css",
+          "bytes": 30645
+        },
+        {
+          "name": "polish.css",
+          "bytes": 31318
+        },
+        {
+          "name": "chat.css",
+          "bytes": 7714
+        },
+        {
+          "name": "premiere-logo.png",
+          "bytes": 2315882
+        },
+        {
+          "name": "content.js",
+          "bytes": 672
+        },
+        {
+          "name": "locale.js",
+          "bytes": 17701
+        },
+        {
+          "name": "script.js",
+          "bytes": 17496
+        },
+        {
+          "name": "chat.js",
+          "bytes": 16895
+        },
+        {
+          "name": "preopening-badminton.webp",
+          "bytes": 124498
+        },
+        {
+          "name": "preopening-futsal.webp",
+          "bytes": 149252
+        },
+        {
+          "name": "preopening-volleyball.webp",
+          "bytes": 122544
+        },
+        {
+          "name": "preopening-basketball.webp",
+          "bytes": 199994
+        },
+        {
+          "name": "preopening-basketball-shot.webp",
+          "bytes": 126074
+        }
+      ],
+      "horizontalOverflow": false,
+      "initialBytes": 3180797,
+      "idle": {
+        "taskMs": 2567.85,
+        "layoutMs": 231.5250000000002,
+        "styleMs": 829.1749999999997,
+        "paints": 860,
+        "paintMs": 300.119
+      },
+      "scroll": {
+        "frames": 217,
+        "p95FrameMs": 27.899999999997817,
+        "framesOver50ms": 3
+      }
+    }
+  ],
+  "errors": []
+}

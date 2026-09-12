@@ -87,6 +87,7 @@
       const placeholder = card.querySelector('.document-placeholder');
       const download = card.querySelector('.document-download');
       const open = card.querySelector('.document-open');
+      let loadPreview = preview.querySelector('.document-load-preview');
       let frame = preview.querySelector('iframe');
 
       card.classList.toggle('document-ready', Boolean(url));
@@ -96,20 +97,37 @@
       card.querySelector('.document-pending').hidden = Boolean(url);
       if (!url) {
         frame?.remove();
+        if (loadPreview) loadPreview.hidden = true;
         download.removeAttribute('href');
         open.removeAttribute('href');
         card.querySelector('.document-status').textContent = t(kind + '.pending');
         return;
       }
-      if (!frame) {
+      const source = url.href + (url.hash ? '' : '#view=FitH');
+      // A PDF viewer can download/parse 11 MB even with native lazy loading.
+      // Keep the entire preview available, but only spend that work on request.
+      if (!loadPreview) {
+        loadPreview = document.createElement('button');
+        loadPreview.type = 'button';
+        loadPreview.className = 'document-load-preview';
+        preview.append(loadPreview);
+      }
+      loadPreview.textContent = t('document.loadPreview');
+      loadPreview.hidden = Boolean(frame);
+      const title = t('document.previewTitle', { name: t(kind + '.name') });
+      if (frame) {
+        frame.title = title;
+        if (frame.src !== source) frame.src = source;
+      }
+      loadPreview.onclick = () => {
         frame = document.createElement('iframe');
         frame.className = 'pdf-frame';
-        frame.loading = 'lazy';
+        frame.title = title;
+        frame.src = source;
         preview.append(frame);
-      }
-      frame.title = t('document.previewTitle', { name: t(kind + '.name') });
-      const source = url.href + (url.hash ? '' : '#view=FitH');
-      if (frame.src !== source) frame.src = source;
+        loadPreview.hidden = true;
+        frame.focus({ preventScroll: true });
+      };
       download.href = url.href;
       download.download = settings.filename || '';
       open.href = url.href;
@@ -159,9 +177,10 @@
     let lastFrame = 0;
     let trackWidth = 1000;
     let trackHeight = 4000;
+    let cometVisible = !('IntersectionObserver' in window);
 
     function updateCometTarget() {
-      if (!track || !routeLength) return;
+      if (!track || !routeLength || !cometVisible || document.hidden) return;
       const rect = track.getBoundingClientRect();
       targetProgress = Math.min(1, Math.max(0,
         (window.innerHeight * .72 - rect.top) / (rect.height + window.innerHeight * .08)));
@@ -172,7 +191,7 @@
     }
     function renderComet(time) {
       cometFrame = 0;
-      if (!comet || !routeLength) return;
+      if (!comet || !routeLength || !cometVisible || document.hidden) return;
       const delta = lastFrame ? Math.min(50, time - lastFrame) : 16.67;
       lastFrame = time;
       const damping = reducedMotion.matches ? 1 : 1 - Math.exp(-delta / 175);
@@ -186,29 +205,36 @@
       const angle = Math.atan2((after.y - before.y) * trackHeight / 4000,
         (after.x - before.x) * trackWidth / 1000) * 180 / Math.PI;
       const scale = mobile.matches ? .64 : 1;
-      comet.style.left = point.x / 10 + '%';
-      comet.style.top = point.y / 40 + '%';
-      comet.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'deg) scale(' + scale + ')';
+      comet.style.transform = 'translate3d(' + (point.x * trackWidth / 1000) + 'px, ' +
+        (point.y * trackHeight / 4000) + 'px, 0) translate(-50%, -50%) rotate(' + angle + 'deg) scale(' + scale + ')';
       if (currentProgress !== targetProgress) cometFrame = requestAnimationFrame(renderComet);
     }
     function measureComet() {
       if (!route || !track) return;
-      routeLength = route.getTotalLength();
+      if (!routeLength) routeLength = route.getTotalLength();
       trackWidth = track.clientWidth;
       trackHeight = track.clientHeight;
       updateCometTarget();
     }
     let scrollFrame = 0;
+    let measureFrame = 0;
+    let headerScrolled;
+    let cueHidden;
     function updateScroll() {
       scrollFrame = 0;
-      header?.classList.toggle('is-scrolled', window.scrollY > 24);
-      scrollCue?.classList.toggle('hidden', window.scrollY > 15);
+      // Read geometry before changing classes, avoiding forced layout on scroll.
       updateCometTarget();
+      const nextHeader = window.scrollY > 24;
+      const nextCue = window.scrollY > 15;
+      if (headerScrolled !== nextHeader) header?.classList.toggle('is-scrolled', headerScrolled = nextHeader);
+      if (cueHidden !== nextCue) scrollCue?.classList.toggle('hidden', cueHidden = nextCue);
     }
     window.addEventListener('scroll', () => {
       if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
     }, { passive: true, signal });
-    window.addEventListener('resize', measureComet, { signal });
+    window.addEventListener('resize', () => {
+      if (!measureFrame) measureFrame = requestAnimationFrame(() => { measureFrame = 0; measureComet(); });
+    }, { signal });
     document.fonts?.ready.then(() => { if (!signal.aborted) measureComet(); });
     window.addEventListener('premiere:languagechange', () => {
       setMenu(false);
@@ -219,6 +245,34 @@
     }, { signal });
     measureComet();
     updateScroll();
+
+    // Freeze only offscreen decorations, resuming their existing animation phase
+    // on return. Text, pictures, links and interactive content are never hidden.
+    let motionObserver;
+    const decorations = document.querySelectorAll('.hero-planet, .comet-track, .register-banner, .ticket-spark, .merch-starfield, .scroll-cue, .register-scroll-cue');
+    if ('IntersectionObserver' in window) {
+      motionObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          entry.target.classList.toggle('motion-paused', !entry.isIntersecting);
+          if (entry.target === track) {
+            cometVisible = entry.isIntersecting;
+            if (cometVisible) updateCometTarget();
+            else { cancelAnimationFrame(cometFrame); cometFrame = 0; }
+          }
+        }
+      }, { rootMargin: '100px' });
+      decorations.forEach(element => { element.classList.add('motion-paused'); motionObserver.observe(element); });
+    }
+    function updateVisibility() {
+      page.classList.toggle('page-hidden', document.hidden);
+      if (document.hidden) {
+        cancelAnimationFrame(cometFrame);
+        cancelAnimationFrame(scrollFrame);
+        cometFrame = scrollFrame = 0;
+      } else updateScroll();
+    }
+    document.addEventListener('visibilitychange', updateVisibility, { signal });
+    updateVisibility();
 
     // Content is fully visible without JS; reveal only while motion is enabled.
     const revealTargets = document.querySelectorAll(
@@ -256,8 +310,10 @@
     return () => {
       lifecycle.abort();
       observer?.disconnect();
+      motionObserver?.disconnect();
       cancelAnimationFrame(cometFrame);
       cancelAnimationFrame(scrollFrame);
+      cancelAnimationFrame(measureFrame);
       clearTimeout(noticeTimer);
       notice.classList.remove('notice-visible');
     };
@@ -270,17 +326,20 @@
   const routeClasses = ['home-page', 'register-page', 'merch-page', 'tickets-page'];
   let renderedURL = new URL(location.href);
   let navigation;
-  let scrollHistoryFrame;
+  let scrollHistoryTimer;
   history.scrollRestoration = 'manual';
   const stateAt = (url, scroll) => ({ ...history.state, premiere: { url: url.href, scroll } });
   function rememberPosition() {
+    clearTimeout(scrollHistoryTimer);
     if (!navigation) history.replaceState(stateAt(new URL(location.href), [scrollX, scrollY]), '', location.href);
   }
   rememberPosition();
   window.addEventListener('scroll', () => {
-    cancelAnimationFrame(scrollHistoryFrame);
-    scrollHistoryFrame = requestAnimationFrame(rememberPosition);
+    clearTimeout(scrollHistoryTimer);
+    scrollHistoryTimer = setTimeout(rememberPosition, 150);
   }, { passive: true });
+  window.addEventListener('pagehide', rememberPosition);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) rememberPosition(); });
   const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   function positionPage(url, scroll) {
     let target;
@@ -290,6 +349,7 @@
     else window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
   async function navigate(url, { pop = false, scroll = null } = {}) {
+    clearTimeout(scrollHistoryTimer);
     navigation?.abort();
     const task = new AbortController();
     navigation = task;
@@ -369,6 +429,7 @@
     navigate(url);
   });
   window.addEventListener('popstate', event => {
+    clearTimeout(scrollHistoryTimer);
     const url = new URL(location.href);
     const scroll = event.state?.premiere?.scroll || null;
     if (url.pathname === renderedURL.pathname && !navigation) {

@@ -104,6 +104,10 @@ main { animation: content-arrive .55s ease both; }
 .document-pending { color: #c8bdd6; border: 1px solid #d9ccff30; background: #bca5ff08; cursor: not-allowed; box-shadow: none; }
 .document-pending:hover { transform: none; }
 .pdf-frame { display: block; width: 100%; height: 620px; border: 0; border-radius: 4px; background: #fff; }
+.document-load-preview { display: none; width: 100%; min-height: 620px; padding: 32px 24px; border: 1px solid #bca5ff50; border-radius: 6px; background: radial-gradient(ellipse at 50% 25%, #60428755, transparent 70%), #23163f; color: var(--yellow); font: 600 18px/1.6 var(--sans); text-align: center; cursor: pointer; }
+.document-load-preview:not([hidden]) { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+.document-load-preview::before { content: "PDF"; display: grid; place-items: center; width: 70px; height: 88px; border: 1px solid #f7d65670; border-radius: 6px; background: #f7d65608; color: var(--yellow); font: 500 17px/1 var(--mono); letter-spacing: .12em; }
+.document-load-preview:hover, .document-load-preview:focus-visible { border-color: var(--yellow); background-color: #2c1d49; }
 .document-ready .document-preview { padding: 12px; }
 .register-hero .document-card { margin-top: 44px; }
 .sponsors { padding-top: 95px; }
@@ -151,7 +155,10 @@ main { animation: content-arrive .55s ease both; }
 .tickets-copy p.tickets-lede { font: 500 26px/1.3 var(--serif); color: var(--paper); }
 .tickets-copy .button { margin-top: 20px; }
 .ticket-announcement { padding: 50px 32px; position: relative; text-align: center; border-radius: 20px; border: 1px solid #d9ccff42; background: radial-gradient(ellipse at 50% 10%, #8f66ff38, transparent 70%), #2919437a; box-shadow: 0 0 100px #8f66ff16; }
-.ticket-spark { display: block; font-size: 60px; color: var(--yellow); margin-bottom: 25px; text-shadow: 0 0 40px #f7d65655; animation: ticket-star 6s ease-in-out infinite; }
+.ticket-spark { display: block; position: relative; font-size: 60px; color: var(--yellow); margin-bottom: 25px; animation: ticket-star 6s ease-in-out infinite; }
+.ticket-spark::before, .ticket-spark::after { content: "✦"; position: absolute; inset: 0; color: transparent; pointer-events: none; }
+.ticket-spark::before { text-shadow: 0 0 40px #f7d65655; animation: glow-rest 6s ease-in-out infinite; }
+.ticket-spark::after { text-shadow: 0 0 55px #f7d65688; opacity: 0; animation: glow-peak 6s ease-in-out infinite; }
 .ticket-announcement h2 { margin: 28px 0; font: 500 70px/.97 var(--serif); letter-spacing: -.045em; }
 .ticket-announcement > p:last-child { margin: 0; color: var(--paper-dim); font: 12px/1.8 var(--mono); letter-spacing: .12em; }
 .merch-main { padding-top: 70px; }
@@ -159,7 +166,7 @@ main { animation: content-arrive .55s ease both; }
 @keyframes sky-breathe { to { opacity: .32; } }
 @keyframes content-arrive { from { opacity: .2; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
 @keyframes cta-star-turn { to { transform: rotate(38deg) scale(1.08); } }
-@keyframes ticket-star { 50% { transform: rotate(15deg); text-shadow: 0 0 55px #f7d65688; } }
+@keyframes ticket-star { 50% { transform: rotate(15deg); } }
 
 @media (max-width: 1000px) {
   .site-header, .register-page .site-header, .merch-page .site-header, .tickets-page .site-header { padding-inline: 28px; gap: 22px; }
@@ -228,6 +235,7 @@ main { animation: content-arrive .55s ease both; }
   .document-links { width: 100%; }
   .document-links .button { width: 100%; }
   .pdf-frame { height: 420px; }
+  .document-load-preview { min-height: 420px; }
   .sponsors { padding: 85px 0 70px; }
   .sponsors-head h2 { font-size: 34px; }
   .sponsor-placeholder { padding: 25px 20px; }
