@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { openAI, answerRequest, parseAnswer } from '../server/openai.mjs';
 import { filterQuestion } from '../server/filter.mjs';
-import { finishExchange, sentenceParts } from '../server/conversation.mjs';
+import { finishExchange, sentenceParts, replyPolicy } from '../server/conversation.mjs';
 const root = new URL('../', import.meta.url);
 process.loadEnvFile(fileURLToPath(new URL('.env', root)));
 const knowledge = JSON.parse(fs.readFileSync(new URL('server/knowledge.json', root), 'utf8'));
@@ -18,6 +18,7 @@ const samples = [
 ];
 const rows = [];
 const destination = process.argv[2];
+const countSentences = (text, language) => text.split('\n').filter(line => !/^#{1,3}\s/.test(line)).reduce((sum, line) => sum + sentenceParts(line, language).length, 0);
 async function ask(message, expectedLanguage, current = { history: [], answeredMessages: 0, contactSuggested: false, language: null }) {
   const filtered = filterQuestion(message, current.history.length > 0);
   if (!filtered.ok) throw new Error('Smoke sample was rejected locally: ' + message);
@@ -25,14 +26,16 @@ async function ask(message, expectedLanguage, current = { history: [], answeredM
   const raw = await openAI('responses', { body: request });
   const text = (raw.output || []).flatMap(item => item.content || []).filter(item => item.type === 'output_text').map(item => item.text).join('');
   const rawAnswer = JSON.parse(text).answer;
-  const answer = parseAnswer(raw, knowledge);
+  const answer = parseAnswer(raw, knowledge, filtered.message, current.history);
+  const policy = replyPolicy(filtered.message, current.history);
   const finished = finishExchange(current, filtered.message, answer, facts);
   if (answer.inScope) Object.assign(current, finished.patch);
   const row = {
     question: message, inScope: answer.inScope, language: answer.language, expectedLanguage,
-    rawSentences: sentenceParts(rawAnswer, answer.language).length,
+    detailed: policy.detailed,
+    rawSentences: countSentences(rawAnswer, answer.language),
     rawWords: rawAnswer.trim().split(/\s+/).length,
-    shownSentences: sentenceParts(finished.response.answer, answer.language).length,
+    shownSentences: countSentences(finished.response.answer, answer.language),
     previousMessages: request.input.length - 1, whatsappLinks: finished.response.contacts.length,
     // The test output contains only authored samples and their model answers.
     answer: finished.response.answer
@@ -58,4 +61,4 @@ const summary = {
 };
 console.log(JSON.stringify({ summary }));
 if (destination) fs.writeFileSync(destination, JSON.stringify({ complete: true, summary, rows }, null, 2) + '\n');
-if (summary.inScope !== rows.length || summary.languageMatches !== rows.length || summary.averageRawSentences > 5 || summary.maxShownSentences > 5) process.exitCode = 1;
+if (summary.inScope !== rows.length || summary.languageMatches !== rows.length || rows.some(row => row.shownSentences > (row.detailed ? 8 : 3))) process.exitCode = 1;

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { register } from 'node:module';
 import { commonPhrases } from './fixtures/common-phrases.mjs';
 import { unrelatedPhrases } from './fixtures/unrelated-phrases.mjs';
-import { sentenceParts } from '../server/conversation.mjs';
+import { sentenceParts, replyPolicy } from '../server/conversation.mjs';
 register('./worker-loader.mjs', import.meta.url);
 const { default: worker, ChatGuard } = await import('../src/worker.mjs');
 
@@ -28,7 +28,8 @@ async function setup(t) {
     assert.equal(url, 'https://api.openai.com/v1/responses');
     const prompt = JSON.parse(options.body);
     calls.push(prompt);
-    const message = prompt.input.at(-1).content;
+    const content = prompt.input.at(-1).content;
+    const message = Array.isArray(content) ? content[0].text : content;
     const language = message === 'ID' ? 'id' : 'en';
     return new Response(JSON.stringify({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({
       in_scope: true, event_question: message !== 'ID', language,
@@ -53,7 +54,7 @@ test('Worker routes all 500 common phrases to the provider and rejects 500 unrel
     assert.equal(response.status, 200, message + ': ' + JSON.stringify(body));
     assert.equal(site.calls.length, index + 1);
     assert.ok(body.answer.length > 0);
-    assert.ok(sentenceParts(body.answer).length <= 5);
+    assert.ok(sentenceParts(body.answer).length <= replyPolicy(message).sentences);
   }
   for (const { message } of unrelatedPhrases) {
     const response = await site.ask(message);
@@ -71,7 +72,7 @@ test('Worker persists five exchanges and one-time WhatsApp links, and expires in
     cookie ||= response.headers.get('set-cookie').split(';')[0];
     const body = await response.json();
     assert.equal(response.status, 200);
-    assert.ok(sentenceParts(body.answer).length <= 5);
+    assert.ok(sentenceParts(body.answer).length <= 8);
     assert.equal(body.contacts.length, index === 4 ? 2 : 0);
     if (index === 4) assert.deepEqual(body.contacts.map(contact => contact.url), ['https://wa.me/628111042896', 'https://wa.me/628111858228']);
     if (index === 3) assert.equal(body.language, 'id');

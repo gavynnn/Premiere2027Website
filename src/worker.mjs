@@ -143,7 +143,7 @@ async function handleChat(request, env) {
 		const response = await openAI('responses', { body: answerRequest({
 			message: filtered.message, language: current.language || body.language, history: current.history, facts, knowledge
 		}) });
-		const answer = parseAnswer(response, knowledge, filtered.message);
+		const answer = parseAnswer(response, knowledge, filtered.message, current.history);
 		if (!answer.inScope) return json(200, { code: 'scope', sources: [] }, headers);
 
 		const finished = finishExchange(current, filtered.message, answer, facts);

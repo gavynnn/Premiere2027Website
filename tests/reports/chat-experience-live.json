@@ -1,0 +1,430 @@
+{
+  "complete": true,
+  "summary": {
+    "samples": 12,
+    "accepted": 12,
+    "languageMatches": 11,
+    "ordinaryAverageRawSentences": 2.7777777777777777,
+    "ordinaryAverageShownSentences": 2.5555555555555554,
+    "visionCalls": 2,
+    "fifthReplyContacts": 2,
+    "rememberedSchool": true
+  },
+  "rows": [
+    {
+      "message": "whats this",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 3,
+      "shownSentences": 3,
+      "words": 36,
+      "vision": false,
+      "previousMessages": 0,
+      "answer": "The Premiere 2027: Astra Aeterna is a student-run event at PENABUR Intercultural School Kelapa Gading. It brings together sports, arts, and performances with competitions in 12 different categories.\n\nAre you interested in competing, sponsoring, or attending?",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "en",
+          "url": "/assets/documents/sponsor-proposal-en.pdf"
+        }
+      ],
+      "actions": [
+        "register",
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3372,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 89,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3461
+      }
+    },
+    {
+      "message": "This is cool",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 3,
+      "shownSentences": 3,
+      "words": 18,
+      "vision": false,
+      "previousMessages": 2,
+      "answer": "You know what would make it even cooler? Having you there!\n\nFancy joining a competition or exploring sponsorship?",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "en",
+          "url": "/assets/documents/sponsor-proposal-en.pdf"
+        }
+      ],
+      "actions": [
+        "register",
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3439,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 54,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3493
+      }
+    },
+    {
+      "message": "Is this a fun event?",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 3,
+      "shownSentences": 3,
+      "words": 33,
+      "vision": false,
+      "previousMessages": 4,
+      "answer": "Absolutely, The Premiere offers sport, art, and live performances to dive into. You can find your favorite competitions or even look into sponsoring the event!\n\nIt's a lively, fun experience for everyone involved.",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "en",
+          "url": "/assets/documents/sponsor-proposal-en.pdf"
+        }
+      ],
+      "actions": [
+        "register",
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 72,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3546
+      }
+    },
+    {
+      "message": "My school is Merpati and I like futsal",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 4,
+      "shownSentences": 3,
+      "words": 29,
+      "vision": false,
+      "previousMessages": 6,
+      "answer": "Great choice! Futsal is one of the exciting competitions at The Premiere 2027.\n\nYou can register your school team to compete and show off your skills on the court.",
+      "sources": [],
+      "actions": [
+        "register"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3533,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 82,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3615
+      }
+    },
+    {
+      "message": "What school did I mention?",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 3,
+      "shownSentences": 3,
+      "words": 17,
+      "vision": false,
+      "previousMessages": 8,
+      "answer": "You mentioned your school is Merpati. That's awesome!\n\nFor more details, message our committee on WhatsApp below.",
+      "sources": [],
+      "actions": [
+        "register"
+      ],
+      "contacts": [
+        {
+          "name": "Gavynn",
+          "url": "https://wa.me/628111042896"
+        },
+        {
+          "name": "Grace",
+          "url": "https://wa.me/628111858228"
+        }
+      ],
+      "usage": {
+        "input_tokens": 3583,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 54,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3637
+      }
+    },
+    {
+      "message": "ID",
+      "expectedLanguage": "id",
+      "language": "id",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 4,
+      "shownSentences": 3,
+      "words": 28,
+      "vision": false,
+      "previousMessages": 10,
+      "answer": "Keren! Futsal adalah salah satu kompetisi seru di The Premiere 2027.\n\nKamu bisa mendaftarkan tim futsal dari sekolah Merpati untuk ikut bertanding dan menunjukkan skill kamu di lapangan.",
+      "sources": [],
+      "actions": [
+        "register"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3700,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 3584
+        },
+        "output_tokens": 81,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3781
+      }
+    },
+    {
+      "message": "sekolahku tadi apa",
+      "expectedLanguage": "id",
+      "language": "id",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 2,
+      "shownSentences": 2,
+      "words": 18,
+      "vision": false,
+      "previousMessages": 10,
+      "answer": "Sekolahmu tadi kamu sebut Merpati. Kalau mau, aku bisa bantu info lebih lanjut soal pendaftaran futsal untuk sekolahmu.",
+      "sources": [],
+      "actions": [
+        "register"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3610,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 1920
+        },
+        "output_tokens": 57,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3667
+      }
+    },
+    {
+      "message": "EN",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 2,
+      "shownSentences": 2,
+      "words": 21,
+      "vision": false,
+      "previousMessages": 10,
+      "answer": "You mentioned your school is Merpati. If you want, I can help with more information about futsal registration for your school.",
+      "sources": [],
+      "actions": [
+        "register"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 3616,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 55,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3671
+      }
+    },
+    {
+      "message": "Why should I sponsor?",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": true,
+      "rawSentences": 5,
+      "shownSentences": 5,
+      "words": 113,
+      "vision": false,
+      "previousMessages": 0,
+      "answer": "Sponsoring The Premiere 2027 offers you concrete benefits like logo placement on committee shirts, participant IDs, official posters, banners, and social media, plus website exposure and ad-libs during competitions or ceremonies. You can also get a booth at the event and complimentary closing-night tickets based on your sponsorship tier.\n\nThe event reaches about 200 schools and historically attracts over 2,000 attendees during Premiere Week, plus additional Closing Night guests. It's an excellent opportunity to strengthen ties in the Jabodetabek education community, enhance your brand image, and support student creativity and achievement across sports, arts, and language.\n\nYou can review the full proposal or contact the committee via WhatsApp for details and tailored options!",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "en",
+          "url": "/assets/documents/sponsor-proposal-en.pdf"
+        }
+      ],
+      "actions": [
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 4527,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 217,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4744
+      }
+    },
+    {
+      "message": "Jelaskan manfaat sponsor secara rinci",
+      "expectedLanguage": "id",
+      "language": "en",
+      "inScope": true,
+      "detailed": true,
+      "rawSentences": 9,
+      "shownSentences": 8,
+      "words": 105,
+      "vision": false,
+      "previousMessages": 0,
+      "answer": "Sponsoring The Premiere 2027 offers several benefits:\n\n## Visibility and Branding\n- Your logo appears on committee shirts, participant ID cards, posters, banners, and social media.\n\n- Placement on event website and advertisement ad-libs.\n\n## Event Engagement\n- Opportunity to have booths at the event.\n\n- Complimentary tickets to Closing Night based on sponsorship tier.\n\n## Audience Reach\n- Exposure to approximately 200 schools with historical audience up to 3,000 during Premiere Week and up to 1,000 for Closing Night.\n\nThese benefits vary by sponsorship tier from Eclipse to Universe levels. For exact details and current availability, the committee can confirm and provide the proposal.",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "en",
+          "url": "/assets/documents/sponsor-proposal-en.pdf"
+        }
+      ],
+      "actions": [
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 4398,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 216,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4614
+      }
+    },
+    {
+      "message": "Who are the previous guest stars shown in the proposal images?",
+      "expectedLanguage": "en",
+      "language": "en",
+      "inScope": true,
+      "detailed": false,
+      "rawSentences": 1,
+      "shownSentences": 1,
+      "words": 30,
+      "vision": true,
+      "previousMessages": 0,
+      "answer": "The previous guest stars shown in the proposal images are Tulus, Isyana Sarasvati, HIVI!, RAN, Jebung, WAH!, Andra and the Backbone, Jaz, Bernadya, Yura, Maliq & D’Essentials, and Rizky Febian.",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "en",
+          "url": "/assets/documents/sponsor-proposal-en.pdf"
+        }
+      ],
+      "actions": [
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 40479,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 86,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 40565
+      }
+    },
+    {
+      "message": "Jelaskan manfaat sponsor dan grafik penonton 2024-2026 secara rinci",
+      "expectedLanguage": "id",
+      "language": "id",
+      "inScope": true,
+      "revision": "explicit-language-and-sections",
+      "detailed": true,
+      "rawSentences": 9,
+      "shownSentences": 8,
+      "words": 159,
+      "vision": true,
+      "previousMessages": 0,
+      "answer": "## Manfaat Menjadi Sponsor ✨\n- Logo sponsor muncul di berbagai media seperti baju panitia, kartu ID peserta, poster fisik, e-poster di akun media sosial resmi, banner vertikal dan horizontal, sampai banner utama.\n\n- Sponsor mendapatkan kesempatan ad-lib saat kompetisi dan acara pembukaan serta penutupan, tergantung paket.\n\n- Tersedia tiket gratis untuk acara Closing Night dan kuota tertentu yang berbeda per paket.\n\n- Ada fasilitas tambahan sesuai paket, seperti stan foto resmi di acara, penempatan produk di meja, stan bazaar, dan jingle intercom saat break.\n\n## Grafik Hadirin The Premiere 2024-2026 📊\n- Tahun 2024, Minggu Acara sekitar 2100 orang dan Acara Penutupan sekitar 800 orang.\n\n- Tahun 2025, Minggu Acara naik menjadi sekitar 3000 orang dengan Acara Penutupan 1000 orang.\n\n- Tahun 2026 jumlah turun sedikit, Minggu Acara sekitar 2600 orang dan Acara Penutupan 550 orang.\n\nGrafik ini menunjukkan tren antusiasme peserta dan penonton dalam 3 tahun terakhir yang cukup tinggi, memberikan jaminan exposure yang baik bagi sponsor.",
+      "sources": [
+        {
+          "kind": "sponsorship",
+          "language": "id",
+          "url": "/assets/documents/sponsor-proposal-id.pdf"
+        }
+      ],
+      "actions": [
+        "sponsorship"
+      ],
+      "contacts": [],
+      "usage": {
+        "input_tokens": 41086,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 314,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 41400
+      }
+    }
+  ]
+}

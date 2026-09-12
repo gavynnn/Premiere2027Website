@@ -23,6 +23,7 @@ server
 
 # Not part of the public site.
 tests
+tmp
 tools
 server.mjs
 package.json

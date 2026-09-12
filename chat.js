@@ -3,9 +3,9 @@
   const copy = {
     en: {
       launch: 'Ask Astra', title: 'Astra', subtitle: 'AI event help', close: 'Close chat',
-      greeting: 'Hi! Ask me about The Premiere competitions, sponsorship, the venue, or closing night.',
+      greeting: 'Hey, I’m Astra ✨ Here for the competitions, closing night, or a chance to sponsor? Let’s find your thing!',
       disclaimer: 'AI can make mistakes. Confirm important details with the committee.',
-      placeholder: 'Ask about The Premiere…', label: 'Your question', send: 'Send', thinking: 'Checking the event documents…',
+      placeholder: 'Message Astra…', label: 'Your message', send: 'Send', thinking: 'Astra is typing…',
       unavailable: 'AI help is being prepared. You can still read the proposals on the Home page or contact Gavynn or Grace below.',
       scope: 'I can help with The Premiere event, competitions and sponsorship only. Please ask a short event-related question.',
       invalid: 'Please enter a clear message between 2 and 400 characters. Links and pasted code are not supported.',
@@ -18,9 +18,9 @@
     },
     id: {
       launch: 'Tanya Astra', title: 'Astra', subtitle: 'Bantuan acara AI', close: 'Tutup percakapan',
-      greeting: 'Hai! Tanyakan tentang kompetisi The Premiere, sponsorship, lokasi, atau malam penutupan.',
+      greeting: 'Hai, aku Astra ✨ Mau ikut lomba, datang ke closing night, atau jadi sponsor? Yuk, cari yang cocok buat kamu!',
       disclaimer: 'AI bisa keliru. Konfirmasikan informasi penting kepada panitia.',
-      placeholder: 'Tanyakan tentang The Premiere…', label: 'Pertanyaanmu', send: 'Kirim', thinking: 'Memeriksa dokumen acara…',
+      placeholder: 'Kirim pesan ke Astra…', label: 'Pesanmu', send: 'Kirim', thinking: 'Astra sedang mengetik…',
       unavailable: 'Bantuan AI sedang disiapkan. Kamu tetap dapat membaca proposal di Beranda atau menghubungi Gavynn atau Grace di bawah.',
       scope: 'Saya hanya dapat membantu pertanyaan seputar acara, kompetisi, dan sponsorship The Premiere. Silakan ajukan pertanyaan singkat terkait acara.',
       invalid: 'Tulis pesan yang jelas sepanjang 2–400 karakter. Tautan dan potongan kode tidak didukung.',
@@ -36,6 +36,10 @@
   copy.en.viewDocumentOnSite = 'View on website';
   copy.id.downloadDocument = 'Unduh PDF';
   copy.id.viewDocumentOnSite = 'Lihat di situs';
+  copy.en.register = 'Explore competitions';
+  copy.id.register = 'Lihat kompetisi';
+  copy.en.closing = 'Explore closing night';
+  copy.id.closing = 'Lihat closing night';
   const language = () => window.PREMIERE_I18N?.language === 'id' ? 'id' : 'en';
   const t = key => copy[language()][key] || copy[language()].upstream;
   const launcher = document.createElement('button');
@@ -45,12 +49,21 @@
   launcher.setAttribute('aria-controls', 'astra-chat');
   launcher.setAttribute('aria-expanded', 'false');
   launcher.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8H5l-3 2v-10a9 9 0 0 1 18 0Z"/><path d="m12 6 1.2 3.3L16.5 10l-3.3 1L12 14l-1.2-3L7.5 10l3.3-.7Z"/></svg><span></span>';
+  function avatar(role) {
+    const element = document.createElement('span');
+    element.className = 'chat-avatar chat-avatar-' + role;
+    element.setAttribute('aria-hidden', 'true');
+    if (role === 'assistant') element.append(launcher.querySelector('svg').cloneNode(true));
+    else element.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 21v-2a7.5 7.5 0 0 1 15 0v2"/></svg>';
+    return element;
+  }
   const dialog = document.createElement('dialog');
   dialog.id = 'astra-chat';
   dialog.className = 'chat-panel';
   dialog.setAttribute('aria-labelledby', 'astra-title');
   dialog.setAttribute('aria-modal', 'false');
-  dialog.innerHTML = '<header class="chat-heading"><div><strong id="astra-title">Astra</strong><p data-chat-copy="subtitle"></p></div><button type="button" class="chat-close">×</button></header><div class="chat-messages" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation"></div><div class="chat-chips"></div><p class="chat-status" role="status"></p><form class="chat-form"><label for="astra-question" data-chat-copy="label"></label><textarea id="astra-question" rows="2" maxlength="400" required></textarea><div class="chat-form-bottom"><span class="chat-count">0 / 400</span><button type="submit" data-chat-copy="send"></button></div></form><footer class="chat-footer"><p data-chat-copy="disclaimer"></p><a href="tel:+628111042896">Gavynn ↗</a><a href="tel:+628111858228">Grace ↗</a></footer>';
+  dialog.innerHTML = '<header class="chat-heading"><div class="chat-identity"><div><strong id="astra-title">Astra</strong><p data-chat-copy="subtitle"></p></div></div><button type="button" class="chat-close">×</button></header><div class="chat-messages" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation"></div><div class="chat-chips"></div><p class="chat-status" role="status"></p><form class="chat-form"><label for="astra-question" data-chat-copy="label"></label><textarea id="astra-question" rows="2" maxlength="400" required></textarea><div class="chat-form-bottom"><span class="chat-count">0 / 400</span><button type="submit" data-chat-copy="send"></button></div></form><footer class="chat-footer"><p data-chat-copy="disclaimer"></p><a href="https://wa.me/628111042896" target="_blank" rel="noopener noreferrer">WhatsApp Gavynn ↗</a><a href="https://wa.me/628111858228" target="_blank" rel="noopener noreferrer">WhatsApp Grace ↗</a></footer>';
+  dialog.querySelector('.chat-identity').prepend(avatar('assistant'));
   document.body.append(launcher, dialog);
   const log = dialog.querySelector('.chat-messages');
   const status = dialog.querySelector('.chat-status');
@@ -60,13 +73,35 @@
   const chips = dialog.querySelector('.chat-chips');
   const close = dialog.querySelector('.chat-close');
   let available = false, busy = false, hasSentMessage = false, waitingUntil = 0, wakeup, greeting;
-  function addMessage(role, text, sources = [], contacts = []) {
+  function renderText(container, text, role) {
+    container.replaceChildren();
+    let list;
+    for (const block of text.split(/\n/).map(line => line.trim())) {
+      if (!block) continue;
+      const bullet = role === 'assistant' && /^[-•]\s+/.test(block);
+      const heading = role === 'assistant' && /^#{1,3}\s+/.test(block);
+      if (bullet) {
+        if (!list) { list = document.createElement('ul'); container.append(list); }
+        const item = document.createElement('li'); item.textContent = block.replace(/^[-•]\s+/, ''); list.append(item);
+      } else {
+        list = null;
+        const element = document.createElement(heading ? 'h3' : 'p');
+        element.textContent = heading ? block.replace(/^#{1,3}\s+/, '') : block;
+        container.append(element);
+      }
+    }
+  }
+  function addMessage(role, text, sources = [], contacts = [], actionNames = [], replyLanguage = language()) {
+    const row = document.createElement('div');
+    row.className = 'chat-row chat-row-' + role;
     const bubble = document.createElement('div');
     bubble.className = 'chat-message chat-' + role;
     const label = document.createElement('strong');
     label.textContent = t(role === 'user' ? 'you' : 'assistant');
-    const content = document.createElement('p');
-    content.textContent = text; // Never render model/user text as HTML.
+    const content = document.createElement('div');
+    content.className = 'chat-text';
+    // Only headings and lists become elements; all content remains textContent.
+    renderText(content, text, role);
     bubble.append(label, content);
     if (sources.length) {
       const links = document.createElement('div');
@@ -93,7 +128,7 @@
         // website alternative is ordinary same-tab navigation and keeps Astra.
         if (source.kind === 'sponsorship' || source.kind === 'invitation') {
           const website = document.createElement('a');
-          website.href = '/index.html?lang=' + docLanguage + '#' + (source.kind === 'sponsorship' ? 'sponsorship' : 'invitation');
+          website.href = (source.kind === 'sponsorship' ? '/index.html?lang=' + docLanguage + '#sponsorship' : '/register.html?lang=' + docLanguage + '#invite-title');
           website.textContent = t('viewDocumentOnSite');
           actions.append(website);
         }
@@ -102,6 +137,18 @@
       }
       bubble.append(links);
     }
+    const safeLanguage = replyLanguage === 'id' ? 'id' : 'en';
+    const destinations = { register: '/register.html?lang=' + safeLanguage, sponsorship: '/index.html?lang=' + safeLanguage + '#sponsorship', closing: '/closing-night.html?lang=' + safeLanguage };
+    const actions = document.createElement('div');
+    actions.className = 'chat-actions';
+    for (const name of [...new Set(actionNames)].slice(0, 3)) {
+      if (!Object.hasOwn(destinations, name) || (name === 'sponsorship' && sources.some(source => source.kind === 'sponsorship'))) continue;
+      const link = document.createElement('a');
+      link.href = destinations[name];
+      link.textContent = copy[safeLanguage][name === 'sponsorship' ? 'sponsor' : name] + ' ↗';
+      actions.append(link);
+    }
+    if (actions.children.length) bubble.append(actions);
     if (contacts.length) {
       const links = document.createElement('div');
       links.className = 'chat-contacts';
@@ -114,7 +161,8 @@
       }
       bubble.append(links);
     }
-    log.append(bubble);
+    row.append(avatar(role), bubble);
+    log.append(row);
     // Keep all visible messages for this conversation, including earlier answers.
     log.scrollTop = log.scrollHeight;
     return content;
@@ -139,7 +187,7 @@
       button.addEventListener('click', () => { input.value = question; form.requestSubmit(); });
       chips.append(button);
     });
-    if (greeting?.isConnected) greeting.textContent = t('greeting');
+    if (greeting?.isConnected) renderText(greeting, t('greeting'), 'assistant');
     status.textContent = busy ? t('thinking') : available ? '' : t('unavailable');
     controls();
   }
@@ -198,7 +246,7 @@
         body: JSON.stringify({ message, language: language() }), signal: AbortSignal.timeout(55000)
       });
       const result = await response.json();
-      addMessage('assistant', typeof result.answer === 'string' ? result.answer : t(result.code), Array.isArray(result.sources) ? result.sources : [], Array.isArray(result.contacts) ? result.contacts : []);
+      addMessage('assistant', typeof result.answer === 'string' ? result.answer : t(result.code), Array.isArray(result.sources) ? result.sources : [], Array.isArray(result.contacts) ? result.contacts : [], Array.isArray(result.actions) ? result.actions : [], result.language);
       if (response.status === 429 && !['duplicate', 'daily', 'conversation_limit'].includes(result.code)) {
         waitingUntil = Date.now() + Math.min(60, Number(response.headers.get('Retry-After')) || 8) * 1000;
         clearTimeout(wakeup); wakeup = setTimeout(controls, waitingUntil - Date.now() + 50);

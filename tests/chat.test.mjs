@@ -120,7 +120,7 @@ test('IP headers are ignored unless a trusted loopback proxy is explicitly enabl
 test('API payload bounds retrieval, conversation, output, tools and persistence', () => {
   const request = answerRequest({ message: 'What sponsorship options exist?', language: 'id', history: Array.from({ length: 12 }, () => ({ role: 'user', content: 'x'.repeat(2000) })), facts: { event: 'The Premiere' }, knowledge });
   assert.equal(request.store, false);
-  assert.equal(request.max_output_tokens, 400);
+  assert.equal(request.max_output_tokens, 750);
   assert.equal(request.max_tool_calls, 1);
   assert.equal(request.tool_choice, 'auto');
   assert.equal(request.input.length, 11);
@@ -305,7 +305,7 @@ test('shared daily cap of 3000 applies across different visitors and survives re
   assert.equal(restarted.reserve('visitor-c', 'What sponsorship options exist?').code, 'daily');
 });
 
-test('long chats retain just five exchanges and return at most five sentences', async t => {
+test('long ordinary chats retain five exchanges and return at most three sentences', async t => {
   let now = Date.UTC(2026, 8, 11), cookie;
   const calls = [];
   const site = await app(t, { clock: () => now, limits, provider: async request => {
@@ -314,14 +314,14 @@ test('long chats retain just five exchanges and return at most five sentences', 
   } });
   for (let i = 0; i < 15; i++) {
     now += 61000;
-    const response = await site.post({ message: 'What are the sponsorship options for group ' + i + '?', language: 'en' }, cookie ? { Cookie: cookie } : {});
+    const response = await site.post({ message: 'When is opening for group ' + i + '?', language: 'en' }, cookie ? { Cookie: cookie } : {});
     cookie ||= response.headers.get('set-cookie')?.split(';')[0];
     const output = await response.json();
     assert.equal(response.status, 200);
-    assert.ok(sentenceParts(output.answer).length <= 5);
+    assert.ok(sentenceParts(output.answer).length <= 3);
     assert.doesNotMatch(output.answer, /sixth sentence|seventh sentence/);
     assert.equal(calls.at(-1).input.length, Math.min(i, 5) * 2 + 1);
-    assert.equal(calls.at(-1).input[0].content, 'What are the sponsorship options for group ' + Math.max(0, i - 5) + '?');
+    assert.equal(calls.at(-1).input[0].content, 'When is opening for group ' + Math.max(0, i - 5) + '?');
   }
 });
 
@@ -346,7 +346,8 @@ test('all 500 common phrases reach the actual HTTP provider boundary; unrelated 
     const output = await response.json();
     if (response.status !== 200) continue;
     accepted++;
-    assert.equal(lastPrompt.input.at(-1).content, filterQuestion(item.message).message);
+    const userContent = lastPrompt.input.at(-1).content;
+    assert.equal(Array.isArray(userContent) ? userContent[0].text : userContent, filterQuestion(item.message).message);
     assert.ok(output.answer.length > 0);
   }
   assert.ok(accepted >= 495, 'Only ' + accepted + ' common phrases reached the provider');
