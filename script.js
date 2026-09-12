@@ -11,6 +11,46 @@
   const compactNavigation = window.matchMedia('(max-width: 980px)');
   const t = (key, replacements) => window.PREMIERE_I18N.t(key, replacements);
 
+  // A durable, separate flag: language changes and route navigation must never
+  // reset onboarding. If storage is unavailable, skip rather than repeat it.
+  const languageSwitch = document.querySelector('.language-switch');
+  const hintKey = 'premiere-language-hint-seen';
+  let showLanguageHint = false;
+  try {
+    if (languageSwitch && !localStorage.getItem(hintKey)) {
+      localStorage.setItem(hintKey, '1');
+      showLanguageHint = true;
+    }
+  } catch { /* Cannot guarantee one-time display without persistent storage. */ }
+  if (showLanguageHint) {
+    const hint = document.createElement('div');
+    hint.className = 'language-hint';
+    const text = document.createElement('span');
+    text.setAttribute('role', 'status');
+    text.textContent = 'You can swap languages here';
+    const dismiss = document.createElement('button');
+    dismiss.type = 'button';
+    dismiss.className = 'language-hint-close';
+    dismiss.setAttribute('aria-label', 'Dismiss language tip');
+    dismiss.textContent = '×';
+    hint.append(text, dismiss);
+    languageSwitch.append(hint);
+    const listeners = new AbortController();
+    let timer;
+    function hideHint() { clearTimeout(timer); listeners.abort(); hint.remove(); }
+    dismiss.addEventListener('click', hideHint, { signal: listeners.signal });
+    languageSwitch.addEventListener('click', event => {
+      if (event.target.closest('[data-language]')) hideHint();
+    }, { signal: listeners.signal });
+    document.addEventListener('pointerdown', event => {
+      if (!languageSwitch.contains(event.target)) hideHint();
+    }, { signal: listeners.signal });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') hideHint();
+    }, { signal: listeners.signal });
+    timer = setTimeout(hideHint, 8000);
+  }
+
   function setMenu(open, returnFocus = false) {
     if (!menu || !nav) return;
     menu.setAttribute('aria-expanded', String(open));
