@@ -1,0 +1,277 @@
+{
+  "label": "mobile-before",
+  "environment": {
+    "chrome": "153.0.8010.36",
+    "viewport": "390x844 DPR 1",
+    "cpuSlowdown": 6,
+    "loadNetwork": "1.6 Mbps down, 150 ms latency, cold cache; local uncompressed server",
+    "renderingWindowMs": 2500,
+    "caveat": "Synthetic headless measurements, not a guarantee for every physical device."
+  },
+  "median": {
+    "initialBytes": 453000,
+    "lcpMs": 6984,
+    "fcpMs": 6844,
+    "loadMs": 7002.300000000047,
+    "idleTaskMs": 1413.5710000000001,
+    "idlePaints": 0,
+    "idlePaintMs": 0,
+    "scrollP95FrameMs": 14,
+    "scrollFramesOver50ms": 0
+  },
+  "samples": [
+    {
+      "lcp": 8912,
+      "longTasks": [
+        84
+      ],
+      "fcp": 8804,
+      "load": 8672.699999999953,
+      "resources": [
+        {
+          "name": "css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap",
+          "bytes": 0
+        },
+        {
+          "name": "styles.css",
+          "bytes": 32377
+        },
+        {
+          "name": "polish.css",
+          "bytes": 32850
+        },
+        {
+          "name": "chat.css",
+          "bytes": 7714
+        },
+        {
+          "name": "premiere-logo-128.webp",
+          "bytes": 14056
+        },
+        {
+          "name": "content.js",
+          "bytes": 672
+        },
+        {
+          "name": "locale.js",
+          "bytes": 17799
+        },
+        {
+          "name": "script.js",
+          "bytes": 20564
+        },
+        {
+          "name": "chat.js",
+          "bytes": 16895
+        },
+        {
+          "name": "preopening-badminton-700.webp",
+          "bytes": 36364
+        },
+        {
+          "name": "preopening-futsal-700.webp",
+          "bytes": 62418
+        },
+        {
+          "name": "preopening-volleyball-700.webp",
+          "bytes": 53586
+        },
+        {
+          "name": "preopening-basketball-700.webp",
+          "bytes": 76588
+        },
+        {
+          "name": "preopening-basketball-shot-700.webp",
+          "bytes": 54622
+        },
+        {
+          "name": "premiere-favicon-48.png",
+          "bytes": 3918
+        }
+      ],
+      "horizontalOverflow": false,
+      "initialBytes": 453000,
+      "idle": {
+        "taskMs": 1350.1199999999997,
+        "layoutMs": 0,
+        "styleMs": 618.649,
+        "paints": 0,
+        "paintMs": 0
+      },
+      "scroll": {
+        "frames": 509,
+        "p95FrameMs": 14,
+        "framesOver50ms": 1
+      }
+    },
+    {
+      "lcp": 6960,
+      "longTasks": [
+        66
+      ],
+      "fcp": 6828,
+      "load": 6985.300000000047,
+      "resources": [
+        {
+          "name": "css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap",
+          "bytes": 0
+        },
+        {
+          "name": "styles.css",
+          "bytes": 32377
+        },
+        {
+          "name": "polish.css",
+          "bytes": 32850
+        },
+        {
+          "name": "chat.css",
+          "bytes": 7714
+        },
+        {
+          "name": "premiere-logo-128.webp",
+          "bytes": 14056
+        },
+        {
+          "name": "content.js",
+          "bytes": 672
+        },
+        {
+          "name": "locale.js",
+          "bytes": 17799
+        },
+        {
+          "name": "script.js",
+          "bytes": 20564
+        },
+        {
+          "name": "chat.js",
+          "bytes": 16895
+        },
+        {
+          "name": "preopening-badminton-700.webp",
+          "bytes": 36364
+        },
+        {
+          "name": "preopening-futsal-700.webp",
+          "bytes": 62418
+        },
+        {
+          "name": "preopening-volleyball-700.webp",
+          "bytes": 53586
+        },
+        {
+          "name": "preopening-basketball-700.webp",
+          "bytes": 76588
+        },
+        {
+          "name": "preopening-basketball-shot-700.webp",
+          "bytes": 54622
+        },
+        {
+          "name": "premiere-favicon-48.png",
+          "bytes": 3918
+        }
+      ],
+      "horizontalOverflow": false,
+      "initialBytes": 453000,
+      "idle": {
+        "taskMs": 1413.5710000000001,
+        "layoutMs": 0,
+        "styleMs": 624.7180000000001,
+        "paints": 0,
+        "paintMs": 0
+      },
+      "scroll": {
+        "frames": 524,
+        "p95FrameMs": 14,
+        "framesOver50ms": 0
+      }
+    },
+    {
+      "lcp": 6984,
+      "longTasks": [
+        74
+      ],
+      "fcp": 6844,
+      "load": 7002.300000000047,
+      "resources": [
+        {
+          "name": "css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap",
+          "bytes": 0
+        },
+        {
+          "name": "styles.css",
+          "bytes": 32377
+        },
+        {
+          "name": "polish.css",
+          "bytes": 32850
+        },
+        {
+          "name": "chat.css",
+          "bytes": 7714
+        },
+        {
+          "name": "premiere-logo-128.webp",
+          "bytes": 14056
+        },
+        {
+          "name": "content.js",
+          "bytes": 672
+        },
+        {
+          "name": "locale.js",
+          "bytes": 17799
+        },
+        {
+          "name": "script.js",
+          "bytes": 20564
+        },
+        {
+          "name": "chat.js",
+          "bytes": 16895
+        },
+        {
+          "name": "preopening-badminton-700.webp",
+          "bytes": 36364
+        },
+        {
+          "name": "preopening-futsal-700.webp",
+          "bytes": 62418
+        },
+        {
+          "name": "preopening-volleyball-700.webp",
+          "bytes": 53586
+        },
+        {
+          "name": "preopening-basketball-700.webp",
+          "bytes": 76588
+        },
+        {
+          "name": "preopening-basketball-shot-700.webp",
+          "bytes": 54622
+        },
+        {
+          "name": "premiere-favicon-48.png",
+          "bytes": 3918
+        }
+      ],
+      "horizontalOverflow": false,
+      "initialBytes": 453000,
+      "idle": {
+        "taskMs": 1528.4789999999998,
+        "layoutMs": 0,
+        "styleMs": 690.136,
+        "paints": 0,
+        "paintMs": 0
+      },
+      "scroll": {
+        "frames": 502,
+        "p95FrameMs": 14,
+        "framesOver50ms": 0
+      }
+    }
+  ],
+  "errors": []
+}

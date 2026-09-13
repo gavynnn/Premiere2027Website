@@ -9,8 +9,8 @@ import { Guard, filterQuestion } from './server/guard.mjs';
 import { openAI, answerRequest, parseAnswer } from './server/openai.mjs';
 import { finishExchange } from './server/conversation.mjs';
 
-const publicFiles = new Set(['index.html', 'register.html', 'merch.html', 'closing-night.html', 'styles.css', 'polish.css', 'chat.css', 'script.js', 'content.js', 'locale.js', 'chat.js']);
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
+const publicFiles = new Set(['index.html', 'register.html', 'merch.html', 'closing-night.html', 'fonts.css', 'styles.css', 'polish.css', 'chat.css', 'script.js', 'content.js', 'locale.js', 'chat.js']);
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 export function publicPath(raw) {
   let decoded;
   try { decoded = decodeURIComponent(raw.split('?')[0]); } catch { return null; }

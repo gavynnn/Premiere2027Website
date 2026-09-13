@@ -6,9 +6,7 @@
     <meta name="description" content="The Premiere 2027: Astra Aeterna - a school cup by PENABUR Intercultural School Kelapa Gading." data-i18n-content="home.description" />
     <title>The Premiere 2027 - Astra Aeterna</title>
     <link rel="icon" type="image/png" sizes="48x48" href="assets/premiere-favicon-48.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="fonts.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="polish.css" />
     <link rel="stylesheet" href="chat.css" />
@@ -175,7 +173,7 @@
             <span class="document-format">PDF</span>
           </header>
           <div class="document-preview">
-            <button class="document-load-preview" type="button" hidden data-i18n="document.loadPreview">Load PDF preview</button>
+            <div class="document-loading" role="status" hidden data-i18n="document.loading">Preparing PDF preview…</div>
             <noscript><iframe class="pdf-frame" src="assets/documents/sponsor-proposal-en.pdf#view=FitH" title="Sponsor proposal - English PDF preview" loading="lazy"></iframe></noscript>
             <div class="document-placeholder" hidden>
               <span class="document-label">THE PREMIERE 2027</span>

@@ -72,7 +72,11 @@
   setMenu(false);
 
   // Keep preview and download on the same language. Empty URLs stay coming soon.
+  let cleanupDocumentPreviews = () => {};
   function renderDocuments() {
+    cleanupDocumentPreviews();
+    const cleanups = [];
+    cleanupDocumentPreviews = () => cleanups.forEach(cleanup => cleanup());
     const language = window.PREMIERE_I18N.language;
     document.querySelectorAll('[data-document]').forEach((card) => {
       const kind = card.dataset.document;
@@ -87,8 +91,11 @@
       const placeholder = card.querySelector('.document-placeholder');
       const download = card.querySelector('.document-download');
       const open = card.querySelector('.document-open');
-      let loadPreview = preview.querySelector('.document-load-preview');
-      let frame = preview.querySelector('iframe');
+      // DOMParser treats noscript differently from the live, scripting-enabled
+      // document. Never accidentally import a second fallback viewer on routing.
+      preview.querySelectorAll('noscript').forEach(element => element.remove());
+      let loading = preview.querySelector('.document-loading');
+      let frame = preview.querySelector(':scope > iframe');
 
       card.classList.toggle('document-ready', Boolean(url));
       placeholder.hidden = Boolean(url);
@@ -97,37 +104,82 @@
       card.querySelector('.document-pending').hidden = Boolean(url);
       if (!url) {
         frame?.remove();
-        if (loadPreview) loadPreview.hidden = true;
+        if (loading) loading.hidden = true;
         download.removeAttribute('href');
         open.removeAttribute('href');
         card.querySelector('.document-status').textContent = t(kind + '.pending');
         return;
       }
       const source = url.href + (url.hash ? '' : '#view=FitH');
-      // A PDF viewer can download/parse 11 MB even with native lazy loading.
-      // Keep the entire preview available, but only spend that work on request.
-      if (!loadPreview) {
-        loadPreview = document.createElement('button');
-        loadPreview.type = 'button';
-        loadPreview.className = 'document-load-preview';
-        preview.append(loadPreview);
+      if (!loading) {
+        loading = document.createElement('div');
+        loading.className = 'document-loading';
+        loading.setAttribute('role', 'status');
+        preview.append(loading);
       }
-      loadPreview.textContent = t('document.loadPreview');
-      loadPreview.hidden = Boolean(frame);
+      loading.textContent = t('document.loading');
+      loading.hidden = Boolean(frame && !frame.hidden);
       const title = t('document.previewTitle', { name: t(kind + '.name') });
-      if (frame) {
-        frame.title = title;
-        if (frame.src !== source) frame.src = source;
-      }
-      loadPreview.onclick = () => {
-        frame = document.createElement('iframe');
-        frame.className = 'pdf-frame';
-        frame.title = title;
-        frame.src = source;
-        preview.append(frame);
-        loadPreview.hidden = true;
-        frame.focus({ preventScroll: true });
+      const lifecycle = new AbortController();
+      const { signal } = lifecycle;
+      let timer, idle, observer;
+      let started = false;
+      const cancelSchedule = () => {
+        clearTimeout(timer);
+        if (idle !== undefined) window.cancelIdleCallback?.(idle);
+        observer?.disconnect();
       };
+      cleanups.push(() => { cancelSchedule(); lifecycle.abort(); });
+      function startPreview() {
+        if (started || signal.aborted || !card.isConnected || document.hidden) return;
+        started = true;
+        cancelSchedule();
+        if (!frame) {
+          frame = document.createElement('iframe');
+          frame.className = 'pdf-frame';
+          preview.append(frame);
+        }
+        frame.title = title;
+        const sameSource = frame.src === source;
+        if (sameSource && !frame.hidden) return;
+        frame.hidden = true;
+        loading.hidden = false;
+        frame.addEventListener('load', () => {
+          loading.hidden = true;
+          frame.hidden = false;
+        }, { once: true, signal });
+        frame.addEventListener('error', () => {
+          loading.textContent = t('document.previewFailed');
+        }, { once: true, signal });
+        // Native PDF viewer + byte-range loading. No extra fetch/blob copy,
+        // no client PDF library, and no click is required.
+        if (!sameSource) frame.src = source;
+      }
+      function queuePreview() {
+        if (started || signal.aborted) return;
+        clearTimeout(timer);
+        if (idle !== undefined) window.cancelIdleCallback?.(idle);
+        // Let initial text/fonts/hero settle first, then preload automatically.
+        // The observer starts it sooner when someone approaches the section.
+        timer = setTimeout(() => {
+          if ('requestIdleCallback' in window) idle = requestIdleCallback(startPreview, { timeout: 2000 });
+          else startPreview();
+        }, 1200);
+      }
+      if (frame) startPreview();
+      else {
+        if (document.readyState === 'complete') queuePreview();
+        else window.addEventListener('load', queuePreview, { once: true, signal });
+        if ('IntersectionObserver' in window) {
+          observer = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) startPreview();
+          }, { rootMargin: '1600px 0px' });
+          observer.observe(card);
+        }
+      }
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !started) queuePreview();
+      }, { signal });
       download.href = url.href;
       download.download = settings.filename || '';
       open.href = url.href;
@@ -249,7 +301,7 @@
     // Freeze only offscreen decorations, resuming their existing animation phase
     // on return. Text, pictures, links and interactive content are never hidden.
     let motionObserver;
-    const decorations = document.querySelectorAll('.hero-planet, .comet-track, .register-banner, .ticket-spark, .merch-starfield, .scroll-cue, .register-scroll-cue');
+    const decorations = document.querySelectorAll('.hero-planet, .journey, .comet-track, .register-banner, .ticket-spark, .merch-starfield, .scroll-cue, .register-scroll-cue');
     if ('IntersectionObserver' in window) {
       motionObserver = new IntersectionObserver(entries => {
         for (const entry of entries) {
