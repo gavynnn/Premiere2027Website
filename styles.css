@@ -57,8 +57,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .scroll-cue span { height: 19px; width: 1px; background: var(--yellow); animation: scroll-pulse 1.5s ease-in-out infinite; }
 .scroll-cue.hidden { opacity: 0; transform: translate(-50%, 12px); }
 .hero-planet { position: absolute; right: clamp(-70px, 3vw, 70px); top: 17.5vh; width: clamp(270px, 34vw, 500px); aspect-ratio: 1; z-index: -1; animation: planet-orbit 11s ease-in-out infinite; }
-.planet-core { position: absolute; left: 9%; top: 10%; width: 82%; height: 82%; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 35% 30%, #ffd768 0 2%, transparent 2.5%), radial-gradient(circle at 41% 38%, #bf9eff 0 3%, transparent 7%), radial-gradient(circle at 40% 42%, #6946bd 0 35%, #311e6d 62%, #190e3f 100%); box-shadow: inset -36px -30px 80px #12082e, 0 0 110px rgba(178,129,255,.42); animation: planet-breathe 6.5s ease-in-out infinite; }
-.planet-core::before { content: ""; position: absolute; width: 67%; aspect-ratio: 1; top: -14%; left: -22%; border-radius: 50%; background: radial-gradient(circle, rgba(255,249,213,.65), rgba(188,165,255,.18) 33%, transparent 68%); filter: blur(7px); mix-blend-mode: screen; animation: planet-shine 9s ease-in-out infinite alternate; }
+.planet-core { position: absolute; left: 9%; top: 10%; width: 82%; height: 82%; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 32% 27%, rgba(255,249,213,.55), rgba(220,200,255,.16) 21%, transparent 42%), radial-gradient(circle at 35% 30%, #ffd768 0 2%, transparent 2.5%), radial-gradient(circle at 41% 38%, #bf9eff 0 3%, transparent 7%), radial-gradient(circle at 40% 42%, #6946bd 0 35%, #311e6d 62%, #190e3f 100%); box-shadow: inset -36px -30px 80px #12082e, 0 0 110px rgba(178,129,255,.42); animation: planet-breathe 6.5s ease-in-out infinite, planet-shine 9s ease-in-out infinite alternate; }
 .planet-core::after { content: ""; position: absolute; inset: 8%; border-radius: inherit; background: repeating-radial-gradient(circle at 65% 52%, transparent 0 13px, rgba(209,190,255,.12) 14px 15px); opacity: .7; mix-blend-mode: screen; animation: planet-surface 18s linear infinite; }
 .planet-ring { position: absolute; border: 1px solid rgba(247,214,86,.57); border-radius: 50%; }
 .ring-one { width: 128%; height: 25%; top: 40%; left: -15%; box-shadow: 0 0 12px rgba(247,214,86,.18); animation: ring-one-orbit 10s linear infinite; }
@@ -92,7 +91,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @keyframes twinkle { to { opacity: .8; transform: scale(1.02); } }
 @keyframes planet-orbit { 50% { transform: translate(-15px, 15px) rotate(4deg) scale(1.035); } }
 @keyframes planet-breathe { 50% { transform: scale(1.025); } }
-@keyframes planet-shine { to { transform: translate(10%, 8%) scale(.92); opacity: .55; } }
+/* The highlight is one gradient stop baked into planet-core's own background
+   (see above), not a separate blurred/blended element sitting on top of it -
+   it always fades to transparent well inside the circle, so unlike the
+   previous .planet-core::before it can never be hard-clipped by the sphere's
+   edge no matter where this keyframe moves it. The night-side inset
+   box-shadow is untouched and un-animated, so shadow and highlight can no
+   longer be mistaken for moving together. */
+@keyframes planet-shine { to { background: radial-gradient(circle at 40% 34%, rgba(255,249,213,.55), rgba(220,200,255,.16) 21%, transparent 42%), radial-gradient(circle at 35% 30%, #ffd768 0 2%, transparent 2.5%), radial-gradient(circle at 41% 38%, #bf9eff 0 3%, transparent 7%), radial-gradient(circle at 40% 42%, #6946bd 0 35%, #311e6d 62%, #190e3f 100%); } }
 @keyframes planet-surface { to { transform: rotate(360deg); } }
 @keyframes ring-one-orbit { from { transform: rotate(-25deg) scaleX(1); } 50% { transform: rotate(-19deg) scaleX(.94); } to { transform: rotate(-25deg) scaleX(1); } }
 @keyframes ring-two-orbit { from { transform: rotate(-25deg) scaleX(1); } 50% { transform: rotate(-31deg) scaleX(1.06); } to { transform: rotate(-25deg) scaleX(1); } }
