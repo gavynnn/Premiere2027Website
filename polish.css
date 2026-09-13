@@ -163,7 +163,12 @@ main { animation: content-arrive .55s ease both; }
 .ticket-announcement > p:last-child { margin: 0; color: var(--paper-dim); font: 12px/1.8 var(--mono); letter-spacing: .12em; }
 .merch-main { padding-top: 70px; }
 
-@keyframes sky-breathe { to { opacity: .32; } }
+/* transform + opacity only: both animate purely on the compositor (no
+   repaint, no layout), so this costs nothing extra whether it's one star
+   layer or a hundred. The -2% inset on these layers (see .cosmic-background
+   ::before/::after) leaves exactly enough overhang for this drift without
+   ever exposing an edge. */
+@keyframes sky-breathe { to { opacity: .32; transform: translate3d(1.3%, -0.9%, 0); } }
 @keyframes content-arrive { from { opacity: .2; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
 @keyframes cta-star-turn { to { transform: rotate(38deg) scale(1.08); } }
 @keyframes ticket-star { 50% { transform: rotate(15deg); } }
