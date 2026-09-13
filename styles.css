@@ -92,7 +92,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @keyframes twinkle { to { opacity: .8; transform: scale(1.02); } }
 @keyframes planet-orbit { 50% { transform: translate(-15px, 15px) rotate(4deg) scale(1.035); } }
 @keyframes planet-breathe { 50% { transform: scale(1.025); } }
-@keyframes planet-shine { to { transform: translate(86%, 61%) scale(.76); opacity: .55; } }
+@keyframes planet-shine { to { transform: translate(10%, 8%) scale(.92); opacity: .55; } }
 @keyframes planet-surface { to { transform: rotate(360deg); } }
 @keyframes ring-one-orbit { from { transform: rotate(-25deg) scaleX(1); } 50% { transform: rotate(-19deg) scaleX(.94); } to { transform: rotate(-25deg) scaleX(1); } }
 @keyframes ring-two-orbit { from { transform: rotate(-25deg) scaleX(1); } 50% { transform: rotate(-31deg) scaleX(1.06); } to { transform: rotate(-25deg) scaleX(1); } }
