@@ -37,18 +37,18 @@ function harness({ mobile = false, reduced = false } = {}) {
   vm.runInNewContext(script, context);
   return { timers, listeners, records, sky, motion, document, run(...random) { values.push(...random); const [key, timer] = timers.entries().next().value; timers.delete(key); timer.callback(); } };
 }
-test('one sky timer runs every 10–15s, and all event types use transform/opacity only', () => {
+test('one sky timer runs every 5–10s, and all event types use transform/opacity only', () => {
   for (const [choice, kind, count] of [[.1,'shooting',3],[.6,'comet',1],[.75,'meteor',1],[.95,'ship',3]]) {
     const h = harness();
     assert.equal(h.timers.size, 1);
-    assert.ok([...h.timers.values()][0].delay >= 10000 && [...h.timers.values()][0].delay <= 15000);
+    assert.ok([...h.timers.values()][0].delay >= 5000 && [...h.timers.values()][0].delay <= 10000);
     h.run(choice, .9);
     assert.equal(h.timers.size, 1);
     assert.equal(h.records.length, count);
     assert.ok(h.records.some(record => record.node.className.includes('space-' + kind)));
     for (const record of h.records) {
       for (const frame of record.frames) assert.deepEqual(Object.keys(frame).filter(key => !['transform','opacity','offset'].includes(key)), []);
-      assert.ok(record.options.duration + (record.options.delay || 0) < 10000);
+      assert.ok(record.options.duration + (record.options.delay || 0) < 5000);
     }
   }
   assert.doesNotMatch(script, /requestAnimationFrame|setInterval|addEventListener\(['"]scroll/);
@@ -61,6 +61,15 @@ test('mobile showers have at most two stars; full streaks travel beyond the edge
     const x=Number(coordinates[1]), y=Number(coordinates[2]);
     assert.ok(x < 0 || x > 390 || y < 0 || y > 900);
   }
+});
+test('shooting stars can be singles or groups, and delayed effects cannot pile up', () => {
+  const single = harness(); single.run(.1, .34);
+  assert.equal(single.records.length, 1);
+  const group = harness(); group.run(.1, .35);
+  assert.equal(group.records.length, 3);
+  group.run(.95);
+  assert.equal(group.records.length, 3, 'No new scene until the previous animations finish');
+  assert.equal(group.timers.size, 1, 'Only one retry timer');
 });
 test('finished decorations are removed, and hidden/reduced-motion pages have no pending work', async () => {
   const h = harness(); h.run(.95);

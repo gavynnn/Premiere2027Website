@@ -14,8 +14,8 @@
     "windowMs": 2000,
     "p95Ms": 7.200000000000728,
     "over50ms": 0,
-    "layoutMs": 0.408,
-    "taskMs": 363.922
+    "layoutMs": 0.394,
+    "taskMs": 466.01000000000005
   },
   "errors": []
 }

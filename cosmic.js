@@ -48,7 +48,8 @@
   }
   function streaks(kind, width, height) {
     const small = compact.matches || navigator.deviceMemory <= 4 || navigator.hardwareConcurrency <= 4;
-    const count = kind === 'shooting' ? (Math.random() < .5 ? 1 : (small ? 2 : 3)) : 1;
+    // Most shooting-star events are small showers: 65% groups, 35% singles.
+    const count = kind === 'shooting' ? (Math.random() < .35 ? 1 : (small ? 2 : 3)) : 1;
     const angle = random(.25, .8) + (Math.random() < .5 ? 0 : Math.PI);
     const dx = Math.cos(angle), dy = Math.sin(angle);
     const originX = random(.12, .88) * width, originY = random(.12, .88) * height;
@@ -57,7 +58,7 @@
       const y = Math.max(10, Math.min(height - 10, originY - i * 34));
       const distance = exitDistance(x, y, dx, dy, width, height);
       const { node } = object(kind, angle);
-      const duration = kind === 'shooting' ? random(1700, 2600) : random(3800, 5200);
+      const duration = kind === 'shooting' ? random(1700, 2600) : random(3400, 4500);
       animate(node, [
         { transform: point(x, y), opacity: 0, offset: 0 },
         { transform: point(x + dx * distance * .06, y + dy * distance * .06), opacity: .85, offset: .06 },
@@ -72,7 +73,7 @@
       { transform: point(x, y, 1), opacity: .9, offset: .25 },
       { transform: point(x, y, 1), opacity: .8, offset: .7 },
       { transform: point(x, y, .05), opacity: 0 }
-    ], { duration: 1450, delay, easing: 'ease-in-out' });
+    ], { duration: 1200, delay, easing: 'ease-in-out' });
   }
   function spaceship(width, height) {
     const reverse = Math.random() < .5;
@@ -91,8 +92,8 @@
       { transform: at(.1), opacity: .85, offset: .12 },
       { transform: at(.9), opacity: .85, offset: .88 },
       { transform: point(endX, endY, .1), opacity: 0, offset: 1 }
-    ], { duration: 4700, delay: 350, easing: 'linear' });
-    portal(endX, endY, angle, 3950);
+    ], { duration: 3900, delay: 300, easing: 'linear' });
+    portal(endX, endY, angle, 3400);
   }
   function schedule() {
     clearTimeout(timer);
@@ -100,15 +101,18 @@
     if (!enabled()) { clearEvents(); return; }
     timer = setTimeout(() => {
       if (!enabled()) return;
+      // Every normal effect ends before five seconds. Also guard against late
+      // animation completion on a busy device so scenes never accumulate.
+      if (animations.size) { schedule(); return; }
       // Measure once per event, never during its animation.
       const { width, height } = layer.getBoundingClientRect();
       const choice = Math.random();
-      if (choice < .5) streaks('shooting', width, height);
+      if (choice < .6) streaks('shooting', width, height);
       else if (choice < .68) streaks('comet', width, height);
       else if (choice < .84) streaks('meteor', width, height);
       else spaceship(width, height);
       schedule();
-    }, random(10000, 15000));
+    }, random(5000, 10000));
   }
   document.addEventListener('visibilitychange', schedule);
   reduced.addEventListener('change', schedule);

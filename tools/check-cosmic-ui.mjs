@@ -23,7 +23,7 @@ try {
     // sped up nor mocked, and no production debug hooks are needed.
     const original=setTimeout;
     window.setTimeout=(callback,delay,...args)=>{
-      if(delay>=10000 && delay<=15000 && new Error().stack.includes('/cosmic.js')) {
+      if(delay>=5000 && delay<=10000 && new Error().stack.includes('/cosmic.js')) {
         window.__skyDue=callback;
         return original(()=>{},600000);
       }
