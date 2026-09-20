@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "events": [
+    "shooting groups",
+    "comets",
+    "meteors",
+    "portal ships"
+  ],
+  "sharedAcrossFourPages": true,
+  "mobile": true,
+  "reducedMotion": true,
+  "performanceSample": {
+    "cpuSlowdown": 6,
+    "windowMs": 2000,
+    "p95Ms": 7.200000000000728,
+    "over50ms": 0,
+    "layoutMs": 0.408,
+    "taskMs": 363.922
+  },
+  "errors": []
+}

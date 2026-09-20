@@ -1,0 +1,32 @@
+/* Two drifting star textures, not one DOM element or JS update per star. */
+.cosmic-background { overflow: hidden; }
+.cosmic-background::before, .cosmic-background::after { inset: -56px; will-change: transform, opacity; }
+.cosmic-background::before { animation: star-drift-near 18s ease-in-out infinite alternate; }
+.cosmic-background::after { animation: star-drift-far 26s ease-in-out infinite alternate; }
+@keyframes star-drift-near {
+  from { transform: translate3d(-28px, 20px, 0); opacity: .55; }
+  to { transform: translate3d(32px, -26px, 0); opacity: .8; }
+}
+@keyframes star-drift-far {
+  from { transform: translate3d(30px, 24px, 0); opacity: .35; }
+  to { transform: translate3d(-32px, -28px, 0); opacity: .65; }
+}
+.space-events { position: absolute; inset: 0; overflow: hidden; contain: layout paint; pointer-events: none; }
+.space-flight { position: absolute; left: 0; top: 0; width: 1px; height: 1px; pointer-events: none; }
+.space-heading { position: absolute; width: 1px; height: 1px; transform-origin: center; }
+.space-shooting .space-heading::before,
+.space-comet .space-heading::before,
+.space-meteor .space-heading::before { content: ''; position: absolute; right: 0; top: -1px; width: 150px; height: 2px; border-radius: 50%; background: linear-gradient(90deg, transparent, #bca5ff55 40%, #fff4dbe6); }
+.space-shooting .space-heading::after { content: ''; position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: #fff8e6; box-shadow: 0 0 8px 2px #d9ccff80; }
+.space-comet .space-heading::before { width: 190px; height: 8px; top: -4px; background: linear-gradient(90deg, transparent, #8f66ff35 35%, #bca5ff99 80%, #f2e9d6); }
+.space-comet .space-heading::after { content: ''; position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #f2e9d6; box-shadow: 0 0 12px 4px #bca5ff70; }
+.space-meteor .space-heading::before { width: 120px; height: 6px; top: -3px; background: linear-gradient(90deg, transparent, #e9af3345 50%, #f7d656); }
+.space-meteor .space-heading::after { content: ''; position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; clip-path: polygon(15% 5%, 70% 0, 100% 40%, 82% 85%, 35% 100%, 0 60%); background: radial-gradient(circle at 70% 30%, #f7d656, #9f745a 45%, #493451 80%); }
+.space-ship svg { position: absolute; width: 66px; height: 36px; left: -33px; top: -18px; }
+.space-portal .space-heading::before { content: ''; position: absolute; left: -11px; top: -38px; width: 22px; height: 76px; border: 2px solid #d9ccff; border-radius: 50%; background: radial-gradient(ellipse, #130920 25%, #8f66ff70 68%, #f7d656aa); box-shadow: 0 0 12px #8f66ff90, inset 0 0 8px #bca5ff; }
+.cosmic-background.space-paused::before, .cosmic-background.space-paused::after { animation-play-state: paused !important; }
+@media (max-width: 760px) { .space-ship svg { width: 52px; height: 28px; left: -26px; top: -14px; } }
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-background::before, .cosmic-background::after { animation: none !important; will-change: auto; }
+  .space-events { display: none; }
+}
