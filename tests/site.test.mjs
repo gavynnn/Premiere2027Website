@@ -4,6 +4,71 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../server/config.mjs';
 
+
+test('registration cards follow the requested order and link to the matching forms', () => {
+  const expected = [
+  [
+    "badminton",
+    "48qE98P23uEGWTF28"
+  ],
+  [
+    "basketball",
+    "tb1ixL7ZoN8MPSuYA"
+  ],
+  [
+    "futsal",
+    "vCRoHzTrUBqcWUpRA"
+  ],
+  [
+    "cubing",
+    "CqqX7eEnmSAQDAoEA"
+  ],
+  [
+    "swimming",
+    "7F6DpDhBW1KTxTX77"
+  ],
+  [
+    "volleyball",
+    "w9XZ85qubNFfDC4SA"
+  ],
+  [
+    "debate",
+    "gKvHMkQ1FiBedAy17"
+  ],
+  [
+    "speech",
+    "FeK56549iohJRfWc9"
+  ],
+  [
+    "band",
+    "WrA3z62DZaUiGCz58"
+  ],
+  [
+    "dance",
+    "tr29QXgdgXTvYVQi8"
+  ],
+  [
+    "mural",
+    "WY4r2pK9dpiHxxAV8"
+  ],
+  [
+    "vocal",
+    "nYrGZgBZpbNSNuMK9"
+  ]
+];
+  const html = fs.readFileSync(path.join(ROOT, 'register.html'), 'utf8');
+  const cards = [...html.matchAll(/<a class="competition-card\b[^>]*>[\s\S]*?<\/a>/g)].map(match => match[0]);
+  assert.equal(cards.length, expected.length);
+  expected.forEach(([key, formId], index) => {
+    const card = cards[index];
+    assert.ok(card.includes('data-i18n="arena.' + key + '"'), key + ': order and translation key');
+    assert.ok(card.includes('href="https://forms.gle/' + formId + '"'), key + ': form URL');
+    assert.ok(card.includes('<span class="card-number">' + String(index + 1).padStart(2, '0') + '</span>'), key + ': number');
+    assert.ok(card.includes('target="_blank"'), key + ': new tab without JavaScript');
+    assert.ok(card.includes('rel="noopener noreferrer"'), key + ': safe external link');
+  });
+});
+
 test('chat omits the removed OpenAI privacy notice', () => {
   const chat = fs.readFileSync(path.join(ROOT, 'chat.js'), 'utf8');
   assert.doesNotMatch(chat, /chat-privacy|sent to OpenAI|dikirim ke OpenAI/);
