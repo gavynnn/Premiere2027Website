@@ -49,6 +49,31 @@ async function app(t, options = {}) {
   }) };
 }
 
+test('HTTP sponsor/example follow-up reaches the provider with signed conversation history', async t => {
+  let now = Date.UTC(2026, 8, 25);
+  const calls = [];
+  const site = await app(t, { clock: () => now, provider: async request => {
+    calls.push(request);
+    return mockAnswer('Sponsorship packages include event visibility.');
+  } });
+  const first = await site.post({ message: 'sponsor', language: 'en' });
+  assert.equal(first.status, 200);
+  const cookie = first.headers.get('set-cookie').split(';')[0];
+  const answer = await first.json();
+  now += 61000;
+  const second = await site.post({ message: 'example', language: 'en' }, { Cookie: cookie });
+  assert.equal(second.status, 200);
+  assert.deepEqual(calls[1].input, [
+    { role: 'user', content: 'sponsor' },
+    { role: 'assistant', content: answer.answer },
+    { role: 'user', content: 'example' }
+  ]);
+  now += 61000;
+  const unrelated = await site.post({ message: 'example of quantum physics', language: 'en' }, { Cookie: cookie });
+  assert.equal(unrelated.status, 400);
+  assert.equal(calls.length, 2);
+});
+
 test('topic filter accepts natural, short, English and Indonesian event questions', () => {
   for (const question of ['hi', 'hi what\'s this', 'what\'s the event about ?', 'what event is this?', 'sponsor', 'futsal', 'Which competitions are available?', 'What sponsorship options are there?', 'When is closing night?', 'Kompetisi apa saja yang tersedia?', 'Berapa biaya pendaftaran lomba?', 'Di mana lokasi Penabur?', 'ini acara apa?', 'What are the badminton rules?']) {
     assert.equal(filterQuestion(question).ok, true, question);

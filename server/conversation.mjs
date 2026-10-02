@@ -1,4 +1,5 @@
 // One shared conversation policy for the local server and Cloudflare Worker.
+import { isContextualFollowup } from './filter.mjs';
 export const MEMORY_EXCHANGES = 5;
 export function recentHistory(history = []) { return history.slice(-MEMORY_EXCHANGES * 2); }
 
@@ -22,7 +23,7 @@ export function conciseReply(text, language = 'en', maxSentences = 5) {
 }
 export function replyPolicy(message, history = []) {
   if (/\b(short|shorter|brief|briefly|summary|summarize|singkat|ringkas|pendek)\b/i.test(message)) return { sentences: 3, words: 75, detailed: false };
-  const followup = /^(and |what about |how about |why |which |how much|berapa|apa |kenapa|yang |lebih |tell me more|more|detail|explain)/i.test(message);
+  const followup = isContextualFollowup(message) || /^(and |what about |how about |why |which |how much|berapa|apa |kenapa|yang |lebih |tell me more|more|detail|explain)/i.test(message);
   const context = message + (followup ? ' ' + history.slice(-2).map(item => item.content).join(' ') : '');
   const detailed = /\b(sponsor\w*|partnership|benefits?|packages?|paket|manfaat|keuntungan|kerja sama|details?|detailed|explain|elaborate|compare|comparison|lengkap|rinci|jelaskan|jelasin|perbandingan|lebih lanjut)\b/i.test(context);
   return detailed ? { sentences: 8, words: 180, detailed: true } : { sentences: 3, words: 75, detailed: false };

@@ -63,6 +63,28 @@ test('Worker routes all 500 common phrases to the provider and rejects 500 unrel
   }
   assert.equal(site.calls.length, 500);
 });
+test('Worker sends sponsor then example to the provider with the actual prior exchange', async t => {
+  const site = await setup(t);
+  const first = await site.ask('sponsor');
+  assert.equal(first.status, 200);
+  const cookie = first.headers.get('set-cookie').split(';')[0];
+  const answer = await first.json();
+  const next = await site.ask('example', cookie);
+  assert.equal(next.status, 200);
+  assert.equal(site.calls.length, 2);
+  assert.deepEqual(site.calls[1].input, [
+    { role: 'user', content: 'sponsor' },
+    { role: 'assistant', content: answer.answer },
+    { role: 'user', content: 'example' }
+  ]);
+  const indonesian = await site.ask('contohnya', cookie);
+  assert.equal(indonesian.status, 200);
+  assert.equal(site.calls.at(-1).input[0].content, 'sponsor');
+  const rejected = await site.ask('another python example', cookie);
+  assert.equal(rejected.status, 400);
+  assert.equal(site.calls.length, 3);
+});
+
 test('Worker persists five exchanges and one-time WhatsApp links, and expires inactive sessions', async t => {
   const site = await setup(t);
   let cookie;

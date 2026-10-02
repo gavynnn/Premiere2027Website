@@ -6,8 +6,14 @@
  */
 window.PREMIERE_DOCUMENTS = {
   invitation: {
-    url: "",
-    filename: "The-Premiere-2027-E-Invite.pdf"
+    en: {
+      url: "assets/documents/e-invite-en.pdf",
+      filename: "The-Premiere-2027-E-Invite-EN.pdf"
+    },
+    id: {
+      url: "",
+      filename: "The-Premiere-2027-E-Invite-ID.pdf"
+    }
   },
   sponsorship: {
     en: {

@@ -11,6 +11,16 @@ for (const word of 'cool cooler fun nice awesome amazing exciting excited sounds
 const visitorIntent = /\b(organiz\w*|hosts?|activities|sports?|age|ages|waiting list|contests?|company|business|dropped off|rains?|usia|umur\w*|terdaftar|olahraga|perusahaan|tampil|dihubungi)\b/i;
 for (const word of 'u ur get web tau yang lebih dari satu terus if be yo wats which one pick picked choose chose was my last called mention mentioned remember repeat your a lot thx thnx terimakasih ringkas masih gk kok gitu adults available interested'.split(' ')) genericWords.add(word);
 
+// These fragments need the preceding exchange to identify their subject.
+// Keep every word bounded so "example of quantum physics" cannot borrow scope.
+const followupWords = new Set('example examples sample samples instance instances such as another other ones any specifically specific elaborate elaboration expand clarify clarification breakdown explain explanation difference differences compare comparison first second third last option options alternative alternatives previous above below earlier mentioned mean meaning maksud maksudnya contoh contohnya misal misalnya dong lainnya lain satunya sebelumnya tadi seperti misalkan rincian'.split(' '));
+export function isContextualFollowup(input) {
+  if (typeof input !== 'string') return false;
+  const words = input.normalize('NFKC').replace(/[’‘]/g, "'").toLowerCase().match(/[\p{L}]+(?:'[\p{L}]+)?/gu) || [];
+  return words.length > 0 && words.length <= 24 && words.some(word => followupWords.has(word))
+    && words.every(word => genericWords.has(word) || followupWords.has(word));
+}
+
 export function filterQuestion(input, hasContext = false) {
   if (typeof input !== 'string') return { ok: false, code: 'invalid' };
   if (controls.test(input)) return { ok: false, code: 'invalid' };
@@ -22,6 +32,7 @@ export function filterQuestion(input, hasContext = false) {
   // Missing punctuation and terse follow-ups are fine. A greeting or pronoun
   // alone must not whitelist an otherwise arbitrary unrelated request.
   const conversational = words.length <= 24 && words.every(word => genericWords.has(word));
-  if (!topic.test(message) && !visitorIntent.test(message) && !conversational) return { ok: false, code: 'scope' };
+  const contextual = Boolean(hasContext) && isContextualFollowup(message);
+  if (!topic.test(message) && !visitorIntent.test(message) && !conversational && !contextual) return { ok: false, code: 'scope' };
   return { ok: true, message };
 }
