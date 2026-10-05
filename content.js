@@ -11,7 +11,7 @@ window.PREMIERE_DOCUMENTS = {
       filename: "The-Premiere-2027-E-Invite-EN.pdf"
     },
     id: {
-      url: "",
+      url: "assets/documents/e-invite-id.pdf",
       filename: "The-Premiere-2027-E-Invite-ID.pdf"
     }
   },
